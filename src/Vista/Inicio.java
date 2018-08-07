@@ -35,6 +35,7 @@ public void setCoordinador(Coordinador miCoordinador) {
         this.setResizable(false);
         initComponents();
        /*
+        LM
         escritorio.setBorder(new ImagenFondo());
         
 */
