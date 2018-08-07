@@ -35,6 +35,7 @@ public void setCoordinador(Coordinador miCoordinador) {
         this.setResizable(false);
         initComponents();
        /* aqui toy
+        yo tambien
         escritorio.setBorder(new ImagenFondo());
         
 */
