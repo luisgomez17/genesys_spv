@@ -10,7 +10,19 @@ import Modelo.ProductoVo;
 import Modelo.UsuarioVo;
 import Modelo.VentaVo;
 import Modelo.BagVo;
+import br.com.adilson.util.Extenso;
+import br.com.adilson.util.PrinterMatrix;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import javax.print.Doc;
+import javax.print.DocFlavor;
+import javax.print.DocPrintJob;
+import javax.print.PrintService;
+import javax.print.PrintServiceLookup;
+import javax.print.SimpleDoc;
+import javax.print.attribute.HashPrintRequestAttributeSet;
+import javax.print.attribute.PrintRequestAttributeSet;
 import javax.swing.JOptionPane;
 
 /**
@@ -18,28 +30,26 @@ import javax.swing.JOptionPane;
  * @author luism
  */
 public class Total extends javax.swing.JInternalFrame {
+
     private Coordinador miCoordinador;
-public ArrayList<ProductoVo> product = new ArrayList();
-public ArrayList<BagVo> bolsa = new ArrayList();
-public UsuarioVo comprador = new UsuarioVo();
-public double dineroelectronico;
-ProductoVo registro = new ProductoVo();
-    
-    
-   public void setCoordinador(Coordinador miCoordinador) {
-        this.miCoordinador=miCoordinador;
-    
-        
-        
+    public ArrayList<ProductoVo> product = new ArrayList();
+    public ArrayList<BagVo> bolsa = new ArrayList();
+    public UsuarioVo comprador = new UsuarioVo();
+    public double dineroelectronico;
+    ProductoVo registro = new ProductoVo();
+
+    public void setCoordinador(Coordinador miCoordinador) {
+        this.miCoordinador = miCoordinador;
+
     }
+
     public Total() {
         initComponents();
-        
+
         venta.setShip(0.00);
     }
 
-   public VentaVo venta = new VentaVo();
-    
+    public VentaVo venta = new VentaVo();
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -256,93 +266,161 @@ ProductoVo registro = new ProductoVo();
 
     private void btnCanjearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCanjearActionPerformed
 
-double monedero = Double.parseDouble(lblDinero.getText());
-double total = Double.parseDouble(lblPagar.getText());
+        double monedero = Double.parseDouble(lblDinero.getText());
+        double total = Double.parseDouble(lblPagar.getText());
+
+        if (monedero > 0 && monedero >= total) {
+            String monto = JOptionPane.showInputDialog("Monto a utilizar", monedero);
+
+            if (Double.parseDouble(monto) <= monedero) {
+                total = Math.abs(Double.parseDouble(monto) - total);
+                monedero = monedero - Double.parseDouble(monto);
+                comprador.setMoney(monedero);
+            } else {
+                JOptionPane.showMessageDialog(null, "Fondos insuficientes", "Dinero Electrónico", JOptionPane.WARNING_MESSAGE);
+            }
+
+        } else if (monedero > 0 && total > monedero) {
+            String monto = JOptionPane.showInputDialog("Monto a utilizar", monedero);
+
+            if (Double.parseDouble(monto) <= monedero) {
+                total = total - Double.parseDouble(monto);
+                monedero = monedero - Double.parseDouble(monto);
+                comprador.setMoney(monedero);
+                System.out.println("Total:" + total);
+            } else {
+                JOptionPane.showMessageDialog(null, "Fondos insuficientes", "Dinero Electrónico", JOptionPane.WARNING_MESSAGE);
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "No cuentas con fondos", "Dinero Electrónico", JOptionPane.WARNING_MESSAGE);
+
+        }
+        lblPagar.setText(Double.toString(total));
+        lblDinero.setText(Double.toString(monedero));
+
+        venta.setTotal(total);
 
 
-if(monedero > 0 && monedero >= total){
-String monto = JOptionPane.showInputDialog("Monto a utilizar", monedero);
-
-if(Double.parseDouble(monto) <= monedero){
-total = Math.abs(Double.parseDouble(monto) - total);
-monedero = monedero - Double.parseDouble(monto);
-comprador.setMoney(monedero);
-}
-    else{
-    JOptionPane.showMessageDialog(null, "Fondos insuficientes", "Dinero Electrónico", JOptionPane.WARNING_MESSAGE);
-    }
-
-}
-
-else if (monedero > 0 && total > monedero){
-    String monto = JOptionPane.showInputDialog("Monto a utilizar", monedero);
-    
-    if(Double.parseDouble(monto) <= monedero){
-total = total - Double.parseDouble(monto) ;    
-monedero = monedero - Double.parseDouble(monto);
-comprador.setMoney(monedero);
-System.out.println("Total:"+total);
-    }
-    else{
-    JOptionPane.showMessageDialog(null, "Fondos insuficientes", "Dinero Electrónico", JOptionPane.WARNING_MESSAGE);
-    }
-    
-    }
-
-else{
-JOptionPane.showMessageDialog(null, "No cuentas con fondos", "Dinero Electrónico", JOptionPane.WARNING_MESSAGE);
-
-}
-  lblPagar.setText(Double.toString(total));
-  lblDinero.setText(Double.toString(monedero));
-  
-  
-  venta.setTotal(total);
-  
-  
     }//GEN-LAST:event_btnCanjearActionPerformed
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-     venta.setTotal(Double.parseDouble(lblPagar.getText()));
+        venta.setTotal(Double.parseDouble(lblPagar.getText()));
         String captura = txtPago.getText();
         captura = captura.replaceAll(" ", "");
-        
-        if (captura.length()==0 || Double.parseDouble(captura) < Double.parseDouble(lblPagar.getText())){
-        JOptionPane.showMessageDialog(null, "Ingresa un pago válido", "Pago total", JOptionPane.WARNING_MESSAGE);
-        }
-        
-        else{
-        double cambio = Double.parseDouble(txtPago.getText()) - Double.parseDouble(lblPagar.getText());
-JOptionPane.showMessageDialog(null, "Gracias por su compra, su cambio es de"+ " " +Double.toString(cambio)+"");
-miCoordinador.InsertVenta(venta);
 
-for(int v = 0; v < product.size(); v++){
-        miCoordinador.UpdateProductSizesSales(product.get(v));
-        }
-comprador.setMoney(comprador.getMoney()+ dineroelectronico);
-  miCoordinador.ActualizarMonedero(comprador);
+        if (captura.length() == 0 || Double.parseDouble(captura) < Double.parseDouble(lblPagar.getText())) {
+            JOptionPane.showMessageDialog(null, "Ingresa un pago válido", "Pago total", JOptionPane.WARNING_MESSAGE);
+        } else {
+            double cambio = Double.parseDouble(txtPago.getText()) - Double.parseDouble(lblPagar.getText());
+            JOptionPane.showMessageDialog(null, "Gracias por su compra, su cambio es de" + " " + Double.toString(cambio) + "");
+            miCoordinador.InsertVenta(venta);
 
-for(int b = 0; b < bolsa.size(); b++){
-        miCoordinador.InsertBag(bolsa.get(b));
-        }
+            for (int v = 0; v < product.size(); v++) {
+                miCoordinador.UpdateProductSizesSales(product.get(v));
+            }
+            comprador.setMoney(comprador.getMoney() + dineroelectronico);
+            miCoordinador.ActualizarMonedero(comprador);
 
-miCoordinador.getDetalle().bag.clear();
-dispose();
-txtPago.setText("");
-
+            for (int b = 0; b < bolsa.size(); b++) {
+                miCoordinador.InsertBag(bolsa.get(b));
+            }
+imprimirFactura();
+            miCoordinador.getDetalle().bag.clear();
+            dispose();
+            txtPago.setText("");
 
         }
-        
+
     }//GEN-LAST:event_btnAceptarActionPerformed
 
+    void imprimirFactura() {
+
+        PrinterMatrix printer = new PrinterMatrix();
+
+        Extenso e = new Extenso();
+
+        e.setNumber(101.85);
+
+        //Definir el tamanho del papel para la impresion  aca 25 lineas y 80 columnas
+        printer.setOutSize(60, 80);
+        //Imprimir * de la 2da linea a 25 en la columna 1;
+        // printer.printCharAtLin(2, 25, 1, "*");
+        //Imprimir * 1ra linea de la columa de 1 a 80
+        printer.printCharAtCol(1, 1, 80, "=");
+        //Imprimir Encabezado nombre del La EMpresa
+        printer.printTextWrap(1, 2, 30, 80, "FACTURA DE VENTA");
+        //printer.printTextWrap(linI, linE, colI, colE, null);
+        printer.printTextWrap(2, 3, 1, 22, "Num. Boleta : ");
+        printer.printTextWrap(2, 3, 25, 55, "Fecha de Emision: ");
+        printer.printTextWrap(2, 3, 60, 80, "Hora: 12:22:51");
+        printer.printTextWrap(3, 3, 1, 80, "Vendedor.  : ");
+        printer.printTextWrap(4, 4, 1, 80, "CLIENTE: ");
+        printer.printTextWrap(5, 5, 1, 80, "RUC/CI.: ");
+        printer.printTextWrap(6, 6, 1, 80, "DIRECCION: " + "");
+        printer.printCharAtCol(7, 1, 80, "=");
+        printer.printTextWrap(7, 8, 1, 80, "Codigo          Descripcion                Cant.      P  P.Unit.      P.Total");
+        printer.printCharAtCol(9, 1, 80, "-");
+        //int filas = tblVentas.getRowCount();
+
+        /* for (int i = 0; i < filas; i++) {
+         printer.printTextWrap(9 + i, 10, 1, 80, "aqui va algo");
+         }
+
+        if(filas > 15){
+        printer.printCharAtCol(filas + 1, 1, 80, "=");
+        printer.printTextWrap(filas + 1, filas + 2, 1, 80, "TOTAL A PAGAR " + txtVentaTotal.getText());
+        printer.printCharAtCol(filas + 2, 1, 80, "=");
+        printer.printTextWrap(filas + 2, filas + 3, 1, 80, "Esta boleta no tiene valor fiscal, solo para uso interno.: + Descripciones........");
+        }else{
+        printer.printCharAtCol(25, 1, 80, "=");
+        printer.printTextWrap(26, 26, 1, 80, "TOTAL A PAGAR " + txtVentaTotal.getText());
+        printer.printCharAtCol(27, 1, 80, "=");
+        printer.printTextWrap(27, 28, 1, 80, "Esta boleta no tiene valor fiscal, solo para uso interno.: + Descripciones........");
+
+        }*/
+        printer.toFile("impresion.txt");
+
+        FileInputStream inputStream = null;
+        try {
+            inputStream = new FileInputStream("impresion.txt");
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        }
+        if (inputStream == null) {
+            return;
+        }
+
+        DocFlavor docFormat = DocFlavor.INPUT_STREAM.AUTOSENSE;
+        Doc document = new SimpleDoc(inputStream, docFormat, null);
+
+        PrintRequestAttributeSet attributeSet = new HashPrintRequestAttributeSet();
+
+        PrintService defaultPrintService = PrintServiceLookup.lookupDefaultPrintService();
+
+        if (defaultPrintService != null) {
+            DocPrintJob printJob = defaultPrintService.createPrintJob();
+            try {
+                printJob.print(document, attributeSet);
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        } else {
+            System.err.println("No existen impresoras instaladas");
+        }
+
+        //inputStream.close();
+    }
+
+
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-dispose();
+        dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     /**
      * @param args the command line arguments
      */
-  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
