@@ -22,7 +22,7 @@ public class SystemDao {
               SystemVo usuario = new SystemVo();
         try {
             PreparedStatement preparedStatement = conn.getConn().prepareStatement(
-                    "SELECT id_user, user, password  "
+                    "SELECT id_user, user, password, Nombre, Apellidos  "
                     + "FROM users_system "
                     + "WHERE user =? and password =? ");
 
@@ -36,6 +36,8 @@ public class SystemDao {
                 usuario.setId_user(resultSet.getInt(1));
                 usuario.setUser(resultSet.getString(2));
                 usuario.setPassword(resultSet.getString(3));
+                usuario.setNombre(resultSet.getString(4));
+                usuario.setApellidos(resultSet.getString(5));
                 
             }
             //Cierra todo

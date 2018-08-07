@@ -13,6 +13,24 @@ public class SystemVo {
     private Integer id_user;
     private String user;
     private String password;
+    private String nombre;
+    private String apellidos;
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getApellidos() {
+        return apellidos;
+    }
+
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
+    }
 
     public Integer getId_user() {
         return id_user;
