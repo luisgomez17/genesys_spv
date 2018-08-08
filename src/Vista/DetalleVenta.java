@@ -895,16 +895,17 @@ modelo.removeRow(0);
             registro.add(aux1);
 
         }
-
+Double totalcompra = Double.valueOf(lblTotal.getText());
+totalcompra = (totalcompra*0.1)+totalcompra;
         int confirmado = JOptionPane.showConfirmDialog(null,
-            "Su pago total es de:"+" "+lblTotal.getText()+ " " + "¿Desea dar un adelanto?");
+            "Su pago total es de:"+" "+totalcompra+ " " + "¿Desea dar un adelanto?");
 
         switch(confirmado){
             case 0:
             String adelanto = JOptionPane.showInputDialog(null,"Adelanto $$",JOptionPane.QUESTION_MESSAGE);
 
-            if(Double.parseDouble(lblTotal.getText()) >= Double.parseDouble(adelanto)){
-                double total = Double.parseDouble(lblTotal.getText()) - Double.parseDouble(adelanto);
+            if(totalcompra >= Double.parseDouble(adelanto)){
+                double total = totalcompra - Double.parseDouble(adelanto);
 
                 credito.setId_user(id_usuario);
                 credito.setSubtotal(Double.parseDouble(lblTotal.getText()));
@@ -940,10 +941,12 @@ modelo.removeRow(0);
 
             case 1:
 
+Double totalcompra1 = Double.valueOf(lblTotal.getText());
+totalcompra1 = (totalcompra1*0.1)+totalcompra1;
             credito.setId_user(id_usuario);
             credito.setSubtotal(Double.parseDouble(lblTotal.getText()));
             credito.setShip(0);
-            credito.setTotal(Double.parseDouble(lblTotal.getText()));
+            credito.setTotal(totalcompra1);
             credito.setCredito(1);
 
             if(credito.getId_user()!=0){
