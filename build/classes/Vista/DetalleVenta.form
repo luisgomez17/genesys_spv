@@ -70,7 +70,6 @@
                               <Component id="jPanel3" max="32767" attributes="0"/>
                               <Component id="jPanel6" max="32767" attributes="0"/>
                           </Group>
-                          <EmptySpace min="-2" pref="0" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
@@ -294,11 +293,11 @@
                           <Component id="jLabel3" alignment="1" min="-2" pref="48" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="txtVendedor" min="-2" pref="128" max="-2" attributes="0"/>
-                          <Component id="txtFecha" min="-2" pref="128" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="txtVendedor" pref="160" max="32767" attributes="0"/>
+                          <Component id="txtFecha" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace type="separate" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
                               <Component id="jLabel14" min="-2" pref="54" max="-2" attributes="0"/>
@@ -408,6 +407,7 @@
             </Component>
             <Component class="javax.swing.JTextField" name="txtFecha">
               <Properties>
+                <Property name="editable" type="boolean" value="false"/>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="f2" green="f2" red="f2" type="rgb"/>
                 </Property>
@@ -552,6 +552,7 @@
             </Component>
             <Component class="javax.swing.JTextField" name="txtVendedor">
               <Properties>
+                <Property name="editable" type="boolean" value="false"/>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="f2" green="f2" red="f2" type="rgb"/>
                 </Property>
@@ -564,6 +565,9 @@
                   </Border>
                 </Property>
               </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+              </AuxValues>
             </Component>
             <Component class="javax.swing.JTextField" name="txtPorcen">
               <Properties>

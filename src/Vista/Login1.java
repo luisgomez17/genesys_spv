@@ -10,31 +10,30 @@ import javax.swing.JOptionPane;
 import javax.swing.UnsupportedLookAndFeelException;
 
 public class Login1 extends javax.swing.JFrame {
-    
+
     private Coordinador miCoordinador;
 
     PlaceHolder hol;
+
     public Login1() {
         initComponents();
-        setLocationRelativeTo(null); 
-     //   hol = new PlaceHolder(txtUser,"Ingresa tu Usuario");
-     //   hol = new PlaceHolder(txtPass,"Password");
-    
-        
+        setLocationRelativeTo(null);
+        //   hol = new PlaceHolder(txtUser,"Ingresa tu Usuario");
+        //   hol = new PlaceHolder(txtPass,"Password");
+
     }
-    
+
     public void setCoordinador(Coordinador miCoordinador) {
-        this.miCoordinador=miCoordinador;
+        this.miCoordinador = miCoordinador;
         //this.getUsuario(1);
     }
-    
-    public void getUsuario(Integer id_user){
+
+    public void getUsuario(Integer id_user) {
         UsuarioVo usuario = miCoordinador.buscarUsuario(id_user);
         this.imprimirUsuario(usuario);
     }
-    
-    
-    public void imprimirUsuario(UsuarioVo usuario){
+
+    public void imprimirUsuario(UsuarioVo usuario) {
         System.out.println(usuario.getFirstname());
         System.out.println(usuario.getLastname());
         System.out.println(usuario.getDirection());
@@ -214,25 +213,29 @@ public class Login1 extends javax.swing.JFrame {
 
     private void btnGoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGoActionPerformed
 
-String myPass= new String(txtPass.getPassword());
-String usuario = txtUser.getText();
-System.out.println(usuario+" "+ myPass);
+        String myPass = new String(txtPass.getPassword());
+        String usuario = txtUser.getText();
+        System.out.println(usuario + " " + myPass);
+        Inicio ini ;
+        SystemVo miPersona = miCoordinador.buscarUser(usuario, myPass);
 
-      SystemVo  miPersona = miCoordinador.buscarUser(usuario,myPass);
-       
-			if (miPersona.getUser()==null && miPersona.getPassword() == null)
-			{
-                            JOptionPane.showMessageDialog(null, "El usuario no Existe","Advertencia",JOptionPane.WARNING_MESSAGE);
-                        }
-			else{
-		miCoordinador.mostrarPrincipal();
-                dispose();
-			}
+        if (miPersona.getUser() == null && miPersona.getPassword() == null) {
+            JOptionPane.showMessageDialog(null, "El usuario no Existe", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        } else {
+            //ini.txtUsuario.setText(miPersona.getNombre() + " " + miPersona.getApellidos());
+            //miCoordinador.mostrarPrincipal();
+ ini = new Inicio();
+            ini.setCoordinador(miCoordinador);
+            ini.txtUsuario.setText(miPersona.getNombre() + " " + miPersona.getApellidos());
+            ini.lbId.setText(miPersona.getId_user().toString());
+            ini.show();
+            dispose();
+        }
         // TODO add your handling code here:
     }//GEN-LAST:event_btnGoActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        System.exit(0);        
+        System.exit(0);
 
         // TODO add your handling code here:
     }//GEN-LAST:event_btnCancelActionPerformed
@@ -243,15 +246,15 @@ System.out.println(usuario+" "+ myPass);
 
     private void BtnMinimizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnMinimizeActionPerformed
         this.setExtendedState(ICONIFIED);
-        
+
         // TODO add your handling code here:
     }//GEN-LAST:event_BtnMinimizeActionPerformed
 
     private void BtnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSalirActionPerformed
-        System.exit(0);        
+        System.exit(0);
 // TODO add your handling code here:
     }//GEN-LAST:event_BtnSalirActionPerformed
-  public static void main(String args[]) {
+    public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -272,7 +275,7 @@ System.out.println(usuario+" "+ myPass);
             Logger.getLogger(Login1.class.getName()).log(Level.SEVERE, null, ex);
         } catch (UnsupportedLookAndFeelException ex) {
             Logger.getLogger(Login1.class.getName()).log(Level.SEVERE, null, ex);
-        } 
+        }
         //</editor-fold>
         //</editor-fold>
 

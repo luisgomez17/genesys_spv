@@ -359,6 +359,7 @@ modelo.removeRow(0);
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Fecha:");
 
+        txtFecha.setEditable(false);
         txtFecha.setBackground(new java.awt.Color(242, 242, 242));
         txtFecha.setFont(new java.awt.Font("Apple SD Gothic Neo", 0, 15)); // NOI18N
         txtFecha.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -413,6 +414,7 @@ modelo.removeRow(0);
             }
         });
 
+        txtVendedor.setEditable(false);
         txtVendedor.setBackground(new java.awt.Color(242, 242, 242));
         txtVendedor.setFont(new java.awt.Font("Apple SD Gothic Neo", 0, 15)); // NOI18N
         txtVendedor.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -448,10 +450,10 @@ modelo.removeRow(0);
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, Short.MAX_VALUE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtVendedor, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
+                    .addComponent(txtFecha))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -760,8 +762,7 @@ modelo.removeRow(0);
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 0, 0))
+                            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel6)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -894,16 +895,17 @@ modelo.removeRow(0);
             registro.add(aux1);
 
         }
-
+Double totalcompra = Double.valueOf(lblTotal.getText());
+totalcompra = (totalcompra*0.1)+totalcompra;
         int confirmado = JOptionPane.showConfirmDialog(null,
-            "Su pago total es de:"+" "+lblTotal.getText()+ " " + "¿Desea dar un adelanto?");
+            "Su pago total es de:"+" "+totalcompra+ " " + "¿Desea dar un adelanto?");
 
         switch(confirmado){
             case 0:
             String adelanto = JOptionPane.showInputDialog(null,"Adelanto $$",JOptionPane.QUESTION_MESSAGE);
 
-            if(Double.parseDouble(lblTotal.getText()) >= Double.parseDouble(adelanto)){
-                double total = Double.parseDouble(lblTotal.getText()) - Double.parseDouble(adelanto);
+            if(totalcompra >= Double.parseDouble(adelanto)){
+                double total = totalcompra - Double.parseDouble(adelanto);
 
                 credito.setId_user(id_usuario);
                 credito.setSubtotal(Double.parseDouble(lblTotal.getText()));
@@ -939,10 +941,12 @@ modelo.removeRow(0);
 
             case 1:
 
+Double totalcompra1 = Double.valueOf(lblTotal.getText());
+totalcompra1 = (totalcompra1*0.1)+totalcompra1;
             credito.setId_user(id_usuario);
             credito.setSubtotal(Double.parseDouble(lblTotal.getText()));
             credito.setShip(0);
-            credito.setTotal(Double.parseDouble(lblTotal.getText()));
+            credito.setTotal(totalcompra1);
             credito.setCredito(1);
 
             if(credito.getId_user()!=0){
@@ -1290,6 +1294,6 @@ llenarComboTalla(codigoArtCadena(txtCode.getText()),color.get(comboColor.getSele
     private javax.swing.JTextField txtFecha;
     public static javax.swing.JTextField txtMonedero;
     private javax.swing.JTextField txtPorcen;
-    private javax.swing.JTextField txtVendedor;
+    public javax.swing.JTextField txtVendedor;
     // End of variables declaration//GEN-END:variables
 }
