@@ -325,7 +325,7 @@ public class Total extends javax.swing.JInternalFrame {
             for (int b = 0; b < bolsa.size(); b++) {
                 miCoordinador.InsertBag(bolsa.get(b));
             }
-imprimirFactura();
+            imprimirFactura();
             miCoordinador.getDetalle().bag.clear();
             dispose();
             txtPago.setText("");
@@ -343,30 +343,49 @@ imprimirFactura();
         e.setNumber(101.85);
 
         //Definir el tamanho del papel para la impresion  aca 25 lineas y 80 columnas
-        printer.setOutSize(60, 80);
+        printer.setOutSize(60, 40);
         //Imprimir * de la 2da linea a 25 en la columna 1;
         // printer.printCharAtLin(2, 25, 1, "*");
         //Imprimir * 1ra linea de la columa de 1 a 80
-        printer.printCharAtCol(1, 1, 80, "=");
+        //printer.printCharAtCol(0, 1, 40, "=");
         //Imprimir Encabezado nombre del La EMpresa
-        printer.printTextWrap(1, 2, 30, 80, "FACTURA DE VENTA");
+
+        printer.printTextWrap(1, 2, 10, 40, "GENESYS MODA INFANTIL");
         //printer.printTextWrap(linI, linE, colI, colE, null);
-        printer.printTextWrap(2, 3, 1, 22, "Num. Boleta : ");
-        printer.printTextWrap(2, 3, 25, 55, "Fecha de Emision: ");
-        printer.printTextWrap(2, 3, 60, 80, "Hora: 12:22:51");
-        printer.printTextWrap(3, 3, 1, 80, "Vendedor.  : ");
-        printer.printTextWrap(4, 4, 1, 80, "CLIENTE: ");
-        printer.printTextWrap(5, 5, 1, 80, "RUC/CI.: ");
-        printer.printTextWrap(6, 6, 1, 80, "DIRECCION: " + "");
-        printer.printCharAtCol(7, 1, 80, "=");
-        printer.printTextWrap(7, 8, 1, 80, "Codigo          Descripcion                Cant.      P  P.Unit.      P.Total");
-        printer.printCharAtCol(9, 1, 80, "-");
-        //int filas = tblVentas.getRowCount();
+        printer.printTextWrap(3, 4, 15, 40, "molm6505111i1 ");
+        printer.printTextWrap(5, 6, 4, 40, "Plaza de las Americas local A 13");
+        printer.printTextWrap(7, 8, 7, 40, "Lazaro Cardenas, Michoacan");
+        printer.printTextWrap(9, 10, 15, 40, "60950");
+        printer.printTextWrap(11, 12, 9, 40, "genesys.mi@hotmail.com");
+        printer.printCharAtCol(13, 1, 40, "-");
+        printer.printTextWrap(13, 14, 1, 40, "No. TICKET: 3247");
+        printer.printTextWrap(15, 16, 1, 40, "FECHA: 27/07/2018");
+        printer.printTextWrap(17, 18, 1, 40, "Hora: 12:25:40 PM");
+        printer.printCharAtCol(19, 1, 40, "-");
+        printer.printTextWrap(20, 21, 1, 40, "CANT  PCIO U. %DESC  IMPORTE");
+        printer.printCharAtCol(23, 1, 40, "-");
+        int cont = 0, cont2=23;
+        for (int i = 0; i < bolsa.size(); i++) {
+            printer.printTextWrap(cont2 + i, cont2 + i+1, 0, 40, bolsa.get(i).getArt_name() + " " + bolsa.get(i).getSize_name() + " " + bolsa.get(i).getQuantity() + " " + bolsa.get(i).getPrice() + " " + bolsa.get(i).getImporte());
+        cont2=cont2+i+1;
+            cont=i+2;
+        }
+        printer.printCharAtCol(25+ cont, 1, 40, "-");
+        printer.printTextWrap(28+cont, 29, 15, 40, "TOTAL: 3247");
+        printer.printTextWrap(31+cont, 32, 0, 40, "<<<<<<<<<<<<<FORMAS DE PAGO>>>>>>>>>>>>>");
+        printer.printTextWrap(34+cont, 33, 15, 40, "EFECTIVO: ");
+        printer.printTextWrap(36+cont, 37, 15, 40, "TARJETA: ");
+        printer.printTextWrap(38+cont, 39, 15, 40, "CREDITO: ");
+        printer.printTextWrap(40+cont, 41, 15, 40, "CAMBIO: ");
+        printer.printTextWrap(43+cont, 44, 18, 40, "CAJA");
+        printer.printTextWrap(45+cont, 46, 5, 40, "Nombre de la Caja");
+        printer.printTextWrap(47+cont, 48, 16, 40, "CLIENTE:");
+        printer.printTextWrap(49+cont, 50, 5, 40, "Nombre del Cliente");
+        printer.printTextWrap(51+cont, 52, 17, 40, "CAJERO");
+        printer.printTextWrap(53+cont, 54, 5, 40, "Nombre del Cajero");
 
-        /* for (int i = 0; i < filas; i++) {
-         printer.printTextWrap(9 + i, 10, 1, 80, "aqui va algo");
-         }
 
+        /*
         if(filas > 15){
         printer.printCharAtCol(filas + 1, 1, 80, "=");
         printer.printTextWrap(filas + 1, filas + 2, 1, 80, "TOTAL A PAGAR " + txtVentaTotal.getText());
