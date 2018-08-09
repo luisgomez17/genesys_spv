@@ -219,6 +219,7 @@ modelo.removeRow(0);
         jPanel6 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         txtCode = new javax.swing.JTextField();
+        lblBuscar = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         lblArt = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
@@ -235,7 +236,6 @@ modelo.removeRow(0);
         jLabel20 = new javax.swing.JLabel();
         comboColor = new javax.swing.JComboBox<>();
         txtBackColor = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
 
         setClosable(true);
@@ -539,6 +539,20 @@ modelo.removeRow(0);
             }
         });
 
+        lblBuscar.setBackground(new java.awt.Color(255, 255, 255));
+        lblBuscar.setForeground(new java.awt.Color(255, 255, 255));
+        lblBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/IconSearch.png"))); // NOI18N
+        lblBuscar.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(240, 240, 240), 3, true));
+        lblBuscar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblBuscar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblBuscarMouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                lblBuscarMousePressed(evt);
+            }
+        });
+
         jLabel10.setFont(new java.awt.Font("Apple SD Gothic Neo", 0, 15)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
         jLabel10.setText("Articulo:");
@@ -643,13 +657,6 @@ modelo.removeRow(0);
 
         txtBackColor.setEditable(false);
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/IconSearch.png"))); // NOI18N
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -687,23 +694,24 @@ modelo.removeRow(0);
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(lblPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(comboCant, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(comboTalla, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel6Layout.createSequentialGroup()
-                                        .addComponent(txtCode, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(lblArt, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addGroup(jPanel6Layout.createSequentialGroup()
+                                            .addComponent(txtCode, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(lblBuscar))
+                                        .addComponent(lblArt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(comboCant, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(comboTalla, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtCode)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtCode, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblBuscar))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblArt, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -790,7 +798,7 @@ modelo.removeRow(0);
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -1090,6 +1098,10 @@ if(descuento.isEmpty()|| !descuento.matches("[0-9]*") || Double.parseDouble(desc
         calcularTotal();
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void lblBuscarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblBuscarMousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lblBuscarMousePressed
+
     public void llenarComboTalla(String art, String color){
       
             ArrayList <TallaVo> talla = miCoordinador.getTallasColor(art, color);
@@ -1105,58 +1117,9 @@ if(descuento.isEmpty()|| !descuento.matches("[0-9]*") || Double.parseDouble(desc
             comboTalla.setModel(modeloTalla);
             }
     }
-    private void comboColorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboColorActionPerformed
-ArrayList<ColorVo> color = miCoordinador.getColorsArt(codigoArtCadena(txtCode.getText())); 
-
-
-llenarComboTalla(codigoArtCadena(txtCode.getText()),color.get(comboColor.getSelectedIndex()-1).getColor_art());
-    
-   // ArrayList <ColorVo> color = miCoordinador.obtenerColorProducto(codigoArtCadena(txtCode.getText()), medida.get(comboTalla.getSelectedIndex()).getId_size());
-        System.out.println(color.get(comboColor.getSelectedIndex()-1).getColor_art());
-
-        if (color.size()>0 && comboColor.getSelectedIndex() > 0) {
-                Color col = Color.decode(color.get(comboColor.getSelectedIndex()-1).getColor_hex_code());
-                setBackground(Color.WHITE);
-                setForeground(col);
-
-                if (isSelected) {
-                    setBackground(col);
-                    setForeground(Color.WHITE);
-                    txtBackColor.setBackground(col);
-                }
-            } else {
-                setForeground(Color.BLACK);
-            }  
-     
-    }//GEN-LAST:event_comboColorActionPerformed
-
-    private void comboTallaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboTallaActionPerformed
-     // llenarComboColor(medida.get(comboTalla.getSelectedIndex()-1).getId_size());
+    private void lblBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblBuscarMouseClicked
         
-    }//GEN-LAST:event_comboTallaActionPerformed
-
-    private void comboTallaPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_comboTallaPropertyChange
-
-   // TODO add your handling code here:
-    }//GEN-LAST:event_comboTallaPropertyChange
-
-    private void txtCodeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodeKeyTyped
-    char c=evt.getKeyChar();
-   int ascii = (int)c;
-        if(ascii<48 || ascii>57) {
-            getToolkit().beep();
-
-            evt.consume();
-
-        }
-    }//GEN-LAST:event_txtCodeKeyTyped
-
-    private void txtCodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCodeActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
- 
+        lblBuscar.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
         ArrayList<ColorVo> color = miCoordinador.getColorsArt(codigoArtCadena(txtCode.getText()));
         if(color.isEmpty()){
             JOptionPane.showMessageDialog(null,"Ingrese un codigo válido","ERROR",JOptionPane.INFORMATION_MESSAGE);
@@ -1188,9 +1151,71 @@ ProductoVo product = miCoordinador.getDetallesProducto(codigoArtCadena(txtCode.g
           
   lblArt.setText(product.getArt_name());
   lblPrecio.setText(Double.toString(product.getPrice()));
+          /*
+            
+           
+            //lblColor.setText(resp1);
+            //lblTalla.setText(resp);
+            
+
+        }
+*/}
+        lblBuscar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_lblBuscarMouseClicked
+
+    private void comboColorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboColorActionPerformed
+ArrayList<ColorVo> color = miCoordinador.getColorsArt(codigoArtCadena(txtCode.getText())); 
+
+
+llenarComboTalla(codigoArtCadena(txtCode.getText()),color.get(comboColor.getSelectedIndex()-1).getColor_art());
+    
+   // ArrayList <ColorVo> color = miCoordinador.obtenerColorProducto(codigoArtCadena(txtCode.getText()), medida.get(comboTalla.getSelectedIndex()).getId_size());
+        System.out.println(color.get(comboColor.getSelectedIndex()-1).getColor_art());
+
+        if (color.size()>0 && comboColor.getSelectedIndex() > 0) {
+                Color col = Color.decode(color.get(comboColor.getSelectedIndex()-1).getColor_hex_code());
+                setBackground(Color.WHITE);
+                setForeground(col);
+
+                if (isSelected) {
+                    setBackground(col);
+                    setForeground(Color.WHITE);
+                    txtBackColor.setBackground(col);
+                }
+            } else {
+                setForeground(Color.BLACK);
+            }  
+     
+    }//GEN-LAST:event_comboColorActionPerformed
+
+    private void comboTallaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboTallaActionPerformed
+     
+       
+
+
+     // llenarComboColor(medida.get(comboTalla.getSelectedIndex()-1).getId_size());
         
-        }  
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_comboTallaActionPerformed
+
+    private void comboTallaPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_comboTallaPropertyChange
+
+   // TODO add your handling code here:
+    }//GEN-LAST:event_comboTallaPropertyChange
+
+    private void txtCodeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodeKeyTyped
+    char c=evt.getKeyChar();
+   int ascii = (int)c;
+        if(ascii<48 || ascii>57) {
+            getToolkit().beep();
+
+            evt.consume();
+
+        }
+    }//GEN-LAST:event_txtCodeKeyTyped
+
+    private void txtCodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCodeActionPerformed
    
     public void agregarBolsa(){
          BagVo bagg = new BagVo();
@@ -1233,7 +1258,6 @@ ProductoVo product = miCoordinador.getDetallesProducto(codigoArtCadena(txtCode.g
     private javax.swing.JComboBox<String> comboCant;
     private javax.swing.JComboBox<String> comboColor;
     private javax.swing.JComboBox<String> comboTalla;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
@@ -1259,6 +1283,7 @@ ProductoVo product = miCoordinador.getDetallesProducto(codigoArtCadena(txtCode.g
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblArt;
+    private javax.swing.JLabel lblBuscar;
     private javax.swing.JLabel lblPrecio;
     private javax.swing.JLabel lblTotal;
     private javax.swing.JTable tbVenta;
