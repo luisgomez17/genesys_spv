@@ -24,7 +24,6 @@ import javax.print.SimpleDoc;
 import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
 import javax.swing.JOptionPane;
-import Modelo.Recibo;
 
 /**
  *
@@ -37,7 +36,6 @@ public class Total extends javax.swing.JInternalFrame {
     public ArrayList<BagVo> bolsa = new ArrayList();
     public UsuarioVo comprador = new UsuarioVo();
     public double dineroelectronico;
-    public Recibo recibo = new Recibo();
     ProductoVo registro = new ProductoVo();
 
     public void setCoordinador(Coordinador miCoordinador) {
@@ -380,7 +378,7 @@ public class Total extends javax.swing.JInternalFrame {
         printer.printTextWrap(38+cont, 39, 15, 40, "CREDITO: ");
         printer.printTextWrap(40+cont, 41, 15, 40, "CAMBIO: ");
         printer.printTextWrap(43+cont, 44, 18, 40, "CAJA");
-        printer.printTextWrap(45+cont, 46, 5, 40, "Caja 1 ");
+        printer.printTextWrap(45+cont, 46, 5, 40, "Nombre de la Caja");
         printer.printTextWrap(47+cont, 48, 16, 40, "CLIENTE:");
         printer.printTextWrap(49+cont, 50, 5, 40, "Nombre del Cliente");
         printer.printTextWrap(51+cont, 52, 17, 40, "CAJERO");
