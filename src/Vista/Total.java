@@ -40,7 +40,7 @@ public class Total extends javax.swing.JInternalFrame {
     public UsuarioVo comprador = new UsuarioVo();
     public double dineroelectronico;
     ProductoVo registro = new ProductoVo();
-    public Ticket ticket;
+    public Ticket ticket = new Ticket();
     public void setCoordinador(Coordinador miCoordinador) {
         this.miCoordinador = miCoordinador;
 
@@ -48,8 +48,7 @@ public class Total extends javax.swing.JInternalFrame {
 
     public Total() {
         initComponents();
-ticket.setCredito(0.00);
-ticket.setTarjeta(0.00);
+
 
         venta.setShip(0.00);
     }
@@ -310,10 +309,16 @@ ticket.setTarjeta(0.00);
     }//GEN-LAST:event_btnCanjearActionPerformed
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
+        ticket.setCredito(0.00);
+        ticket.setTarjeta(0.00);
         venta.setTotal(Double.parseDouble(lblPagar.getText()));
         String captura = txtPago.getText();
         captura = captura.replaceAll(" ", "");
 
+        if(ticket.getCliente()== ""){
+        ticket.setCliente("Publico general");
+        }
+        
         if (captura.length() == 0 || Double.parseDouble(captura) < Double.parseDouble(lblPagar.getText())) {
             JOptionPane.showMessageDialog(null, "Ingresa un pago válido", "Pago total", JOptionPane.WARNING_MESSAGE);
         } else {
@@ -389,9 +394,9 @@ DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         printer.printTextWrap(43+cont, 44, 18, 40, "CAJA");
         printer.printTextWrap(45+cont, 46, 5, 40, "Caja 1");
         printer.printTextWrap(47+cont, 48, 16, 40, "CLIENTE:");
-        printer.printTextWrap(49+cont, 50, 5, 40, ticket.getCliente());
+        printer.printTextWrap(49+cont, 50, 10, 40, ticket.getCliente());
         printer.printTextWrap(51+cont, 52, 17, 40, "CAJERO");
-        printer.printTextWrap(53+cont, 54, 5, 40, ticket.getVendedor());
+        printer.printTextWrap(53+cont, 54,10, 40, ticket.getVendedor());
 
 
         /*

@@ -216,6 +216,7 @@ modelo.removeRow(0);
         txtPorcen = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
+        lbIdVendedor = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         txtCode = new javax.swing.JTextField();
@@ -440,12 +441,16 @@ modelo.removeRow(0);
 
         jLabel19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/IconPercentage.png"))); // NOI18N
 
+        lbIdVendedor.setEnabled(false);
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(lbIdVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 9, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(62, 62, 62)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -489,7 +494,9 @@ modelo.removeRow(0);
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel2)
+                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel2)
+                                .addComponent(lbIdVendedor))
                             .addComponent(txtVendedor)
                             .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
@@ -1038,7 +1045,9 @@ if(bag.size()>0 && Double.parseDouble(lblTotal.getText())>0){
         total.lblDinero.setText(txtMonedero.getText());
         total.comprador.setId_user(id_usuario);
         total.venta.setId_user(id_usuario);
-    
+        total.venta.setId_vendedor(1);
+        total.venta.setVendedor(txtVendedor.getText());
+        
         total.ticket.setNro_ticket(miCoordinador.obtenerSiguienteId());
         total.ticket.setTotal(Double.parseDouble(lblTotal.getText()));
         total.ticket.setCliente(txtCliente.getText());
@@ -1280,6 +1289,7 @@ llenarComboTalla(codigoArtCadena(txtCode.getText()),color.get(comboColor.getSele
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
+    public javax.swing.JLabel lbIdVendedor;
     private javax.swing.JLabel lblArt;
     private javax.swing.JLabel lblBuscar;
     private javax.swing.JLabel lblPrecio;

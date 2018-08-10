@@ -52,8 +52,8 @@ Texto tex = new Texto();
         
         try {
             PreparedStatement preparedStatement = conn.getConn().prepareStatement(
-                    "INSERT INTO sales (id_user, subtotal, ship, total, credito ) "                         
-                    + "VALUES (?, ?, ?, ?, ?)");
+                    "INSERT INTO sales (id_user, subtotal, ship, total, credito, id_vendedor, nombre_vendedor ) "                         
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?)");
             
             
             preparedStatement.setInt(1, venta.getId_user());
@@ -61,8 +61,10 @@ Texto tex = new Texto();
             preparedStatement.setDouble(3, venta.getShip());
             preparedStatement.setDouble(4, venta.getTotal());
             preparedStatement.setInt(5, 0);
+            preparedStatement.setInt(6, venta.getId_vendedor());
+            preparedStatement.setString(7, venta.getVendedor());
             
-String consulta = "INSERT INTO sales (id_user, subtotal, ship, total, credito ) "+ "VALUES ('"+venta.getId_user()+"', '"+venta.getSubtotal()+"', '"+venta.getShip()+"', '"+venta.getTotal()+"','"+0+"');";
+String consulta = "INSERT INTO sales (id_user, subtotal, ship, total, credito, id_vendedor, nombre_vendedor ) "+ "VALUES ('"+venta.getId_user()+"', '"+venta.getSubtotal()+"', '"+venta.getShip()+"', '"+venta.getTotal()+"','"+0+"', '"+venta.getId_vendedor()+"', '"+venta.getVendedor()+"');";
       tex.escribir(consulta);
             preparedStatement.executeUpdate();
             
@@ -205,7 +207,7 @@ String consulta = "INSERT INTO sales (id_user, subtotal, ship, total, credito ) 
         
         try {
             PreparedStatement preparedStatement = conn.getConn().prepareStatement(
-                    "INSERT INTO sales (id_user, subtotal, ship, total, credito ) "                         
+                    "INSERT INTO sales (id_user, subtotal, ship, total, credito, id_vendedor, nombre_vendedor ) "                         
                     + "VALUES (?, ?, ?, ?, ?)");
             
             
@@ -214,8 +216,10 @@ String consulta = "INSERT INTO sales (id_user, subtotal, ship, total, credito ) 
             preparedStatement.setDouble(3, venta.getShip());
             preparedStatement.setDouble(4, venta.getTotal());
             preparedStatement.setInt(5, 1);
+            preparedStatement.setInt(6, venta.getId_vendedor());
+            preparedStatement.setString(7, venta.getVendedor());
             
-String consulta = "INSERT INTO sales (id_user, subtotal, ship, total, credito ) "+ "VALUES ('"+venta.getId_user()+"', '"+venta.getSubtotal()+"', '"+venta.getShip()+"', '"+venta.getTotal()+"', '"+1+"');";
+String consulta = "INSERT INTO sales (id_user, subtotal, ship, total, credito, id_vendedor, nombre_vendedor ) "+ "VALUES ('"+venta.getId_user()+"', '"+venta.getSubtotal()+"', '"+venta.getShip()+"', '"+venta.getTotal()+"', '"+1+"', '"+venta.getId_vendedor()+"', '"+venta.getVendedor()+"');";
   tex.escribir(consulta);
             preparedStatement.executeUpdate();
             

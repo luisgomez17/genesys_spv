@@ -366,6 +366,7 @@ Productos pt;
             dv = new DetalleVenta();
             dv.setCoordinador(miCoordinador);
             dv.txtVendedor.setText(txtUsuario.getText());
+            dv.lbIdVendedor.setText(lbId.getText());           
             escritorio.add(dv).setLocation(25, 3);
             dv.show();
 

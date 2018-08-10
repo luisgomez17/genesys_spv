@@ -10,6 +10,7 @@ package Modelo;
  * @author luism
  */
 public class VentaVo {
+
     private int id_sale;
     private int id_user;
     private double subtotal;
@@ -21,6 +22,24 @@ public class VentaVo {
     private String date;
     private int credito;
     private int online;
+    private int id_vendedor;
+    private String vendedor;
+
+    public int getId_vendedor() {
+        return id_vendedor;
+    }
+
+    public void setId_vendedor(int id_vendedor) {
+        this.id_vendedor = id_vendedor;
+    }
+
+    public String getVendedor() {
+        return vendedor;
+    }
+
+    public void setVendedor(String vendedor) {
+        this.vendedor = vendedor;
+    }
 
     public int getOnline() {
         return online;
@@ -45,7 +64,7 @@ public class VentaVo {
     public void setDate(String date) {
         this.date = date;
     }
-    
+
     public String getFirstname() {
         return firstname;
     }
@@ -101,7 +120,6 @@ public class VentaVo {
     public void setTotal(double total) {
         this.total = total;
     }
-
 
     public int getId_user() {
         return id_user;
