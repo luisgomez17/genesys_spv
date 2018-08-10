@@ -992,7 +992,7 @@ if(comboColor.getSelectedIndex()>0 && comboTalla.getSelectedIndex()>0){
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void btnPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPagarActionPerformed
-
+if(bag.size()>0 && Double.parseDouble(lblTotal.getText())>0){
         BagVo aux = new BagVo();
         for (int t = 0; t < bag.size(); t++){
             aux.setId_user(bag.get(t).getId_user());
@@ -1038,16 +1038,11 @@ if(comboColor.getSelectedIndex()>0 && comboTalla.getSelectedIndex()>0){
         total.lblDinero.setText(txtMonedero.getText());
         total.comprador.setId_user(id_usuario);
         total.venta.setId_user(id_usuario);
-        /*
-        miCoordinador.getTotal().bolsa = (ArrayList) bag.clone();
-        miCoordinador.getTotal().product =  (ArrayList) registro.clone();
-        miCoordinador.getTotal().lblCliente.setText(txtCliente.getText());
-        miCoordinador.getTotal().lblVendedor.setText(txtVendedor.getText());
-        miCoordinador.getTotal().lblPagar.setText(lblTotal.getText());
-        miCoordinador.getTotal().lblDinero.setText(txtMonedero.getText());
-        miCoordinador.getTotal().comprador.setId_user(id_usuario);
-        miCoordinador.getTotal().venta.setId_user(id_usuario);
-        */
+    
+        total.ticket.setNro_ticket(miCoordinador.obtenerSiguienteId());
+        total.ticket.setTotal(Double.parseDouble(lblTotal.getText()));
+        total.ticket.setCliente(txtCliente.getText());
+        total.ticket.setVendedor(txtVendedor.getText());
         //miCoordinador.getTotal().setVisible(true);
         miCoordinador.getTotal().venta.setSubtotal(Double.parseDouble(lblTotal.getText()));
 
@@ -1060,7 +1055,10 @@ if(comboColor.getSelectedIndex()>0 && comboTalla.getSelectedIndex()>0){
         limpiarCamposVenta();
         lblTotal.setText("0.00");
         txtPorcen.setText("0");
-        btnCredit.setEnabled(false);
+        btnCredit.setEnabled(false);}
+else{
+JOptionPane.showMessageDialog(null, "Ingrese articulos a la venta", "Venta", JOptionPane.WARNING_MESSAGE);
+}
     }//GEN-LAST:event_btnPagarActionPerformed
 
     private void btnDescuentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDescuentoActionPerformed

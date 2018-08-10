@@ -10,11 +10,14 @@ import Modelo.ProductoVo;
 import Modelo.UsuarioVo;
 import Modelo.VentaVo;
 import Modelo.BagVo;
+import Modelo.Ticket;
 import br.com.adilson.util.Extenso;
 import br.com.adilson.util.PrinterMatrix;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.print.Doc;
 import javax.print.DocFlavor;
 import javax.print.DocPrintJob;
@@ -24,7 +27,7 @@ import javax.print.SimpleDoc;
 import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
 import javax.swing.JOptionPane;
-
+import java.text.SimpleDateFormat;
 /**
  *
  * @author luism
@@ -37,7 +40,7 @@ public class Total extends javax.swing.JInternalFrame {
     public UsuarioVo comprador = new UsuarioVo();
     public double dineroelectronico;
     ProductoVo registro = new ProductoVo();
-
+    public Ticket ticket;
     public void setCoordinador(Coordinador miCoordinador) {
         this.miCoordinador = miCoordinador;
 
@@ -45,6 +48,8 @@ public class Total extends javax.swing.JInternalFrame {
 
     public Total() {
         initComponents();
+ticket.setCredito(0.00);
+ticket.setTarjeta(0.00);
 
         venta.setShip(0.00);
     }
@@ -298,7 +303,7 @@ public class Total extends javax.swing.JInternalFrame {
         }
         lblPagar.setText(Double.toString(total));
         lblDinero.setText(Double.toString(monedero));
-
+        ticket.setTotal(total);
         venta.setTotal(total);
 
 
@@ -315,7 +320,9 @@ public class Total extends javax.swing.JInternalFrame {
             double cambio = Double.parseDouble(txtPago.getText()) - Double.parseDouble(lblPagar.getText());
             JOptionPane.showMessageDialog(null, "Gracias por su compra, su cambio es de" + " " + Double.toString(cambio) + "");
             miCoordinador.InsertVenta(venta);
-
+            ticket.setCambio(cambio);
+            ticket.setPago(Double.parseDouble(captura));
+            
             for (int v = 0; v < product.size(); v++) {
                 miCoordinador.UpdateProductSizesSales(product.get(v));
             }
@@ -325,7 +332,7 @@ public class Total extends javax.swing.JInternalFrame {
             for (int b = 0; b < bolsa.size(); b++) {
                 miCoordinador.InsertBag(bolsa.get(b));
             }
-            imprimirFactura();
+            imprimirFactura(ticket);
             miCoordinador.getDetalle().bag.clear();
             dispose();
             txtPago.setText("");
@@ -334,8 +341,10 @@ public class Total extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_btnAceptarActionPerformed
 
-    void imprimirFactura() {
-
+    void imprimirFactura(Ticket ticket) {
+Date date = new Date();
+DateFormat hourFormat = new SimpleDateFormat("HH:mm:ss");
+DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         PrinterMatrix printer = new PrinterMatrix();
 
         Extenso e = new Extenso();
@@ -358,9 +367,9 @@ public class Total extends javax.swing.JInternalFrame {
         printer.printTextWrap(9, 10, 15, 40, "60950");
         printer.printTextWrap(11, 12, 9, 40, "genesys.mi@hotmail.com");
         printer.printCharAtCol(13, 1, 40, "-");
-        printer.printTextWrap(13, 14, 1, 40, "No. TICKET: 3247");
-        printer.printTextWrap(15, 16, 1, 40, "FECHA: 27/07/2018");
-        printer.printTextWrap(17, 18, 1, 40, "Hora: 12:25:40 PM");
+        printer.printTextWrap(13, 14, 1, 40, "No. TICKET:"+ticket.getNro_ticket());
+        printer.printTextWrap(15, 16, 1, 40, "Fecha:"+dateFormat.format(date));
+        printer.printTextWrap(17, 18, 1, 40, "Hora:"+hourFormat.format(date));
         printer.printCharAtCol(19, 1, 40, "-");
         printer.printTextWrap(20, 21, 1, 40, "CANT  PCIO U. %DESC  IMPORTE");
         printer.printCharAtCol(23, 1, 40, "-");
@@ -371,18 +380,18 @@ public class Total extends javax.swing.JInternalFrame {
             cont=i+2;
         }
         printer.printCharAtCol(25+ cont, 1, 40, "-");
-        printer.printTextWrap(28+cont, 29, 15, 40, "TOTAL: 3247");
+        printer.printTextWrap(28+cont, 29, 15, 40, "TOTAL: "+ticket.getTotal());
         printer.printTextWrap(31+cont, 32, 0, 40, "<<<<<<<<<<<<<FORMAS DE PAGO>>>>>>>>>>>>>");
-        printer.printTextWrap(34+cont, 33, 15, 40, "EFECTIVO: ");
-        printer.printTextWrap(36+cont, 37, 15, 40, "TARJETA: ");
-        printer.printTextWrap(38+cont, 39, 15, 40, "CREDITO: ");
-        printer.printTextWrap(40+cont, 41, 15, 40, "CAMBIO: ");
+        printer.printTextWrap(34+cont, 33, 15, 40, "EFECTIVO: "+ticket.getPago());
+        printer.printTextWrap(36+cont, 37, 15, 40, "TARJETA: "+ticket.getTarjeta());
+        printer.printTextWrap(38+cont, 39, 15, 40, "CREDITO: "+ticket.getCredito());
+        printer.printTextWrap(40+cont, 41, 15, 40, "CAMBIO: "+ticket.getCambio());
         printer.printTextWrap(43+cont, 44, 18, 40, "CAJA");
-        printer.printTextWrap(45+cont, 46, 5, 40, "Nombre de la Caja");
+        printer.printTextWrap(45+cont, 46, 5, 40, "Caja 1");
         printer.printTextWrap(47+cont, 48, 16, 40, "CLIENTE:");
-        printer.printTextWrap(49+cont, 50, 5, 40, "Nombre del Cliente");
+        printer.printTextWrap(49+cont, 50, 5, 40, ticket.getCliente());
         printer.printTextWrap(51+cont, 52, 17, 40, "CAJERO");
-        printer.printTextWrap(53+cont, 54, 5, 40, "Nombre del Cajero");
+        printer.printTextWrap(53+cont, 54, 5, 40, ticket.getVendedor());
 
 
         /*
