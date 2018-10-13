@@ -84,6 +84,7 @@ public void setCoordinador(Coordinador miCoordinador) {
         jMenuItem2 = new javax.swing.JMenuItem();
         itemSale = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
+        jMenuItem9 = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         inventario = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
@@ -305,6 +306,10 @@ public void setCoordinador(Coordinador miCoordinador) {
             }
         });
         menuSale.add(jMenuItem5);
+
+        jMenuItem9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/nota.png"))); // NOI18N
+        jMenuItem9.setText("Notas Crédito");
+        menuSale.add(jMenuItem9);
 
         jMenuBar1.add(menuSale);
 
@@ -635,6 +640,7 @@ Vendedores v;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
+    private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JPanel jPanel1;
     public javax.swing.JLabel lbId;
     private javax.swing.JMenu menuColors;
