@@ -57,7 +57,7 @@ public class UsuariosCredito extends javax.swing.JInternalFrame {
 
     public void imprimirUsuarios(){
       modelo.setColumnIdentifiers(columnas);
-      asignarTama√±o(); 
+      asignarTamano(); 
       ArrayList<UsuarioVo> user = miCoordinador.getUsuariosCredito();
       
 
@@ -74,7 +74,7 @@ public class UsuariosCredito extends javax.swing.JInternalFrame {
     
      public void imprimirUsuariosSeleccionados(ArrayList<Integer> valores){
       modelo.setColumnIdentifiers(columnas);
-      asignarTama√±o(); 
+      asignarTamano(); 
       ArrayList<UsuarioVo> user = miCoordinador.getUsuariosCredito();
       
 
@@ -88,7 +88,7 @@ public class UsuariosCredito extends javax.swing.JInternalFrame {
       //Asignamos los datos del Modelo a la tabla
       tbUsers.setModel(modelo);
     }
-      public void asignarTama√±o(){
+      public void asignarTamano(){
     tbUsers.getColumnModel().getColumn(0).setPreferredWidth(30);
     tbUsers.getColumnModel().getColumn(1).setPreferredWidth(150);
     tbUsers.getColumnModel().getColumn(2).setPreferredWidth(150);
@@ -349,7 +349,7 @@ modelo.removeRow(0);
         
         }
         else{
-        JOptionPane.showMessageDialog(null, "No se encontr√≥ ning√∫n resultado");
+        JOptionPane.showMessageDialog(null, "No se encontrÛ ning˙n resultado");
         }
     }//GEN-LAST:event_btnSearchActionPerformed
 
@@ -402,7 +402,7 @@ VentaCredito vc;
           
          }   
                else{
-               JOptionPane.showMessageDialog(null, "No se encontr√≥ ning√∫n resultado");
+               JOptionPane.showMessageDialog(null, "No se encontrÛ ning˙n resultado");
                }
     }//GEN-LAST:event_btnGenerate1ActionPerformed
 

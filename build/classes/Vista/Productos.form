@@ -206,7 +206,7 @@
                     <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="ff" green="ff" red="ff" type="rgb"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Art&#xed;culo:"/>
+                    <Property name="text" type="java.lang.String" value="Articulo:"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="txtCode">
@@ -461,7 +461,7 @@
                     <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="ff" green="ff" red="ff" type="rgb"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Categor&#xed;a:"/>
+                    <Property name="text" type="java.lang.String" value="Categoria:"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JComboBox" name="comboCategory">
@@ -513,7 +513,7 @@
                     <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="ff" green="ff" red="ff" type="rgb"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Subcategor&#xed;a:"/>
+                    <Property name="text" type="java.lang.String" value="Subcategoria:"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JComboBox" name="comboSub">
@@ -636,7 +636,7 @@
                     <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="ff" green="ff" red="ff" type="rgb"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Descripci&#xf3;n:"/>
+                    <Property name="text" type="java.lang.String" value="Descripcion:"/>
                   </Properties>
                 </Component>
                 <Container class="javax.swing.JScrollPane" name="jScrollPane2">
@@ -685,7 +685,7 @@
                     <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="ff" green="ff" red="ff" type="rgb"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Composici&#xf3;n:"/>
+                    <Property name="text" type="java.lang.String" value="Composicion:"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JButton" name="btnAdd">

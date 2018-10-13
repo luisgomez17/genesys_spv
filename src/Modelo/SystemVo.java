@@ -15,6 +15,15 @@ public class SystemVo {
     private String password;
     private String nombre;
     private String apellidos;
+    private int id_perfil;
+
+    public int getId_perfil() {
+        return id_perfil;
+    }
+
+    public void setId_perfil(int id_perfil) {
+        this.id_perfil = id_perfil;
+    }
 
     public String getNombre() {
         return nombre;

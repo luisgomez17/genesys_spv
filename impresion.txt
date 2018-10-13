@@ -11,36 +11,43 @@
                                         
          genesys.mi@hotmail.com         
 ----------------------------------------
- No. TICKET:1318                        
+ No. TICKET:1329                        
                                         
- Fecha:10/08/2018                       
+ Fecha:10/10/2018                       
                                         
- Hora:12:41:29                          
+ Hora:14:01:08                          
 ----------------------------------------
                                         
  CANT  PCIO U. %DESC  IMPORTE           
                                         
 ----------------------------------------
-Camisa manga corta bebé niño en lino 6 M
-eses 1 499.0 300.0                      
+Camisa manga larga de ni�o 24 Meses 539.
+0 1 539.0                               
                                         
 ----------------------------------------
                                         
                                         
                                         
-               TOTAL: 300.0             
+               TOTAL: 539.0             
                                         
                                         
 <<<<<<<<<<<<<FORMAS DE PAGO>>>>>>>>>>>>>
                                         
                                         
-               EFECTIVO: 300.0          
+               EFECTIVO: 600.0          
                                         
                TARJETA: 0.0             
                                         
                CREDITO: 0.0             
                                         
-               CAMBIO: 0.0              
+               CHEQUES: 0.0             
+                                        
+               VALES: 0.0               
+                                        
+                                        
+               PAGO: 600.0              
+                                        
+               CAMBIO: 61.0             
                                         
                                         
                   CAJA                  
@@ -49,12 +56,10 @@ eses 1 499.0 300.0
                                         
                 CLIENTE:                
                                         
-                                        
-                                        
+          Jonathan Oswaldo Bautista Vale
+          ncia                          
                  CAJERO                 
                                         
-     Luis Gomez                         
-                                        
-                                        
+          Luis Gomez                    
                                         
                                         

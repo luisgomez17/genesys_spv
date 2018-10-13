@@ -37,7 +37,7 @@ static Coordinador miCoordinador= new Coordinador();
 public static void ejecutaTareaCadaXTiempo(){
              AccionProgramada accionProgramada = new AccionProgramada();  //La programamos
              
-             tiempo.scheduleAtFixedRate(accionProgramada,0,60000);
+             tiempo.scheduleAtFixedRate(accionProgramada,0,30000);
          }
 
     static boolean estacerrado(Object obj) {

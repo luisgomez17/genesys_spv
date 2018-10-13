@@ -51,6 +51,7 @@ public class Productos extends javax.swing.JInternalFrame {
     private String src2Name;
     private File src3File;
     private String src3Name;
+    private String cod_barras;
 
     private FTPUploader  ftpUploader;
     public Productos() {
@@ -325,7 +326,7 @@ public class Productos extends javax.swing.JInternalFrame {
         jLabel1.setBackground(new java.awt.Color(153, 153, 153));
         jLabel1.setFont(new java.awt.Font("Apple SD Gothic Neo", 0, 15)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Artículo:");
+        jLabel1.setText("Articulo:");
 
         txtCode.setFont(new java.awt.Font("Apple SD Gothic Neo", 0, 15)); // NOI18N
         txtCode.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -411,12 +412,12 @@ public class Productos extends javax.swing.JInternalFrame {
         jLabel5.setBackground(new java.awt.Color(153, 153, 153));
         jLabel5.setFont(new java.awt.Font("Apple SD Gothic Neo", 0, 15)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("Categoría:");
+        jLabel5.setText("Categoria:");
 
         comboCategory.setBackground(new java.awt.Color(242, 242, 242));
         comboCategory.setFont(new java.awt.Font("Apple SD Gothic Neo", 0, 14)); // NOI18N
         comboCategory.setForeground(new java.awt.Color(51, 51, 51));
-        comboCategory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar...", "Recién nacido/Ellas", "Recién nacido/Ellos", "Baby/Ellas", "Baby/Ellos", "Mini/Ellas", "Mini/Ellos", "Junior/Ellas", "Junior/Ellos", "Accesorios y regalos" }));
+        comboCategory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar...", "Reci�n nacido/Ellas", "Reci�n nacido/Ellos", "Baby/Ellas", "Baby/Ellos", "Mini/Ellas", "Mini/Ellos", "Junior/Ellas", "Junior/Ellos", "Accesorios y regalos" }));
         comboCategory.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         comboCategory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -427,7 +428,7 @@ public class Productos extends javax.swing.JInternalFrame {
         jLabel6.setBackground(new java.awt.Color(153, 153, 153));
         jLabel6.setFont(new java.awt.Font("Apple SD Gothic Neo", 0, 15)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("Subcategoría:");
+        jLabel6.setText("Subcategoria:");
 
         comboSub.setBackground(new java.awt.Color(242, 242, 242));
         comboSub.setFont(new java.awt.Font("Apple SD Gothic Neo", 0, 14)); // NOI18N
@@ -470,7 +471,7 @@ public class Productos extends javax.swing.JInternalFrame {
         jLabel8.setBackground(new java.awt.Color(153, 153, 153));
         jLabel8.setFont(new java.awt.Font("Apple SD Gothic Neo", 0, 15)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel8.setText("Descripción:");
+        jLabel8.setText("Descripcion:");
 
         txtCompo.setBackground(new java.awt.Color(242, 242, 242));
         txtCompo.setColumns(20);
@@ -487,7 +488,7 @@ public class Productos extends javax.swing.JInternalFrame {
         jLabel9.setBackground(new java.awt.Color(153, 153, 153));
         jLabel9.setFont(new java.awt.Font("Apple SD Gothic Neo", 0, 15)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel9.setText("Composición:");
+        jLabel9.setText("Composicion:");
 
         btnAdd.setBackground(new java.awt.Color(0, 37, 145));
         btnAdd.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
@@ -907,8 +908,9 @@ dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-    //   FTPUploader ftpUploader;
-        // TODO add your handling code here:
+        ProductoVo pro = new ProductoVo();
+        ProductoVo prod = new ProductoVo();
+        ProductoVo pr ;
         int local_index = comboLocal.getSelectedIndex() + 1;
         
         txtCode.setText(producto.getArt());
@@ -930,8 +932,7 @@ dispose();
         if (!textCant.equals("")) {
             amount = Integer.parseInt(textCant);
         }
-        
-   
+           
             
         //Aquí ocurre la magia
         if (producto.getArt() != null && !producto.getArt_name().equals("")
@@ -965,7 +966,26 @@ dispose();
                 miCoordinador.InsertProduct(producto);
                 miCoordinador.InsertProductSizes(producto);
             }
-
+            
+            pr = miCoordinador.getCode(txtCode.getText().trim());
+            
+            if(pr.getId_type_product() == null){           
+            int idaux = miCoordinador.getSigId() + 1;
+                                    
+            prod.setType_product_name(cod_barras);            
+            prod.setArt_name(producto.getArt_name());
+            
+            pro.setId_type_product(idaux);
+            pro.setArt(producto.getArt());            
+            pro.setColor_art(producto.getColor_art());
+            pro.setId_size(producto.getId_size());
+            
+            miCoordinador.insertCode(prod);
+            miCoordinador.updateCodigo(pro);
+            
+            }
+            
+            
             txtCode.setText("");
             btnBuscar.doClick();
 JOptionPane.showMessageDialog(null, "Producto Agregado Satisfactoriamente", "Completo", JOptionPane.INFORMATION_MESSAGE);
@@ -976,7 +996,8 @@ JOptionPane.showMessageDialog(null, "Producto Agregado Satisfactoriamente", "Com
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
-        String art = txtCode.getText();
+        cod_barras = txtCode.getText().trim();
+        String art = codigoArtCadena(txtCode.getText());
         producto = new ProductoVo();
 
         modeloColor = new DefaultComboBoxModel();
@@ -1006,7 +1027,7 @@ JOptionPane.showMessageDialog(null, "Producto Agregado Satisfactoriamente", "Com
         } else {
             producto.setArt(null);
         }
-        
+       // System.out.println(cod_barras);
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void comboCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboCategoryActionPerformed

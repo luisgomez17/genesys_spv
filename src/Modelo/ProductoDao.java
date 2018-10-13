@@ -9,8 +9,8 @@ import java.util.ArrayList;
 public class ProductoDao {
     Texto aux = new Texto();
     public ProductoVo getDetallesProducto(String art) {
-        Conectarse conn = new Conectarse();
-
+       Conectarse conn = new Conectarse();
+        //ConecRemoto conn = new ConecRemoto();
         //Objeto de tipo Usuario 
         ProductoVo producto = new ProductoVo();
         try {
@@ -55,7 +55,7 @@ public class ProductoDao {
     
     public ProductoVo getProducto(String art, String color_art) {
         Conectarse conn = new Conectarse();
-
+        //ConecRemoto conn = new ConecRemoto();
         //Objeto de tipo Usuario 
         ProductoVo producto = new ProductoVo();
         try {
@@ -87,7 +87,7 @@ public class ProductoDao {
     
     public ProductoVo getAmountProducto(String art, String color_art, Integer id_size) {
         Conectarse conn = new Conectarse();
-
+        //ConecRemoto conn = new ConecRemoto();
         //Objeto de tipo Usuario 
         ProductoVo producto = new ProductoVo();
         try {
@@ -150,7 +150,7 @@ String consulta = "INSERT INTO product_details (art, name, price, id_category, i
     
     public void UpdateProductDetails(ProductoVo producto){
         Conectarse conn = new Conectarse();
-        
+        //ConecRemoto conn = new ConecRemoto();
         try {
             PreparedStatement preparedStatement = conn.getConn().prepareStatement(
                     "UPDATE product_details SET art = ?, name = ?, price = ?, "
@@ -212,7 +212,7 @@ String consulta = "INSERT INTO products (art, color_art, src1, src2, src3, src4,
     
     public void UpdateProduct(ProductoVo producto){
         Conectarse conn = new Conectarse();
-        
+        //ConecRemoto conn = new ConecRemoto();
         try {
             PreparedStatement preparedStatement = conn.getConn().prepareStatement(
                     "UPDATE products SET art = ?, color_art = ?, src1 = ?, "
@@ -286,6 +286,34 @@ String consulta = "INSERT INTO product_sizes (art, color_art, id_size, amount, i
             preparedStatement.setInt(8, producto.getId_size());
             
 String consulta = "UPDATE product_sizes SET art = '"+producto.getArt()+"', color_art = '"+producto.getColor_art()+"', id_size = '"+producto.getId_size()+"', amount= '"+producto.getAmount()+"', id_local='"+producto.getId_local()+"' WHERE art = '"+producto.getArt()+"' AND color_art = '"+producto.getColor_art()+"' AND id_size = '"+producto.getId_size()+"';";
+   aux.escribir(consulta);
+            preparedStatement.executeUpdate();
+            
+            //Cierra todo
+            conn.getConn().close();
+            //resultSet.close();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    
+    public void UpdateSizes(ProductoVo producto){
+        Conectarse conn = new Conectarse();
+        
+        try {
+            PreparedStatement preparedStatement = conn.getConn().prepareStatement(
+                    "UPDATE product_sizes SET amount= ?, id_local=? "
+                    + "WHERE art = ? AND color_art = ? AND id_size = ? ");
+            
+            
+            preparedStatement.setInt(1, producto.getAmount());
+            preparedStatement.setInt(2, producto.getId_local());
+            preparedStatement.setString(3, producto.getArt());
+            preparedStatement.setString(4, producto.getColor_art());
+            preparedStatement.setInt(5, producto.getId_size());
+            
+String consulta = "UPDATE product_sizes SET  amount= '"+producto.getAmount()+"', id_local='"+producto.getId_local()+"' WHERE art = '"+producto.getArt()+"' AND color_art = '"+producto.getColor_art()+"' AND id_size = '"+producto.getId_size()+"';";
    aux.escribir(consulta);
             preparedStatement.executeUpdate();
             
@@ -613,4 +641,154 @@ String consulta ="UPDATE transfer SET estado = 0 WHERE id_transfer = '"+producto
             System.out.println(e.getMessage());
         }
 }
+      
+      public ProductoVo getProductoCodigo(String codigo) {
+        Conectarse conn = new Conectarse();
+
+        //Objeto de tipo Usuario 
+        ProductoVo producto = new ProductoVo();
+        try {
+            PreparedStatement preparedStatement = conn.getConn().prepareStatement(
+        "SELECT pd.name,pz.art,pz.color_art, pz.id_size, pz.amount, pd.price " +
+"        FROM product_sizes AS pz " +
+"        INNER JOIN product_details as pd ON pd.art = pz.art " +
+"        INNER JOIN colors as cl on cl.color_art = pz.color_art " +
+"        INNER join sizes as s on s.id_size = pz.id_size " +
+"        INNER JOIN product_code as pc on pc.Id_codigo = pz.id_codigo " +
+"        WHERE pc.codigo = ? ");    
+
+            preparedStatement.setString(1, codigo);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            //Muestra resultados de la consulta SQL
+            while (resultSet.next()) {
+                producto.setArt_name(resultSet.getString(1));
+                producto.setArt(resultSet.getString(2));                
+                producto.setColor_art(resultSet.getString(3));                
+                producto.setId_size(resultSet.getInt(4));
+                producto.setAmount(resultSet.getInt(5));
+                producto.setPrice(resultSet.getDouble(6));
+                
+                
+            }
+            //Cierra todo
+            conn.getConn().close();
+            resultSet.close();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        
+        return producto;
+    }  
+      
+      public ProductoVo getCode(String code) {
+        Conectarse conn = new Conectarse();
+
+        //Objeto de tipo Producto 
+        ProductoVo producto = new ProductoVo();
+        try {
+            PreparedStatement preparedStatement = conn.getConn().prepareStatement(
+        "SELECT id_codigo"
+                + " FROM product_code"
+                + " WHERE codigo = ? ");
+            
+            preparedStatement.setString(1, code);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            //Muestra resultados de la consulta SQL
+            while (resultSet.next()) {
+                producto.setId_type_product(resultSet.getInt(1));                                                
+            }
+            //Cierra todo
+            conn.getConn().close();
+            resultSet.close();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+ 
+        //Retorna el arreglo
+        return producto;
+    }
+      
+      public int getSigId() {
+        Conectarse conn = new Conectarse();
+
+        //Objeto de tipo Producto 
+        ProductoVo producto = new ProductoVo();
+        try {
+            PreparedStatement preparedStatement = conn.getConn().prepareStatement(
+        "SELECT MAX(Id_codigo) "
+                + " FROM product_code");
+            
+            
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            //Muestra resultados de la consulta SQL
+            while (resultSet.next()) {
+                producto.setId_type_product(resultSet.getInt(1));                                                
+            }
+            //Cierra todo
+            conn.getConn().close();
+            resultSet.close();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+         
+        return producto.getId_type_product();
+    }
+      
+      public void UpdateCodigo(ProductoVo producto){
+        Conectarse conn = new Conectarse();
+        
+        try {
+            PreparedStatement preparedStatement = conn.getConn().prepareStatement(
+                    "UPDATE product_sizes SET id_codigo = ? "
+                    + "WHERE art = ? AND color_art = ? AND id_size = ?");
+            
+            preparedStatement.setInt(1, producto.getId_type_product());
+            preparedStatement.setString(2, producto.getArt());
+            preparedStatement.setString(3, producto.getColor_art());
+            preparedStatement.setInt(4, producto.getId_size());
+           
+            
+String consulta ="UPDATE product_sizes SET id_codigo =  '"+producto.getId_type_product()+"' WHERE art = '"+producto.getArt()+"' AND color_art = '"+producto.getColor_art()+"' AND id_size = '"+producto.getId_size()+"' ; ";
+            aux.escribir(consulta);
+            preparedStatement.executeUpdate();
+            
+            //Cierra todo
+            conn.getConn().close();
+            //resultSet.close();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+}
+      
+      public void InsertCode(ProductoVo producto){
+        Conectarse conn = new Conectarse();
+        
+        try {
+            PreparedStatement preparedStatement = conn.getConn().prepareStatement(
+            "INSERT INTO product_code (codigo, nombre) "
+            + "VALUES (?, ?)");
+            
+            preparedStatement.setString(1, producto.getType_product_name());
+            preparedStatement.setString(2, producto.getArt_name());
+            
+String consulta = "INSERT INTO product_code (codigo, nombre) VALUES ('"+producto.getType_product_name()+"', '"+producto.getArt_name()+"');";
+            aux.escribir(consulta);
+            preparedStatement.executeUpdate();
+            
+            //Cierra todo
+            conn.getConn().close();
+            //resultSet.close();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+      
 }

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class TallaDao {
     public ArrayList<TallaVo> getTallas(Integer id_category, Integer id_type_product){
             Conectarse conn = new Conectarse();
-            
+            //ConecRemoto conn = new ConecRemoto();
             ArrayList<TallaVo> tallas = new ArrayList<>();
         try {
             PreparedStatement preparedStatement = conn.getConn().prepareStatement(
@@ -111,6 +111,42 @@ public class TallaDao {
         }
         //Retorna el color
      return tallas;
+    }
+    
+    public TallaVo getTalla(int idTalla){
+            Conectarse conn = new Conectarse();
+            //ConecRemoto conn = new ConecRemoto();
+            TallaVo talla = new TallaVo();
+        try {
+            PreparedStatement preparedStatement = conn.getConn().prepareStatement(
+                    "SELECT id_size, id_category, id_type_product, "
+                    + "name AS size_name "
+                    + "FROM sizes "
+                    + "WHERE id_size = ? ");
+
+            preparedStatement.setInt(1, idTalla);
+            
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            //Muestra resultados de la consulta SQL
+            while (resultSet.next()) {
+                
+                talla.setId_size(resultSet.getInt(1));
+                talla.setId_category(resultSet.getInt(2));
+                talla.setId_type_product(resultSet.getInt(3));
+                talla.setSize_name(resultSet.getString(4));
+                
+                
+            }
+            //Cierra todo
+            conn.getConn().close();
+            resultSet.close();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        //Retorna el color
+     return talla;
     }
     
 }

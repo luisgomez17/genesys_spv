@@ -98,7 +98,7 @@ public class Reportes extends javax.swing.JInternalFrame {
         jPanel3.setBackground(new java.awt.Color(1, 129, 176));
 
         lbano.setForeground(new java.awt.Color(255, 255, 255));
-        lbano.setText("AÃ±o");
+        lbano.setText("Año");
 
         cbxan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar..." }));
         cbxan.addActionListener(new java.awt.event.ActionListener() {
@@ -179,7 +179,7 @@ public class Reportes extends javax.swing.JInternalFrame {
         lbSub.setForeground(new java.awt.Color(255, 255, 255));
         lbSub.setText("Subcategoria");
 
-        cbxCategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar...", "ReciÃ©n nacido/Ellas", "ReciÃ©n nacido/Ellos", "Baby/Ellas", "Baby/Ellos", "Mini/Ellas", "Mini/Ellos", "Junior/Ellas", "Junior/Ellos", "Accesorios y regalos" }));
+        cbxCategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar...", "Recién nacido/Ellas", "Recién nacido/Ellos", "Baby/Ellas", "Baby/Ellos", "Mini/Ellas", "Mini/Ellos", "Junior/Ellas", "Junior/Ellos", "Accesorios y regalos" }));
         cbxCategoria.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbxCategoriaActionPerformed(evt);

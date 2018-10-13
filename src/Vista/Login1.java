@@ -149,7 +149,7 @@ public class Login1 extends javax.swing.JFrame {
         jLabel2.setBackground(new java.awt.Color(144, 156, 172));
         jLabel2.setFont(new java.awt.Font("Tw Cen MT", 0, 48)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(133, 144, 162));
-        jLabel2.setText("Iniciar Sesión");
+        jLabel2.setText("Iniciar Sesion");
         jpDelantero.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 40, -1, -1));
 
         jSeparator1.setBackground(new java.awt.Color(121, 121, 125));
@@ -255,7 +255,7 @@ public class Login1 extends javax.swing.JFrame {
 // TODO add your handling code here:
     }//GEN-LAST:event_BtnSalirActionPerformed
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
+        
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
@@ -277,7 +277,7 @@ public class Login1 extends javax.swing.JFrame {
             Logger.getLogger(Login1.class.getName()).log(Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        //</editor-fold>
+       
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {

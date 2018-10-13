@@ -38,7 +38,8 @@ public class Principal {
         Colores color = new Colores();
         Inicio inicio = new Inicio();        
         Login1 lo = new Login1();
-        
+        Vendedores vendedores = new Vendedores();
+        Multipago multi = new Multipago();
         /**Se establecen las relaciones entre clases*/
         
         login.setCoordinador(miCoordinador);
@@ -58,6 +59,8 @@ public class Principal {
         usucre.setCoordinador(miCoordinador);
         cambio.setCoordinador(miCoordinador);
         lo.setCoordinador(miCoordinador);
+        vendedores.setCoordinador(miCoordinador);
+        multi.setCoordinador(miCoordinador);
         /*Se establecen relaciones con la clase coordinador*/
         
         miCoordinador.setLogin(login);
@@ -73,6 +76,8 @@ public class Principal {
         miCoordinador.setReporte(reportes);
         miCoordinador.setCredito(credito);
         miCoordinador.setLogin1(lo);
+        miCoordinador.setVendedores(vendedores);
+        miCoordinador.setMulti(multi);
         lo.setVisible(true);
         
      

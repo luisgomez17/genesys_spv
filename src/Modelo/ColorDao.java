@@ -52,13 +52,14 @@ public class ColorDao {
     
     
        public ArrayList<ColorVo> getColores() {
-        Conectarse conn = new Conectarse();
+        ConecRemoto conn = new ConecRemoto();
         //Arreglo de Colores 
         ArrayList<ColorVo> colores = new ArrayList();
         try {
             PreparedStatement preparedStatement = conn.getConn().prepareStatement(
                     "SELECT color_art,color_name,color_hex_code "
-                    + "FROM colors " );
+                    + "FROM colors "
+                    + "ORDER BY color_name ASC " );
             ResultSet resultSet = preparedStatement.executeQuery();
 
             //Resultados de la consulta SQL

@@ -24,6 +24,60 @@ public class VentaVo {
     private int online;
     private int id_vendedor;
     private String vendedor;
+    private double efectivo;
+    private double cheques;
+    private double vales;
+     private double tarjeta;
+    private double credit;
+    private String terminacion;
+
+    public String getTerminacion() {
+        return terminacion;
+    }
+
+    public void setTerminacion(String terminacion) {
+        this.terminacion = terminacion;
+    }
+
+    public double getEfectivo() {
+        return efectivo;
+    }
+
+    public void setEfectivo(double efectivo) {
+        this.efectivo = efectivo;
+    }
+
+    public double getCheques() {
+        return cheques;
+    }
+
+    public void setCheques(double cheques) {
+        this.cheques = cheques;
+    }
+
+    public double getVales() {
+        return vales;
+    }
+
+    public void setVales(double vales) {
+        this.vales = vales;
+    }
+
+    public double getTarjeta() {
+        return tarjeta;
+    }
+
+    public void setTarjeta(double tarjeta) {
+        this.tarjeta = tarjeta;
+    }
+
+    public double getCredit() {
+        return credit;
+    }
+
+    public void setCredit(double credit) {
+        this.credit = credit;
+    }
 
     public int getId_vendedor() {
         return id_vendedor;

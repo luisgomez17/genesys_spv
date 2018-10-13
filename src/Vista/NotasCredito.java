@@ -23,12 +23,12 @@ private Coordinador miCoordinador;
 
 DefaultTableModel modelo = new DefaultTableModel(){
  public boolean isCellEditable(int rowIndex,int columnIndex){return false;}};
-String[] columnas = {"Codigo","Artículo","Color","Talla","Precio","Cantidad"};
+String[] columnas = {"Codigo","Art�culo","Color","Talla","Precio","Cantidad"};
 
      public void setCoordinador(Coordinador miCoordinador) {
         this.miCoordinador = miCoordinador;     
         llenarDatosTabla(id_venta);
-        asignarTamaño();
+        asignarTamano();
     }
     public NotasCredito() {
         
@@ -48,7 +48,7 @@ String[] columnas = {"Codigo","Artículo","Color","Talla","Precio","Cantidad"};
     public void llenarDatosTabla(int id){
     modelo.setColumnIdentifiers(columnas);
 
-ArrayList<BagVo> listado = miCoordinador.obtenerProductosVenta(id);
+ArrayList<BagVo> listado = miCoordinador.getProductsCreditOnline(id);
 
 for(int i =0; i<listado.size();i++){
 modelo.addRow(new Object[] {listado.get(i).getArt(),listado.get(i).getArt_name(),listado.get(i).getColor_name(),
@@ -57,7 +57,7 @@ listado.get(i).getSize_name(),listado.get(i).getPrice(),listado.get(i).getQuanti
 tbProducts.setModel(modelo);
     }
     
-     public void asignarTamaño(){
+     public void asignarTamano(){
     tbProducts.getColumnModel().getColumn(0).setPreferredWidth(60);
     tbProducts.getColumnModel().getColumn(1).setPreferredWidth(150);
     tbProducts.getColumnModel().getColumn(2).setPreferredWidth(100);
@@ -89,7 +89,7 @@ tbProducts.setModel(modelo);
         tbProducts = new javax.swing.JTable();
 
         setBackground(new java.awt.Color(0, 65, 92));
-        setTitle("Notas Crédito");
+        setTitle("Notas Credito");
 
         jPanel3.setBackground(new java.awt.Color(0, 65, 92));
 
@@ -313,7 +313,7 @@ tbProducts.setModel(modelo);
 cambiarProducto cambio;
     private void btnCambioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCambioActionPerformed
 int fila = tbProducts.getSelectedRow();
-ArrayList<BagVo> listado = miCoordinador.obtenerProductosVenta(id_venta);
+ArrayList<BagVo> listado = miCoordinador.getProductsCreditOnline(id_venta);
 
 
 if(fila>-1){
@@ -334,9 +334,9 @@ JOptionPane.showMessageDialog(null, "Seleccione un producto de la lista");
     }//GEN-LAST:event_btnCambioActionPerformed
 
     private void btnDevolucionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDevolucionActionPerformed
-int resp = JOptionPane.showConfirmDialog(null, "¿Esta seguro de realizar esta devolución?", "Confirmación", JOptionPane.YES_NO_OPTION);
+int resp = JOptionPane.showConfirmDialog(null, "�Esta seguro de realizar esta devoluci�n?", "Confirmaci�n", JOptionPane.YES_NO_OPTION);
 int fila = tbProducts.getSelectedRow();
-ArrayList<BagVo> listado = miCoordinador.obtenerProductosVenta(id_venta);
+ArrayList<BagVo> listado = miCoordinador.getProductsCreditOnline(id_venta);
 ProductoVo tallas1 = new ProductoVo();
 ProductoVo amount1 = new ProductoVo();
 Double totalventa = Double.parseDouble(lbTotal.getText());    
@@ -371,7 +371,7 @@ limpiarTabla(tbProducts);
 llenarDatosTabla(id_venta);
 
 //Cerrar
-JOptionPane.showMessageDialog(null, "Transacción exitosa");
+JOptionPane.showMessageDialog(null, "Transacci�n exitosa");
 dispose();
 
 }

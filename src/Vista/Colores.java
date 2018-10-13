@@ -115,7 +115,7 @@ txtHex.setText("");
 
         jLabel3.setFont(new java.awt.Font("Apple SD Gothic Neo", 0, 16)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("CÃ³digo:");
+        jLabel3.setText("Codigo:");
 
         txtCod.setBackground(new java.awt.Color(242, 242, 242));
         txtCod.setFont(new java.awt.Font("Apple SD Gothic Neo", 0, 15)); // NOI18N
@@ -156,7 +156,7 @@ txtHex.setText("");
         btnSelect.setBackground(new java.awt.Color(0, 37, 145));
         btnSelect.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         btnSelect.setForeground(new java.awt.Color(255, 255, 255));
-        btnSelect.setText("Buscar cÃ³digo");
+        btnSelect.setText("Buscar código");
         btnSelect.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSelectActionPerformed(evt);
@@ -259,7 +259,7 @@ txtHex.setText("");
                 {null, null}
             },
             new String [] {
-                "CÃ³digo", "Color"
+                "Código", "Color"
             }
         ) {
             boolean[] canEdit = new boolean [] {

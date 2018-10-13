@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import Vista.DetalleVenta;
+import java.awt.event.KeyEvent;
 
 /**
  *
@@ -30,7 +31,7 @@ public class Usuarios extends javax.swing.JInternalFrame {
      
     public void setCoordinador(Coordinador miCoordinador) {
         this.miCoordinador = miCoordinador;
-asignarTamaño();
+asignarTamano();
         imprimirUsuarios();
 
         
@@ -49,7 +50,7 @@ asignarTamaño();
 
     public void imprimirUsuarios(){
       modelo.setColumnIdentifiers(columnas);
-      asignarTamaño(); 
+      asignarTamano(); 
       ArrayList<UsuarioVo> user = miCoordinador.buscarUsuarios();
       
 
@@ -64,7 +65,7 @@ asignarTamaño();
       tbUsers.setModel(modelo);
     }
     
-      public void asignarTamaño(){
+      public void asignarTamano(){
     tbUsers.getColumnModel().getColumn(0).setPreferredWidth(50);
     tbUsers.getColumnModel().getColumn(1).setPreferredWidth(150);
     tbUsers.getColumnModel().getColumn(2).setPreferredWidth(150);
@@ -141,7 +142,7 @@ modelo.removeRow(0);
                 {null, null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID Usuario", "Nombre(s)", "Apellidos", "Email", "País", "Estado", "Localidad", "Código Postal", "Dirección", "Teléfono", "RFC", "Fecha de registro"
+                "ID Usuario", "Nombre(s)", "Apellidos", "Email", "Pa�s", "Estado", "Localidad", "C�digo Postal", "Direcci�n", "Tel�fono", "RFC", "Fecha de registro"
             }
         ));
         tbUsers.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
@@ -149,9 +150,9 @@ modelo.removeRow(0);
         tbUsers.setRowHeight(20);
         tbUsers.setSelectionBackground(new java.awt.Color(253, 175, 200));
         tbUsers.setSelectionForeground(new java.awt.Color(0, 0, 0));
-        tbUsers.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tbUsersMouseClicked(evt);
+        tbUsers.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tbUsersKeyPressed(evt);
             }
         });
         jScrollPane1.setViewportView(tbUsers);
@@ -324,37 +325,13 @@ limpiarTable();
         modelo.addRow(new Object[]{users.get(i).getId_user(),users.get(i).getFirstname(),users.get(i).getLastname(),users.get(i).getEmail(),
           users.get(i).getEstado(),users.get(i).getLocalidad(),users.get(i).getCp(),users.get(i).getDirection(),users.get(i).getPhone(),users.get(i).getRfc(),users.get(i).getRegister_date(),users.get(i).getMoney()});
         }
-        asignarTamaño();
+        asignarTamano();
       tbUsers.setModel(modelo);
         }
         else{
         JOptionPane.showMessageDialog(null, "No se encontró ningún resultado");
         }
     }//GEN-LAST:event_btnSearchActionPerformed
-
-    private void tbUsersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbUsersMouseClicked
-     int fila = tbUsers.getSelectedRow();
-      //DetalleVenta venta = new DetalleVenta(); 
-
-               if ((fila > -1)){
-          int id = (int) tbUsers.getValueAt(fila, 0);
-                   String cliente = (String) modelo.getValueAt(fila, 1) + " " + (String)(String) modelo.getValueAt(fila, 2) ;
-          String direccion = (String)modelo.getValueAt(fila, 7);
-          double electronico = (double)modelo.getValueAt(fila, 11);
-             miCoordinador.getDetalle().id_usuario = id;
-             
-             miCoordinador.getDetalle().txtCliente.setText(cliente);
-             miCoordinador.getDetalle().txtDireccion.setText(direccion);
-             miCoordinador.getDetalle().txtMonedero.setText(Double.toString(electronico));
-             miCoordinador.getDetalle().btnCredit.setEnabled(true);
-             
-             
-            
-             
-          
-          
-         }        // TODO add your handling code here:
-    }//GEN-LAST:event_tbUsersMouseClicked
 
     private void btnGenerateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerateActionPerformed
 limpiarTable();        
@@ -393,17 +370,39 @@ limpiarTable();
 
             modelo.addRow(new Object[] {user.getId_user(),user.getFirstname(),user.getLastname(),user.getEmail(),
           user.getEstado(),user.getLocalidad(),user.getCp(),user.getDirection(),user.getPhone(),user.getRfc(),user.getRegister_date(),user.getMoney()});
-      asignarTamaño();
+      asignarTamano();
       tbUsers.setModel(modelo);
         }
         
         else{
-            JOptionPane.showMessageDialog(null, "No se encontró ningún resultado");
-            System.out.print("Vacío");
+            JOptionPane.showMessageDialog(null, "No se encontr� ning�n resultado");
+            
         }
       
          // TODO add your handling code here:
     }//GEN-LAST:event_btnSearch1ActionPerformed
+
+    private void tbUsersKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tbUsersKeyPressed
+ if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            int fila = tbUsers.getSelectedRow();
+      //DetalleVenta venta = new DetalleVenta(); 
+
+               if ((fila > -1)){
+          int id = (int) tbUsers.getValueAt(fila, 0);
+                   String cliente = (String) modelo.getValueAt(fila, 1) + " " + (String)(String) modelo.getValueAt(fila, 2) ;
+          String direccion = (String)modelo.getValueAt(fila, 7);
+          double electronico = (double)modelo.getValueAt(fila, 11);
+             miCoordinador.getDetalle().id_usuario = id;
+             
+             miCoordinador.getDetalle().txtCliente.setText(cliente);
+             miCoordinador.getDetalle().txtDireccion.setText(direccion);
+             miCoordinador.getDetalle().txtMonedero.setText(Double.toString(electronico));
+             miCoordinador.getDetalle().btnCredit.setEnabled(true);
+             
+             
+            dispose();
+}}        // TODO add your handling code here:
+    }//GEN-LAST:event_tbUsersKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

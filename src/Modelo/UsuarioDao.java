@@ -106,7 +106,7 @@ Texto aux = new Texto();
     }
     
      public void UpdateMonedero(UsuarioVo usuario){
-        ConecRemoto conn = new ConecRemoto();
+        Conectarse conn = new Conectarse();
         
         try {
             PreparedStatement preparedStatement = conn.getConn().prepareStatement(

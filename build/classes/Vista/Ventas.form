@@ -164,7 +164,7 @@
                     </Property>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
-                        <LineBorder roundedCorners="true" thickness="3">
+                        <LineBorder roundedCorners="true">
                           <Color PropertyName="color" blue="b0" green="81" red="1" type="rgb"/>
                         </LineBorder>
                       </Border>
@@ -192,6 +192,7 @@
                     </Property>
                   </Properties>
                   <Events>
+                    <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tbSaleMouseReleased"/>
                     <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tbSaleMouseClicked"/>
                   </Events>
                 </Component>
@@ -501,7 +502,7 @@
                     </Property>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
-                        <LineBorder roundedCorners="true" thickness="3">
+                        <LineBorder roundedCorners="true">
                           <Color PropertyName="color" blue="b0" green="81" red="1" type="rgb"/>
                         </LineBorder>
                       </Border>

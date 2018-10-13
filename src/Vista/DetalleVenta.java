@@ -5,8 +5,6 @@
  */
 package Vista;
 
-
-
 import Controlador.Coordinador;
 import Modelo.BagDao;
 import Modelo.BagVo;
@@ -21,11 +19,11 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.beans.PropertyVetoException;
 
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
@@ -44,151 +42,140 @@ import javax.swing.table.TableModel;
  * @author bryan
  */
 public class DetalleVenta extends javax.swing.JInternalFrame {
-DefaultComboBoxModel modeloTalla;
-DefaultComboBoxModel modeloColor;
-private ArrayList<ColorVo> colores;    
-    
-Date date = new Date();
-DateFormat hourdateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm ");
-    
-DefaultTableModel modelo = new DefaultTableModel(){
-public boolean isCellEditable(int rowIndex,int columnIndex){return false;}
-};
-  String[] columnas = {"Codigo","Articulo","Color","Talla","Precio Unitario","Cantidad","Importe"};
-  
+
+    DefaultComboBoxModel modeloTalla;
+    DefaultComboBoxModel modeloColor;
+    private ArrayList<ColorVo> colores;
+
+    Date date = new Date();
+    DateFormat hourdateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm ");
+
+    DefaultTableModel modelo = new DefaultTableModel() {
+        public boolean isCellEditable(int rowIndex, int columnIndex) {
+            return false;
+        }
+    };
+    String[] columnas = {"Codigo", "Articulo", "Color", "Talla", "Precio Unitario", "Cantidad", "Importe"};
+
     private Coordinador miCoordinador;
-    
+
     public static ArrayList<BagVo> bag = new ArrayList<BagVo>();
-    
-    public static int id_usuario;
-    
+
+    public static int id_usuario = 1;
+
     public static boolean concretado;
+
+    public int id_venta;
 
     public void setCoordinador(Coordinador miCoordinador) {
         this.miCoordinador = miCoordinador;
-            asignarTamaño();
-txtCode.requestFocus();
+        asignarTamano();
+        txtCode.requestFocus();
     }
-   
-    public void asignarTamaño(){
-    tbVenta.getColumnModel().getColumn(0).setPreferredWidth(10);
-    tbVenta.getColumnModel().getColumn(1).setPreferredWidth(250);
-    tbVenta.getColumnModel().getColumn(2).setPreferredWidth(50);
-    tbVenta.getColumnModel().getColumn(3).setPreferredWidth(50);
-    tbVenta.getColumnModel().getColumn(4).setPreferredWidth(50);
-    tbVenta.getColumnModel().getColumn(5).setPreferredWidth(20);
-    tbVenta.getColumnModel().getColumn(6).setPreferredWidth(50);
-    
+
+    public void asignarTamano() {
+        tbVenta.getColumnModel().getColumn(0).setPreferredWidth(10);
+        tbVenta.getColumnModel().getColumn(1).setPreferredWidth(250);
+        tbVenta.getColumnModel().getColumn(2).setPreferredWidth(50);
+        tbVenta.getColumnModel().getColumn(3).setPreferredWidth(50);
+        tbVenta.getColumnModel().getColumn(4).setPreferredWidth(50);
+        tbVenta.getColumnModel().getColumn(5).setPreferredWidth(20);
+        tbVenta.getColumnModel().getColumn(6).setPreferredWidth(50);
+
     }
-    
+
     public DetalleVenta() {
-        
+
         initComponents();
         txtFecha.setText(hourdateFormat.format(date));
         modelo.setColumnIdentifiers(columnas);
         tbVenta.setModel(modelo);
-        
+    }
+
+    public void limpiarCamposProducto() {
+        txtCode.setText("");
+        lblArt.setText("");
+        lblPrecio.setText("");
+    }
+
+    public void limpiarCamposVenta() {
+        txtVendedor.setText("");
+        txtCliente.setText("");
+        txtDireccion.setText("");
+        txtMonedero.setText("");
+    }
+
+    public void agregarProducto() {
+
+        //Ciclo para llenar tabla de productos
+        for (int i = 0; i < bag.size(); i++) {
+            modelo.addRow(new Object[]{bag.get(i).getArt(), bag.get(i).getArt_name(), bag.get(i).getColor_name(),
+                bag.get(i).getSize_name(), bag.get(i).getPrice(), bag.get(i).getQuantity(), bag.get(i).getImporte()
+            });
         }
-    
-   
+        //Asignamos los datos del Modelo a la tabla
+        tbVenta.setModel(modelo);
+    }
 
-        
-   public void limpiarCamposProducto(){
-   txtCode.setText("");
-   lblArt.setText("");
-   lblPrecio.setText("");
-   }
-   
-       
-   public void limpiarCamposVenta(){
- txtVendedor.setText("");
- txtCliente.setText("");
- txtDireccion.setText("");
- txtMonedero.setText("");
-   }
-   
-   public void agregarProducto(){
-    
+    private void limpiarTable() {
+        while (modelo.getRowCount() > 0) {
+            modelo.removeRow(0);
+        }
+    }
 
-      //Ciclo para llenar tabla de productos
-      for (int i =0; i<bag.size();i++){
-       modelo.addRow(new Object[] {bag.get(i).getArt(),bag.get(i).getArt_name(),bag.get(i).getColor_name(),
-       bag.get(i).getSize_name(),bag.get(i).getPrice(),bag.get(i).getQuantity(),bag.get(i).getImporte()
-        });
-      }
-      //Asignamos los datos del Modelo a la tabla
-      tbVenta.setModel(modelo);
-   }
-   
-   private void limpiarTable(){
-while(modelo.getRowCount()>0){
-modelo.removeRow(0);
-}
-}
-   
-   
-   public double calcularImporte(int cantidad,double precio){
-   
-   
-   double importe =0;
-   double cant = (double) cantidad;
-   importe = cant * precio;
-   
-   return importe;
-   }
-   
-   
-   public void calcularTotal(){
-   double total =0;
-       for(int i =0 ; i<tbVenta.getRowCount();i++){
-   total += (double) tbVenta.getValueAt(i, 6); 
-   }
-       lblTotal.setText(Double.toString(total));
-   }
-   
-   public int codigoArt(String art){
-   String codigo = art.trim();
-   int cadena=0;
-   if(codigo.length()>5){
-   cadena = Integer.parseInt(codigo.substring(2, 7));
-   }
-   else if(codigo.length()==5){
-   cadena = Integer.parseInt(codigo);
-   }
-   System.out.print(cadena);
-   return cadena;
-   }
-   
-   public String codigoArtCadena(String art){
-   String codigo = art.trim();
-   String cadena="";
-   if(codigo.length()>5){
-   cadena = codigo.substring(2, 7);
-   }
-   else if(codigo.length()==5){
-   cadena = codigo;
-   }
-   System.out.print(cadena);
-   return cadena;
-   }
-   
-   public double dineroElectronicoVenta(){
-   Double obtenido=0.0;
-   Double total = Double.parseDouble(lblTotal.getText());
-   Double porcen = Double.parseDouble(txtPorcen.getText());
-       if(porcen <= 100){
-   obtenido = (total * porcen)/100;
-   
-   }else{
-        JOptionPane.showMessageDialog(null, "Ingrese un  porcentaje valido", "Dinero Electronico", JOptionPane.WARNING_MESSAGE);
-       }
-       System.out.print(obtenido);
-       obtenido = Math.round(100d * obtenido) / 100d;
+    public double calcularImporte(int cantidad, double precio) {
+
+        double importe = 0;
+        double cant = (double) cantidad;
+        importe = cant * precio;
+
+        return importe;
+    }
+
+    public void calcularTotal() {
+        double total = 0;
+        for (int i = 0; i < tbVenta.getRowCount(); i++) {
+            total += (double) tbVenta.getValueAt(i, 6);
+        }
+        lblTotal.setText(Double.toString(total));
+    }
+
+    public int codigoArt(String art) {
+        String codigo = art.trim();
+        int cadena = 0;
+        if (codigo.length() > 5) {
+            cadena = Integer.parseInt(codigo.substring(2, 7));
+        } else if (codigo.length() == 5) {
+            cadena = Integer.parseInt(codigo);
+        }
+        System.out.print(cadena);
+        return cadena;
+    }
+
+    public String codigoArtCadena(String art) {
+        String codigo = art.trim();
+        String cadena = "";
+        if (codigo.length() > 5) {
+            cadena = codigo.substring(2, 7);
+        } else if (codigo.length() == 5) {
+            cadena = codigo;
+        }
+        System.out.print(cadena);
+        return cadena;
+    }
+
+    public double dineroElectronicoVenta(String total1, String porcen1) {
+        Double obtenido = 0.0;
+        Double total = Double.parseDouble(total1);
+        Double porcen = Double.parseDouble(porcen1);
        
-       return obtenido;
-   }
- 
-   
+            obtenido = (total * porcen) / 100;
+     
+        obtenido = Math.round(100d * obtenido) / 100d;
+        System.out.print(obtenido);
+        return obtenido;
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -376,10 +363,11 @@ modelo.removeRow(0);
 
         jLabel15.setFont(new java.awt.Font("Apple SD Gothic Neo", 0, 15)); // NOI18N
         jLabel15.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel15.setText("Dirección:");
+        jLabel15.setText("Direcci�n:");
 
         txtCliente.setBackground(new java.awt.Color(242, 242, 242));
         txtCliente.setFont(new java.awt.Font("Apple SD Gothic Neo", 0, 15)); // NOI18N
+        txtCliente.setText("Publico general");
         txtCliente.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         txtDireccion.setBackground(new java.awt.Color(242, 242, 242));
@@ -548,8 +536,7 @@ modelo.removeRow(0);
 
         lblBuscar.setBackground(new java.awt.Color(255, 255, 255));
         lblBuscar.setForeground(new java.awt.Color(255, 255, 255));
-        lblBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/IconSearch.png"))); // NOI18N
-        lblBuscar.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(240, 240, 240), 3, true));
+        lblBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/search.png"))); // NOI18N
         lblBuscar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lblBuscar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -628,7 +615,7 @@ modelo.removeRow(0);
         btnCredit.setBackground(new java.awt.Color(39, 174, 96));
         btnCredit.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnCredit.setForeground(new java.awt.Color(255, 255, 255));
-        btnCredit.setText("Crédito");
+        btnCredit.setText("Cr�dito");
         btnCredit.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnCredit.setEnabled(false);
         btnCredit.addActionListener(new java.awt.event.ActionListener() {
@@ -671,11 +658,11 @@ modelo.removeRow(0);
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGap(34, 34, 34)
+                        .addGap(42, 42, 42)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
                         .addComponent(btnDescuento, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGap(28, 28, 28)
@@ -701,13 +688,12 @@ modelo.removeRow(0);
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(lblPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addGroup(jPanel6Layout.createSequentialGroup()
-                                            .addComponent(txtCode, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(lblBuscar))
-                                        .addComponent(lblArt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(comboCant, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel6Layout.createSequentialGroup()
+                                        .addComponent(txtCode, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(lblBuscar))
+                                    .addComponent(lblArt, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(comboCant, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(comboTalla, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -715,10 +701,10 @@ modelo.removeRow(0);
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtCode, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblBuscar))
+                    .addComponent(txtCode)
+                    .addComponent(lblBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblArt, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -805,22 +791,22 @@ modelo.removeRow(0);
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtPorcenKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPorcenKeyTyped
-        char c=evt.getKeyChar();
+        char c = evt.getKeyChar();
 
-        if(Character.isLetter(c)) {
+        if (Character.isLetter(c)) {
             getToolkit().beep();
 
             evt.consume();
 
         }
-        if(txtPorcen.getText().length()>=3){
+        if (txtPorcen.getText().length() > 2) {
             getToolkit().beep();
 
             evt.consume();
@@ -846,7 +832,7 @@ modelo.removeRow(0);
         } catch (PropertyVetoException ex) {
             Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void txtDireccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDireccionActionPerformed
@@ -874,7 +860,7 @@ modelo.removeRow(0);
         VentaVo credito = new VentaVo();
 
         BagVo aux = new BagVo();
-        for (int t = 0; t < bag.size(); t++){
+        for (int t = 0; t < bag.size(); t++) {
             aux.setId_user(bag.get(t).getId_user());
             aux.setArt(bag.get(t).getArt());
             aux.setArt_name(bag.get(t).getArt_name());
@@ -891,7 +877,7 @@ modelo.removeRow(0);
 
         ArrayList<ProductoVo> registro = new ArrayList<>();
 
-        for(int c = 0; c <bag.size();c++){
+        for (int c = 0; c < bag.size(); c++) {
             ProductoVo aux1 = new ProductoVo();
 
             aux1.setAmount(bag.get(c).getQuantity());
@@ -902,197 +888,198 @@ modelo.removeRow(0);
             registro.add(aux1);
 
         }
-Double totalcompra = Double.valueOf(lblTotal.getText());
-totalcompra = (totalcompra*0.1)+totalcompra;
+        Double totalcompra = Double.valueOf(lblTotal.getText());
+        totalcompra = (totalcompra * 0.1) + totalcompra;
         int confirmado = JOptionPane.showConfirmDialog(null,
-            "Su pago total es de:"+" "+totalcompra+ " " + "¿Desea dar un adelanto?");
+                "Su pago total es de:" + " " + totalcompra + " " + "¿Desea dar un adelanto?");
 
-        switch(confirmado){
+        switch (confirmado) {
             case 0:
-            String adelanto = JOptionPane.showInputDialog(null,"Adelanto $$",JOptionPane.QUESTION_MESSAGE);
+                String adelanto = JOptionPane.showInputDialog(null, "Adelanto $$", JOptionPane.QUESTION_MESSAGE);
 
-            if(totalcompra >= Double.parseDouble(adelanto)){
-                double total = totalcompra - Double.parseDouble(adelanto);
+                if (totalcompra >= Double.parseDouble(adelanto)) {
+                    double total = totalcompra - Double.parseDouble(adelanto);
 
+                    credito.setId_user(id_usuario);
+                    credito.setSubtotal(Double.parseDouble(lblTotal.getText()));
+                    credito.setShip(0);
+                    credito.setTotal(total);
+                    credito.setCredito(1);
+                    credito.setId_vendedor(Integer.parseInt(lbIdVendedor.getText()));
+                    credito.setVendedor(txtVendedor.getText());
+                    credito.setId_sale(id_venta);
+                    if (credito.getId_user() != 0) {
+                        miCoordinador.ingresarCredito(credito);
+
+                        for (int v = 0; v < registro.size(); v++) {
+                            miCoordinador.UpdateProductSizesSales(registro.get(v));
+                        }
+                        JOptionPane.showMessageDialog(null, "Operaci�n realizada correctamente");
+
+                        limpiarTable();
+                        limpiarCamposVenta();
+                        lblTotal.setText("0.00");
+                        bag.clear();
+
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Seleccione un usuario v�lido");
+                    }
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "Ingrese una cantidad v�lida, menor al total");
+                }
+
+                break;
+
+            case 1:
+
+                Double totalcompra1 = Double.valueOf(lblTotal.getText());
+                totalcompra1 = (totalcompra1 * 0.1) + totalcompra1;
                 credito.setId_user(id_usuario);
                 credito.setSubtotal(Double.parseDouble(lblTotal.getText()));
                 credito.setShip(0);
-                credito.setTotal(total);
+                credito.setTotal(totalcompra1);
                 credito.setCredito(1);
+                credito.setId_vendedor(Integer.parseInt(lbIdVendedor.getText()));
+                credito.setVendedor(txtVendedor.getText());
+                credito.setId_sale(id_venta);
 
-                if(credito.getId_user()!=0){
+                if (credito.getId_user() != 0) {
                     miCoordinador.ingresarCredito(credito);
-
-                    for(int v = 0; v < registro.size(); v++){
+                    for (int v = 0; v < registro.size(); v++) {
                         miCoordinador.UpdateProductSizesSales(registro.get(v));
                     }
-                    JOptionPane.showMessageDialog(null, "Operación realizada correctamente");
+                    JOptionPane.showMessageDialog(null, "Operaci�n realizada correctamente");
 
                     limpiarTable();
                     limpiarCamposVenta();
                     lblTotal.setText("0.00");
                     bag.clear();
-
-                }
-                else{
-                    JOptionPane.showMessageDialog(null, "Seleccione un usuario válido");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Seleccione un usuario v�lido");
                 }
 
-            }
-
-            else{
-                JOptionPane.showMessageDialog(null, "Ingrese una cantidad válida, menor al total");
-            }
-
-            break;
-
-            case 1:
-
-Double totalcompra1 = Double.valueOf(lblTotal.getText());
-totalcompra1 = (totalcompra1*0.1)+totalcompra1;
-            credito.setId_user(id_usuario);
-            credito.setSubtotal(Double.parseDouble(lblTotal.getText()));
-            credito.setShip(0);
-            credito.setTotal(totalcompra1);
-            credito.setCredito(1);
-
-            if(credito.getId_user()!=0){
-                miCoordinador.ingresarCredito(credito);
-                for(int v = 0; v < registro.size(); v++){
-                    miCoordinador.UpdateProductSizesSales(registro.get(v));
-                }
-                JOptionPane.showMessageDialog(null, "Operación realizada correctamente");
-
-                limpiarTable();
-                limpiarCamposVenta();
-                lblTotal.setText("0.00");
-                bag.clear();
-            }
-            else{
-                JOptionPane.showMessageDialog(null, "Seleccione un usuario válido");
-            }
-
-            break;
+                break;
             case 2:
-            System.out.println("Cancelado");
-            break;
+                System.out.println("Cancelado");
+                break;
         }
     }//GEN-LAST:event_btnCreditActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-if(comboColor.getSelectedIndex()>0 && comboTalla.getSelectedIndex()>0){
-        String codigo = txtCode.getText();
-        codigo = codigo.replaceAll(" ", "");
-        if(codigo.length()==0){
-            JOptionPane.showMessageDialog(null, "Ingrese un articulo valido", "Venta", JOptionPane.WARNING_MESSAGE);
+        if (comboColor.getSelectedIndex() > -1 && comboTalla.getSelectedIndex() > -1) {
+            String codigo = txtCode.getText();
+            codigo = codigo.replaceAll(" ", "");
+            if (codigo.length() == 0) {
+                JOptionPane.showMessageDialog(null, "Ingrese un articulo valido", "Venta", JOptionPane.WARNING_MESSAGE);
+            } else {
+                agregarBolsa();
+                limpiarCamposProducto();
+                limpiarTable();
+                agregarProducto();
+                calcularTotal();
+                //calcularImporte();
+            }
+            System.out.println(id_usuario);
         }
-        else{
-            agregarBolsa();
-            limpiarCamposProducto();
-            limpiarTable();
-            agregarProducto();
-            calcularTotal();
-            //calcularImporte();
-        }
-        System.out.println(id_usuario);
-}
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void btnPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPagarActionPerformed
-if(bag.size()>0 && Double.parseDouble(lblTotal.getText())>0){
-        BagVo aux = new BagVo();
-        for (int t = 0; t < bag.size(); t++){
-            aux.setId_user(bag.get(t).getId_user());
-            aux.setArt(bag.get(t).getArt());
-            aux.setArt_name(bag.get(t).getArt_name());
-            aux.setColor_art(bag.get(t).getColor_art());
-            aux.setColor_name(bag.get(t).getColor_name());
-            aux.setId_size(bag.get(t).getId_size());
-            aux.setSize_name(bag.get(t).getSize_name());
-            aux.setPrice(bag.get(t).getPrice());
-            aux.setQuantity(bag.get(t).getQuantity());
-            aux.setId_sale(bag.get(t).getId_sale());
-            //   miCoordinador.InsertBag(aux);
-        }
+        if (bag.size() > 0 && Double.parseDouble(lblTotal.getText()) > 0) {
+            BagVo aux = new BagVo();
+            for (int t = 0; t < bag.size(); t++) {
+                aux.setId_user(bag.get(t).getId_user());
+                aux.setArt(bag.get(t).getArt());
+                aux.setArt_name(bag.get(t).getArt_name());
+                aux.setColor_art(bag.get(t).getColor_art());
+                aux.setColor_name(bag.get(t).getColor_name());
+                aux.setId_size(bag.get(t).getId_size());
+                aux.setSize_name(bag.get(t).getSize_name());
+                aux.setPrice(bag.get(t).getPrice());
+                aux.setQuantity(bag.get(t).getQuantity());
+                aux.setId_sale(bag.get(t).getId_sale());
+                //   miCoordinador.InsertBag(aux);
+            }
 
-        ArrayList<ProductoVo> registro = new ArrayList<>();
+            ArrayList<ProductoVo> registro = new ArrayList<>();
 
-        for(int c = 0; c <bag.size();c++){
-            ProductoVo aux1 = new ProductoVo();
+            for (int c = 0; c < bag.size(); c++) {
+                ProductoVo aux1 = new ProductoVo();
 
-            aux1.setAmount(bag.get(c).getQuantity());
-            aux1.setArt(bag.get(c).getArt());
-            aux1.setColor_art(bag.get(c).getColor_art());
-            aux1.setId_size(bag.get(c).getId_size());
+                aux1.setAmount(bag.get(c).getQuantity());
+                aux1.setArt(bag.get(c).getArt());
+                aux1.setColor_art(bag.get(c).getColor_art());
+                aux1.setId_size(bag.get(c).getId_size());
 
-            registro.add(aux1);
+                registro.add(aux1);
 
-        }
-        
-         Vista.Total total = new Total();
-        total.setCoordinador(miCoordinador);
-       
+            }
 
-        if(id_usuario != 0){
-            total.dineroelectronico = dineroElectronicoVenta();
+            Vista.Total total = new Total();
+            total.setCoordinador(miCoordinador);
+
             
-        }
-        total.bolsa = (ArrayList) bag.clone();
-        total.product =  (ArrayList) registro.clone();
-        total.lblCliente.setText(txtCliente.getText());
-        total.lblVendedor.setText(txtVendedor.getText());
-        total.lblPagar.setText(lblTotal.getText());
-        total.lblDinero.setText(txtMonedero.getText());
-        total.comprador.setId_user(id_usuario);
-        total.venta.setId_user(id_usuario);
-        total.venta.setId_vendedor(1);
-        total.venta.setVendedor(txtVendedor.getText());
-        
-        total.ticket.setNro_ticket(miCoordinador.obtenerSiguienteId());
-        total.ticket.setTotal(Double.parseDouble(lblTotal.getText()));
-        total.ticket.setCliente(txtCliente.getText());
-        total.ticket.setVendedor(txtVendedor.getText());
-        //miCoordinador.getTotal().setVisible(true);
-        miCoordinador.getTotal().venta.setSubtotal(Double.parseDouble(lblTotal.getText()));
+            total.dineroelectronico = dineroElectronicoVenta(lblTotal.getText(),txtPorcen.getText());
 
-        Inicio.escritorio.add(total).setLocation(300, 30);
-        total.show();
-       
-        
-        
-        limpiarTable();
-        limpiarCamposVenta();
-        lblTotal.setText("0.00");
-        txtPorcen.setText("0");
-        btnCredit.setEnabled(false);}
-else{
-JOptionPane.showMessageDialog(null, "Ingrese articulos a la venta", "Venta", JOptionPane.WARNING_MESSAGE);
-}
+            
+            total.bolsa = (ArrayList) bag.clone();
+            total.product = (ArrayList) registro.clone();
+            total.lblCliente.setText(txtCliente.getText());
+            total.lblVendedor.setText(txtVendedor.getText());
+            total.lblPagar.setText(lblTotal.getText());
+            total.lblDinero.setText(txtMonedero.getText());
+            total.comprador.setId_user(id_usuario);
+            total.venta.setId_user(id_usuario);
+            total.venta.setId_vendedor(Integer.parseInt(lbIdVendedor.getText()));
+            total.venta.setVendedor(txtVendedor.getText());
+            total.venta.setId_sale(id_venta);
+            total.ticket.setNro_ticket(miCoordinador.obtenerSiguienteId());
+            total.ticket.setTotal(Double.parseDouble(lblTotal.getText()));
+            if (!txtCliente.getText().equals("")) {
+                total.ticket.setCliente(txtCliente.getText());
+            } else {
+                total.ticket.setCliente("Publico general");
+            }
+            total.ticket.setVendedor(txtVendedor.getText());
+            //miCoordinador.getTotal().setVisible(true);
+            miCoordinador.getTotal().venta.setSubtotal(Double.parseDouble(lblTotal.getText()));
+
+            Inicio.escritorio.add(total).setLocation(300, 30);
+            total.show();
+
+            limpiarTable();
+            limpiarCamposVenta();
+            lblTotal.setText("0.00");
+            txtPorcen.setText("0");
+            btnCredit.setEnabled(false);
+            
+        } else {
+            JOptionPane.showMessageDialog(null, "Ingrese articulos a la venta", "Venta", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_btnPagarActionPerformed
 
     private void btnDescuentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDescuentoActionPerformed
 
         int seleccion = tbVenta.getSelectedRow();
 
-        if(seleccion >=0 ){
+        if (seleccion >= 0) {
             double importe = (double) tbVenta.getValueAt(seleccion, 6);
-            
+
             String descuento;
             descuento = JOptionPane.showInputDialog(null, "Registre el nuevo costo");
-if(descuento.isEmpty()|| !descuento.matches("[0-9]*") || Double.parseDouble(descuento)>importe){
-    JOptionPane.showMessageDialog(null, "Ingresa una cantidad valida");
-    
-}else{
-    
-            bag.get(seleccion).setImporte(Double.valueOf(descuento));
+            if (descuento.isEmpty() || !descuento.matches("[0-9]*") || Double.parseDouble(descuento) > importe) {
+                JOptionPane.showMessageDialog(null, "Ingresa una cantidad valida");
 
-            limpiarTable();
-            agregarProducto();
-            calcularTotal();
-            
-}
-        }
-        else{
+            } else {
+
+                bag.get(seleccion).setImporte(Double.valueOf(descuento));
+
+                limpiarTable();
+                agregarProducto();
+                calcularTotal();
+
+            }
+        } else {
             JOptionPane.showMessageDialog(null, "Seleccione un producto de la tabla");
         }
     }//GEN-LAST:event_btnDescuentoActionPerformed
@@ -1106,30 +1093,53 @@ if(descuento.isEmpty()|| !descuento.matches("[0-9]*") || Double.parseDouble(desc
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void lblBuscarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblBuscarMousePressed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_lblBuscarMousePressed
 
-    public void llenarComboTalla(String art, String color){
-      
-            ArrayList <TallaVo> talla = miCoordinador.getTallasColor(art, color);
-            
+    public void llenarComboTalla(String art, String color) {
 
-            if(talla.size()>0){
-                modeloTalla = new DefaultComboBoxModel();
-        modeloTalla.addElement("Seleccionar...");
-   
-            for(int i =0 ; i<talla.size();i++){
-                 modeloTalla.addElement(talla.get(i).getSize_name());
+        ArrayList<TallaVo> talla = miCoordinador.getTallasColor(art, color);
+
+        if (talla.size() > 0) {
+            modeloTalla = new DefaultComboBoxModel();
+            modeloTalla.addElement("Seleccionar...");
+
+            for (int i = 0; i < talla.size(); i++) {
+                modeloTalla.addElement(talla.get(i).getSize_name());
             }
             comboTalla.setModel(modeloTalla);
-            }
+        }
     }
     private void lblBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblBuscarMouseClicked
-        
+
         lblBuscar.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
+
+        String codigo = txtCode.getText().trim();
+
+        ProductoVo articulo = miCoordinador.getProductoCodigo(codigo);
+
+        if (articulo.getArt_name() == null) {
+            JOptionPane.showMessageDialog(null, "Ingrese un codigo v�lido", "ERROR", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            lblArt.setText(articulo.getArt_name());
+
+            lblPrecio.setText(Double.toString(articulo.getPrice()));
+
+            ColorVo color = miCoordinador.buscarColor(articulo.getColor_art());
+            modeloColor = new DefaultComboBoxModel();
+            modeloColor.addElement(color.getColor_name());
+            comboColor.setModel(modeloColor);
+
+            TallaVo talla = miCoordinador.getTalla(articulo.getId_size());
+            modeloTalla = new DefaultComboBoxModel();
+            modeloTalla.addElement(talla.getSize_name());
+            comboTalla.setModel(modeloTalla);
+
+        }
+        /*
         ArrayList<ColorVo> color = miCoordinador.getColorsArt(codigoArtCadena(txtCode.getText()));
         if(color.isEmpty()){
-            JOptionPane.showMessageDialog(null,"Ingrese un codigo válido","ERROR",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Ingrese un codigo v�lido","ERROR",JOptionPane.INFORMATION_MESSAGE);
         }
         else{
            
@@ -1158,61 +1168,51 @@ ProductoVo product = miCoordinador.getDetallesProducto(codigoArtCadena(txtCode.g
           
   lblArt.setText(product.getArt_name());
   lblPrecio.setText(Double.toString(product.getPrice()));
-          /*
-            
-           
-            //lblColor.setText(resp1);
-            //lblTalla.setText(resp);
-            
-
+ 
         }
-*/}
+         */
+
         lblBuscar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
     }//GEN-LAST:event_lblBuscarMouseClicked
 
     private void comboColorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboColorActionPerformed
-ArrayList<ColorVo> color = miCoordinador.getColorsArt(codigoArtCadena(txtCode.getText())); 
+        ArrayList<ColorVo> color = miCoordinador.getColorsArt(codigoArtCadena(txtCode.getText()));
 
+        llenarComboTalla(codigoArtCadena(txtCode.getText()), color.get(comboColor.getSelectedIndex()).getColor_art());
 
-llenarComboTalla(codigoArtCadena(txtCode.getText()),color.get(comboColor.getSelectedIndex()-1).getColor_art());
-    
-   // ArrayList <ColorVo> color = miCoordinador.obtenerColorProducto(codigoArtCadena(txtCode.getText()), medida.get(comboTalla.getSelectedIndex()).getId_size());
-        System.out.println(color.get(comboColor.getSelectedIndex()-1).getColor_art());
+        // ArrayList <ColorVo> color = miCoordinador.obtenerColorProducto(codigoArtCadena(txtCode.getText()), medida.get(comboTalla.getSelectedIndex()).getId_size());
+        System.out.println(color.get(comboColor.getSelectedIndex() - 1).getColor_art());
 
-        if (color.size()>0 && comboColor.getSelectedIndex() > 0) {
-                Color col = Color.decode(color.get(comboColor.getSelectedIndex()-1).getColor_hex_code());
-                setBackground(Color.WHITE);
-                setForeground(col);
+        if (color.size() > 0 && comboColor.getSelectedIndex() > 0) {
+            Color col = Color.decode(color.get(comboColor.getSelectedIndex()).getColor_hex_code());
+            setBackground(Color.WHITE);
+            setForeground(col);
 
-                if (isSelected) {
-                    setBackground(col);
-                    setForeground(Color.WHITE);
-                    txtBackColor.setBackground(col);
-                }
-            } else {
-                setForeground(Color.BLACK);
-            }  
-     
+            if (isSelected) {
+                setBackground(col);
+                setForeground(Color.WHITE);
+                txtBackColor.setBackground(col);
+            }
+        } else {
+            setForeground(Color.BLACK);
+        }
+
     }//GEN-LAST:event_comboColorActionPerformed
 
     private void comboTallaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboTallaActionPerformed
-     
-       
+        // llenarComboColor(medida.get(comboTalla.getSelectedIndex()-1).getId_size());
 
-
-     // llenarComboColor(medida.get(comboTalla.getSelectedIndex()-1).getId_size());
-        
     }//GEN-LAST:event_comboTallaActionPerformed
 
     private void comboTallaPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_comboTallaPropertyChange
 
-   // TODO add your handling code here:
+        // TODO add your handling code here:
     }//GEN-LAST:event_comboTallaPropertyChange
 
     private void txtCodeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodeKeyTyped
-    char c=evt.getKeyChar();
-   int ascii = (int)c;
-        if(ascii<48 || ascii>57) {
+        char c = evt.getKeyChar();
+        int ascii = (int) c;
+        if (ascii < 48 || ascii > 57) {
             getToolkit().beep();
 
             evt.consume();
@@ -1223,38 +1223,46 @@ llenarComboTalla(codigoArtCadena(txtCode.getText()),color.get(comboColor.getSele
     private void txtCodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCodeActionPerformed
-   
-    public void agregarBolsa(){
-         BagVo bagg = new BagVo();
-         
-         int cantidad = Integer.parseInt((String) comboCant.getItemAt(comboCant.getSelectedIndex()));
 
-        
+    public void agregarBolsa() {
+        BagVo bagg = new BagVo();
+
+        String codigo = txtCode.getText().trim();
+
+        ProductoVo articulo = miCoordinador.getProductoCodigo(codigo);
+        lblArt.setText(articulo.getArt_name());
+
+        lblPrecio.setText(Double.toString(articulo.getPrice()));
+        ColorVo color = miCoordinador.buscarColor(articulo.getColor_art());
+        TallaVo talla = miCoordinador.getTalla(articulo.getId_size());
+
+        int cantidad = Integer.parseInt((String) comboCant.getItemAt(comboCant.getSelectedIndex()));
+        /*
         ArrayList<TallaVo> medida = miCoordinador.obtenerTallasProducto(codigoArtCadena(txtCode.getText()));
-        ArrayList <ColorVo> color = miCoordinador.obtenerColorProducto(codigoArtCadena(txtCode.getText()), medida.get(comboTalla.getSelectedIndex()-1).getId_size());
-        ProductoVo product = miCoordinador.getDetallesProductoColor(codigoArtCadena(txtCode.getText()),color.get(comboColor.getSelectedIndex()-1).getColor_art());
-        if(cantidad>0 && medida.size()>0 && color.size()>0 && product.getArt()!=null){
-        
+        ArrayList<ColorVo> color = miCoordinador.obtenerColorProducto(codigoArtCadena(txtCode.getText()), medida.get(comboTalla.getSelectedIndex()).getId_size());
+        ProductoVo product = miCoordinador.getDetallesProductoColor(codigoArtCadena(txtCode.getText()), color.get(comboColor.getSelectedIndex()).getColor_art());
+         */
+
+        if (cantidad > 0 && articulo.getArt() != null) {
+
             bagg.setId_user(id_usuario);
             bagg.setArt(codigoArtCadena(txtCode.getText()));
-            bagg.setArt_name(product.getArt_name());
-            bagg.setColor_art(color.get(comboColor.getSelectedIndex()-1).getColor_art());
+            bagg.setArt_name(articulo.getArt_name());
+            bagg.setColor_art(color.getColor_art());
             bagg.setColor_name(comboColor.getItemAt(comboColor.getSelectedIndex()));
-            bagg.setId_size(medida.get(comboTalla.getSelectedIndex()-1).getId_size());
+            bagg.setId_size(talla.getId_size());
             bagg.setSize_name(comboTalla.getItemAt(comboTalla.getSelectedIndex()));
-            bagg.setSrc(product.getSrc1());
-            bagg.setPrice(product.getPrice());
+            bagg.setSrc(articulo.getSrc1());
+            bagg.setPrice(articulo.getPrice());
             bagg.setQuantity(cantidad);
-            bagg.setImporte(calcularImporte(cantidad,product.getPrice()));
-            bagg.setId_sale(miCoordinador.obtenerSiguienteId());
+            bagg.setImporte(calcularImporte(cantidad, articulo.getPrice()));
+            bagg.setId_sale(id_venta);
 
             bag.add(bagg);
-        }
-        else{
-        JOptionPane.showMessageDialog(null,"No ha completado los campos necesarios","Compra",JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "No ha completado los campos necesarios", "Compra", JOptionPane.INFORMATION_MESSAGE);
         }
     }
-   
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -16,78 +16,105 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author luism
- */
 public class VentaCredito extends javax.swing.JInternalFrame {
+
     public int id_usuario;
-    
- DefaultTableModel modelo = new DefaultTableModel(){
- public boolean isCellEditable(int rowIndex,int columnIndex){return false;}
- };
- DefaultTableModel modelo2 = new DefaultTableModel(){
- public boolean isCellEditable(int rowIndex,int columnIndex){return false;}};
-      String[] columnas = {"ID Venta","ID Cliente","Cliente","Total","Fecha"};
-  String[] columnas2 = {"Cod. Art√≠culo","Art√≠culo","Color","Talla","Precio","Cantidad"};
-      private Coordinador miCoordinador;
+
+    DefaultTableModel modelo = new DefaultTableModel() {
+        public boolean isCellEditable(int rowIndex, int columnIndex) {
+            return false;
+        }
+    };
+    DefaultTableModel modelo2 = new DefaultTableModel() {
+        public boolean isCellEditable(int rowIndex, int columnIndex) {
+            return false;
+        }
+    };
+    String[] columnas = {"ID Venta", "ID Cliente", "Cliente", "Total", "Abonado", "Fecha"};
+    String[] columnas2 = {"Cod. ArtÌculo", "ArtÌculo", "Color", "Talla", "Precio", "Cantidad"};
+    private Coordinador miCoordinador;
 
     public void setCoordinador(Coordinador miCoordinador) {
         this.miCoordinador = miCoordinador;
+        actualizarCreditos(id_usuario);
         llenarTablaVenta();
-       
-        
+
     }
-    public void limpiarTabla(JTable tabla){
+
+    public void limpiarTabla(JTable tabla) {
         try {
-            DefaultTableModel modelo=(DefaultTableModel) tabla.getModel();
-            int filas=tabla.getRowCount();
-            for (int i = 0;filas>i; i++) {
+            DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+            int filas = tabla.getRowCount();
+            for (int i = 0; filas > i; i++) {
                 modelo.removeRow(0);
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al limpiar la tabla.");
         }
     }
-    /**
-     * Creates new form Ventas
-     */
+
     public VentaCredito() {
         initComponents();
-        //setLocationRelativeTo(null);        // Centering on screen...
+        //setLocationRelativeTo(null);        
         //setSize(1280, 800); 
         modelo.setColumnIdentifiers(columnas);
         tbSale.setModel(modelo);
         modelo2.setColumnIdentifiers(columnas2);
         tbProducts.setModel(modelo2);
     }
-public void llenarTablaVenta(){
-    modelo.setColumnIdentifiers(columnas);
-     ArrayList<VentaVo> venta = miCoordinador.salesCreditId(id_usuario);
-      
-     for(int i = 0; i<venta.size();i++){
-modelo.addRow(new Object[] {venta.get(i).getId_sale(),venta.get(i).getId_user(),venta.get(i).getFirstname()+" "+
-        venta.get(i).getLastname(),venta.get(i).getTotal(),
-venta.get(i).getDate()});
-}
-      //Asignamos los datos del Modelo a la tabla
-      tbSale.setModel(modelo);
-}
 
+    public void llenarTablaVenta() {
+        modelo.setColumnIdentifiers(columnas);
+        ArrayList<VentaVo> venta = miCoordinador.salesCreditId(id_usuario);
 
-    
-public void llenarTablaProducto(int sale){
-modelo2.setColumnIdentifiers(columnas2);
-limpiarTabla(tbProducts);
-ArrayList<BagVo> listado = miCoordinador.obtenerProductosVenta(sale);
+        for (int i = 0; i < venta.size(); i++) {
+            modelo.addRow(new Object[]{venta.get(i).getId_sale(), venta.get(i).getId_user(), venta.get(i).getFirstname() + " "
+                + venta.get(i).getLastname(), venta.get(i).getTotal(), venta.get(i).getShip(), venta.get(i).getDate()});
+        }
+        //Asignamos los datos del Modelo a la tabla
+        tbSale.setModel(modelo);
+    }
 
-for(int i =0; i<listado.size();i++){
-modelo2.addRow(new Object[] {listado.get(i).getArt(),listado.get(i).getArt_name(),listado.get(i).getColor_name(),
-listado.get(i).getSize_name(),listado.get(i).getPrice(),listado.get(i).getQuantity()});
-}
-tbProducts.setModel(modelo2);
-}
-    
+    public void llenarTablaProducto(int sale) {
+        modelo2.setColumnIdentifiers(columnas2);
+        limpiarTabla(tbProducts);
+        ArrayList<BagVo> listado = miCoordinador.obtenerProductosVenta(sale);
+
+        for (int i = 0; i < listado.size(); i++) {
+            modelo2.addRow(new Object[]{listado.get(i).getArt(), listado.get(i).getArt_name(), listado.get(i).getColor_name(),
+                listado.get(i).getSize_name(), listado.get(i).getPrice(), listado.get(i).getQuantity()});
+        }
+        tbProducts.setModel(modelo2);
+    }
+
+    public void actualizarCreditos(int id_usuario) {
+        ArrayList<VentaVo> local = miCoordinador.salesCreditId(id_usuario);
+        ArrayList<VentaVo> online = miCoordinador.getSalesCreditIdOnline(id_usuario);
+
+        for (int j = 0; j < local.size(); j++) {
+            for (int i = 0; i < online.size(); i++) {
+
+                if (local.get(j).getId_sale() == online.get(i).getId_sale()) {
+                    double a = local.get(j).getShip();
+                    double b = online.get(i).getShip();
+                    
+                    if(Double.compare(a, b) != 0){
+                    
+                    VentaVo abono = new VentaVo();
+                    abono.setId_user(local.get(j).getId_user());
+                    abono.setId_sale(local.get(j).getId_sale());
+                    abono.setShip(online.get(i).getShip());
+                    abono.setDate(local.get(j).getDate());
+
+                    miCoordinador.updateAbono(abono);
+                }                    
+                }
+            
+            }
+                
+        }
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -104,6 +131,7 @@ tbProducts.setModel(modelo2);
         btnGenerate = new javax.swing.JButton();
         btnDeuda = new javax.swing.JButton();
         btnNotas = new javax.swing.JButton();
+        btnMulti = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -134,7 +162,7 @@ tbProducts.setModel(modelo2);
                 {null, null, null, null, null, null}
             },
             new String [] {
-                "Cod. Art√≠culo", "Art√≠culo", "Color", "Talla", "Precio", "Cantidad"
+                "Cod. ArtÌculo", "ArtÌculo", "Color", "Talla", "Precio", "Cantidad"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -166,7 +194,7 @@ tbProducts.setModel(modelo2);
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1246, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -186,7 +214,7 @@ tbProducts.setModel(modelo2);
 
         jLabel1.setFont(new java.awt.Font("Baghdad", 1, 22)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Cr√©ditos");
+        jLabel1.setText("Creditos");
         jLabel1.setAlignmentX(0.5F);
 
         tbSale.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(1, 129, 176), 1, true));
@@ -240,7 +268,7 @@ tbProducts.setModel(modelo2);
         btnDeuda.setBackground(new java.awt.Color(0, 37, 145));
         btnDeuda.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         btnDeuda.setForeground(new java.awt.Color(255, 255, 255));
-        btnDeuda.setText("Pagar");
+        btnDeuda.setText("Abono");
         btnDeuda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDeudaActionPerformed(evt);
@@ -250,10 +278,20 @@ tbProducts.setModel(modelo2);
         btnNotas.setBackground(new java.awt.Color(0, 37, 145));
         btnNotas.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         btnNotas.setForeground(new java.awt.Color(255, 255, 255));
-        btnNotas.setText("Notas Cr√©dito");
+        btnNotas.setText("Notas ");
         btnNotas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNotasActionPerformed(evt);
+            }
+        });
+
+        btnMulti.setBackground(new java.awt.Color(0, 37, 145));
+        btnMulti.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
+        btnMulti.setForeground(new java.awt.Color(255, 255, 255));
+        btnMulti.setText("Multipago");
+        btnMulti.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMultiActionPerformed(evt);
             }
         });
 
@@ -266,11 +304,13 @@ tbProducts.setModel(modelo2);
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnNotas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnDeuda, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnGenerate, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(18, 40, Short.MAX_VALUE)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnNotas, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(btnDeuda, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnMulti, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnGenerate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -286,10 +326,12 @@ tbProducts.setModel(modelo2);
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(btnGenerate, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(38, 38, 38)
+                        .addGap(18, 18, 18)
                         .addComponent(btnDeuda, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnNotas, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)
+                        .addComponent(btnMulti, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnNotas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap(26, Short.MAX_VALUE))
         );
 
@@ -332,85 +374,111 @@ tbProducts.setModel(modelo2);
     }// </editor-fold>//GEN-END:initComponents
 
     private void tbProductsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbProductsMouseClicked
-  
-    }//GEN-LAST:event_tbProductsMouseClicked
 
+    }//GEN-LAST:event_tbProductsMouseClicked
     private void tbSaleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbSaleMouseClicked
 
         int fila = tbSale.getSelectedRow();
-         
-         if ((fila > -1)){
-            int aux = (int) modelo.getValueAt(fila, 0);
-          llenarTablaProducto(aux);
-          
-          
-         }        // TODO add your handling code here:
-    }//GEN-LAST:event_tbSaleMouseClicked
 
+        if ((fila > -1)) {
+            int aux = (int) modelo.getValueAt(fila, 0);
+            llenarTablaProducto(aux);
+
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_tbSaleMouseClicked
+Abonos a;
     private void btnDeudaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeudaActionPerformed
-  ArrayList<VentaVo> venta = miCoordinador.salesCreditId(id_usuario);
+        ArrayList<VentaVo> venta = miCoordinador.salesCreditId(id_usuario);
         int seleccion = tbSale.getSelectedRow();
-        
-        if(seleccion >=0 ){
-        VentaVo auxiliar = new VentaVo();
-            double descuento = 0.00;
-    String valor = JOptionPane.showInputDialog(null, "Registre el pago");
-    System.out.println("Valor:"+valor);
-if(valor.isEmpty() || valor==null){    
-    JOptionPane.showMessageDialog(null, "Ingrese una cantidad v√°lida");
-} else{    
-    
-    if(Double.parseDouble(valor) <= venta.get(seleccion).getTotal()){
-        descuento = venta.get(seleccion).getTotal() - Double.parseDouble(valor) ;
-        
-        auxiliar.setTotal(descuento);
-        auxiliar.setId_user(venta.get(seleccion).getId_user());
-        auxiliar.setId_sale(venta.get(seleccion).getId_sale());
-        
-        miCoordinador.pagarDeuda(auxiliar);
-        limpiarTabla(tbSale);
-        llenarTablaVenta();
-    }
-    else{
-        JOptionPane.showMessageDialog(null, "Ingrese una cantidad v√°lida");
-    }
-}
+        double abono;
+        if (seleccion >= 0) {
+            VentaVo auxiliar = new VentaVo();
+            VentaVo abonos = new VentaVo();
+            
+            String valor = JOptionPane.showInputDialog(null, "Registre el abono que desee ingresar");
+            
+            if (valor.isEmpty() || valor == null) {
+                JOptionPane.showMessageDialog(null, "Ingrese una cantidad v·lida");
+            } else {
+                abono = Double.parseDouble(valor) + (double) tbSale.getValueAt(seleccion, 4);
+                if ( abono <= venta.get(seleccion).getTotal()) {
+                    
+
+                    auxiliar.setShip(abono);
+                    auxiliar.setId_user(venta.get(seleccion).getId_user());
+                    auxiliar.setId_sale(venta.get(seleccion).getId_sale());
+                    auxiliar.setDate(venta.get(seleccion).getDate());                    
+                    
+                    abonos.setId_sale(venta.get(seleccion).getId_sale());
+                    abonos.setId_user(venta.get(seleccion).getId_user());
+                    abonos.setTotal(Double.parseDouble(valor));
+                    
+                    a = new Abonos();
+                    a.aux = auxiliar;
+                    a.abn = abonos;
+                    a.estado = 1;
+                    a.setCoordinador(miCoordinador);                
+                    a.setSize(500, 450);
+                    escritorio.add(a).setLocation(25, 3);        
+                    a.show();
+                    
+                    
+                    limpiarTabla(tbSale);
+                    actualizarCreditos(id_usuario);
+                    llenarTablaVenta();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Ingrese una cantidad v·lida");
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Seleccione una cuenta pendiente");
         }
-        else{
-        JOptionPane.showMessageDialog(null, "Seleccione una cuenta pendiente");
-                } 
-     
+
      }//GEN-LAST:event_btnDeudaActionPerformed
 
     private void btnGenerateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerateActionPerformed
-  limpiarTabla(tbSale);
-llenarTablaVenta();
+        limpiarTabla(tbSale);
+        actualizarCreditos(id_usuario);
+        llenarTablaVenta();
     }//GEN-LAST:event_btnGenerateActionPerformed
-NotasCredito nc;
+    NotasCredito nc;
     private void btnNotasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNotasActionPerformed
-int fila = tbSale.getSelectedRow();     
+        int fila = tbSale.getSelectedRow();
 
-if(fila > -1){
-int venta = (int) tbSale.getValueAt(fila, 0);
-nc = new NotasCredito();
+        if (fila > -1) {
+            int venta = (int) tbSale.getValueAt(fila, 0);
+            nc = new NotasCredito();
             nc.id_venta = venta;
             nc.lbCliente.setText("" + tbSale.getValueAt(fila, 2));
-            nc.lbCompra.setText(""+ tbSale.getValueAt(fila, 0));
-            nc.lbTotal.setText(""+ tbSale.getValueAt(fila, 3));
-            nc.lbFecha.setText(""+ tbSale.getValueAt(fila, 4));
+            nc.lbCompra.setText("" + tbSale.getValueAt(fila, 0));
+            nc.lbTotal.setText("" + tbSale.getValueAt(fila, 3));
+            nc.lbFecha.setText("" + tbSale.getValueAt(fila, 4));
             nc.id_user = id_usuario;
             nc.setCoordinador(miCoordinador);
-            escritorio.add(nc).setLocation(300,200);
+            escritorio.add(nc).setLocation(300, 200);
             nc.show();
 
-}
+        }
 
     }//GEN-LAST:event_btnNotasActionPerformed
+    Multipago mp;
+    private void btnMultiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMultiActionPerformed
+        
+        mp = new Multipago();
+        mp.cred = id_usuario;
+        mp.setCoordinador(miCoordinador);                
+        mp.setSize(650, 500);
+        escritorio.add(mp).setLocation(25, 3);
+        //Inicio.escritorio.add(mp).setLocation(300, 30);
+            mp.show();
+        
+    }//GEN-LAST:event_btnMultiActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDeuda;
     private javax.swing.JButton btnGenerate;
+    private javax.swing.JButton btnMulti;
     private javax.swing.JButton btnNotas;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

@@ -15,6 +15,7 @@ import br.com.adilson.util.Extenso;
 import br.com.adilson.util.PrinterMatrix;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -28,6 +29,8 @@ import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
 import javax.swing.JOptionPane;
 import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author luism
@@ -48,7 +51,6 @@ public class Total extends javax.swing.JInternalFrame {
 
     public Total() {
         initComponents();
-
 
         venta.setShip(0.00);
     }
@@ -74,6 +76,16 @@ public class Total extends javax.swing.JInternalFrame {
         txtPago = new javax.swing.JTextField();
         btnAceptar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        txtTarjeta = new javax.swing.JTextField();
+        txtCredito = new javax.swing.JTextField();
+        txtCheque = new javax.swing.JTextField();
+        txtVale = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        txtTerm = new javax.swing.JTextField();
 
         setBackground(new java.awt.Color(0, 65, 92));
         setClosable(true);
@@ -147,7 +159,7 @@ public class Total extends javax.swing.JInternalFrame {
         jLabel5.setBackground(new java.awt.Color(204, 204, 204));
         jLabel5.setFont(new java.awt.Font("Apple SD Gothic Neo", 0, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("Dinero electr√≥nico:");
+        jLabel5.setText("Dinero electrÛnico:");
 
         lblDinero.setBackground(new java.awt.Color(255, 255, 255));
         lblDinero.setFont(new java.awt.Font("Apple SD Gothic Neo", 0, 14)); // NOI18N
@@ -165,11 +177,18 @@ public class Total extends javax.swing.JInternalFrame {
         jLabel6.setBackground(new java.awt.Color(204, 204, 204));
         jLabel6.setFont(new java.awt.Font("Apple SD Gothic Neo", 0, 14)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("Pago:");
+        jLabel6.setText("Efectivo:");
 
+        txtPago.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        txtPago.setText("0");
         txtPago.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtPagoActionPerformed(evt);
+            }
+        });
+        txtPago.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPagoKeyTyped(evt);
             }
         });
 
@@ -187,57 +206,137 @@ public class Total extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel7.setBackground(new java.awt.Color(204, 204, 204));
+        jLabel7.setFont(new java.awt.Font("Apple SD Gothic Neo", 0, 14)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setText("Tarjeta:");
+
+        jLabel8.setBackground(new java.awt.Color(204, 204, 204));
+        jLabel8.setFont(new java.awt.Font("Apple SD Gothic Neo", 0, 14)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel8.setText("CrÈdito:");
+
+        jLabel9.setBackground(new java.awt.Color(204, 204, 204));
+        jLabel9.setFont(new java.awt.Font("Apple SD Gothic Neo", 0, 14)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel9.setText("Cheques:");
+
+        jLabel10.setBackground(new java.awt.Color(204, 204, 204));
+        jLabel10.setFont(new java.awt.Font("Apple SD Gothic Neo", 0, 14)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel10.setText("Vales:");
+
+        txtTarjeta.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        txtTarjeta.setText("0");
+
+        txtCredito.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        txtCredito.setText("0");
+
+        txtCheque.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        txtCheque.setText("0");
+
+        txtVale.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        txtVale.setText("0");
+
+        jLabel11.setBackground(new java.awt.Color(204, 204, 204));
+        jLabel11.setFont(new java.awt.Font("Apple SD Gothic Neo", 0, 14)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel11.setText("TerminaciÛn:");
+
+        txtTerm.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel4))
-                        .addGap(27, 27, 27))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtPago, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
-                    .addComponent(lblPagar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblDinero, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(38, 38, 38)
-                .addComponent(btnCanjear, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(133, 133, 133)
-                .addComponent(btnAceptar)
-                .addGap(18, 18, 18)
-                .addComponent(btnCancelar)
-                .addContainerGap(139, Short.MAX_VALUE))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                                        .addComponent(jLabel9)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(txtCheque, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel6)
+                                            .addComponent(jLabel10))
+                                        .addGap(18, 18, 18)
+                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(txtVale, javax.swing.GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)
+                                            .addComponent(txtPago))))
+                                .addGap(29, 29, 29)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel8)
+                                    .addComponent(jLabel11)
+                                    .addComponent(jLabel7))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(btnAceptar)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnCancelar)))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtTarjeta)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtCredito, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtTerm, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                        .addGap(82, 82, 82)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel4))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(lblDinero, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(27, 27, 27)
+                                .addComponent(btnCanjear, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lblPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(11, 11, 11))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGap(16, 16, 16)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel5)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblDinero, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnCanjear, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(lblPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lblDinero, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5)
-                    .addComponent(btnCanjear, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(23, 23, 23)
+                .addGap(29, 29, 29)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(txtPago, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE))
-                .addGap(18, 31, Short.MAX_VALUE)
+                    .addComponent(txtPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7)
+                    .addComponent(txtTarjeta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(txtCheque, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8)
+                    .addComponent(txtCredito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(11, 11, 11)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(txtVale, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel11)
+                    .addComponent(txtTerm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(21, 21, 21)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAceptar)
                     .addComponent(btnCancelar))
-                .addContainerGap())
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -257,8 +356,8 @@ public class Total extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -281,7 +380,7 @@ public class Total extends javax.swing.JInternalFrame {
                 monedero = monedero - Double.parseDouble(monto);
                 comprador.setMoney(monedero);
             } else {
-                JOptionPane.showMessageDialog(null, "Fondos insuficientes", "Dinero Electr√≥nico", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Fondos insuficientes", "Dinero ElectrÛnico", JOptionPane.WARNING_MESSAGE);
             }
 
         } else if (monedero > 0 && total > monedero) {
@@ -293,11 +392,11 @@ public class Total extends javax.swing.JInternalFrame {
                 comprador.setMoney(monedero);
                 System.out.println("Total:" + total);
             } else {
-                JOptionPane.showMessageDialog(null, "Fondos insuficientes", "Dinero Electr√≥nico", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Fondos insuficientes", "Dinero ElectrÛnico", JOptionPane.WARNING_MESSAGE);
             }
 
         } else {
-            JOptionPane.showMessageDialog(null, "No cuentas con fondos", "Dinero Electr√≥nico", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "No cuentas con fondos", "Dinero ElectrÛnico", JOptionPane.WARNING_MESSAGE);
 
         }
         lblPagar.setText(Double.toString(total));
@@ -309,10 +408,20 @@ public class Total extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnCanjearActionPerformed
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
+double efectivo = Double.parseDouble(txtPago.getText());
+double tarjeta = Double.parseDouble(txtTarjeta.getText());
+double credito = Double.parseDouble(txtCredito.getText());
+double cheques = Double.parseDouble(txtCheque.getText());
+double vales = Double.parseDouble(txtVale.getText());
+String term = txtTerm.getText().trim();
+double totalpagos = efectivo + tarjeta + credito + cheques + vales;
+
+System.out.println(cheques);
+
         ticket.setCredito(0.00);
         ticket.setTarjeta(0.00);
         venta.setTotal(Double.parseDouble(lblPagar.getText()));
-        String captura = txtPago.getText();
+        String captura = Double.toString(totalpagos);
         captura = captura.replaceAll(" ", "");
 
         if(ticket.getCliente()== ""){
@@ -320,9 +429,23 @@ public class Total extends javax.swing.JInternalFrame {
         }
         
         if (captura.length() == 0 || Double.parseDouble(captura) < Double.parseDouble(lblPagar.getText())) {
-            JOptionPane.showMessageDialog(null, "Ingresa un pago v√°lido", "Pago total", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Ingresa un pago v·lido", "Pago total", JOptionPane.WARNING_MESSAGE);
         } else {
-            double cambio = Double.parseDouble(txtPago.getText()) - Double.parseDouble(lblPagar.getText());
+            venta.setEfectivo(efectivo);
+            venta.setCredit(credito);
+            venta.setCheques(cheques);
+            venta.setTarjeta(tarjeta);
+            venta.setVales(vales);
+            venta.setTerminacion(term);
+            
+            ticket.setEfectivo(efectivo);
+            ticket.setCredito(credito);
+            ticket.setCheques(cheques);
+            ticket.setTarjeta(tarjeta);
+            ticket.setVales(vales);
+            ticket.setTerminacion(term);
+            
+            double cambio = totalpagos - Double.parseDouble(lblPagar.getText());
             JOptionPane.showMessageDialog(null, "Gracias por su compra, su cambio es de" + " " + Double.toString(cambio) + "");
             miCoordinador.InsertVenta(venta);
             ticket.setCambio(cambio);
@@ -337,13 +460,16 @@ public class Total extends javax.swing.JInternalFrame {
             for (int b = 0; b < bolsa.size(); b++) {
                 miCoordinador.InsertBag(bolsa.get(b));
             }
-            imprimirFactura(ticket);
+    
+    
+        imprimirFactura(ticket);
+            
             miCoordinador.getDetalle().bag.clear();
             dispose();
             txtPago.setText("");
 
+    
         }
-
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     void imprimirFactura(Ticket ticket) {
@@ -357,7 +483,7 @@ DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         e.setNumber(101.85);
 
         //Definir el tamanho del papel para la impresion  aca 25 lineas y 80 columnas
-        printer.setOutSize(60, 40);
+        printer.setOutSize(65, 40);
         //Imprimir * de la 2da linea a 25 en la columna 1;
         // printer.printCharAtLin(2, 25, 1, "*");
         //Imprimir * 1ra linea de la columa de 1 a 80
@@ -380,23 +506,32 @@ DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         printer.printCharAtCol(23, 1, 40, "-");
         int cont = 0, cont2=23;
         for (int i = 0; i < bolsa.size(); i++) {
-            printer.printTextWrap(cont2 + i, cont2 + i+1, 0, 40, bolsa.get(i).getArt_name() + " " + bolsa.get(i).getSize_name() + " " + bolsa.get(i).getQuantity() + " " + bolsa.get(i).getPrice() + " " + bolsa.get(i).getImporte());
+            
+            String nombre = bolsa.get(i).getArt_name() + " " + bolsa.get(i).getSize_name();
+ 
+        
+            printer.printTextWrap(cont2 + i, cont2 + i+1, 0, 40, (nombre) + " " + bolsa.get(i).getPrice() + " " + bolsa.get(i).getQuantity() + " " + bolsa.get(i).getImporte());
         cont2=cont2+i+1;
             cont=i+2;
         }
         printer.printCharAtCol(25+ cont, 1, 40, "-");
         printer.printTextWrap(28+cont, 29, 15, 40, "TOTAL: "+ticket.getTotal());
         printer.printTextWrap(31+cont, 32, 0, 40, "<<<<<<<<<<<<<FORMAS DE PAGO>>>>>>>>>>>>>");
-        printer.printTextWrap(34+cont, 33, 15, 40, "EFECTIVO: "+ticket.getPago());
-        printer.printTextWrap(36+cont, 37, 15, 40, "TARJETA: "+ticket.getTarjeta());
-        printer.printTextWrap(38+cont, 39, 15, 40, "CREDITO: "+ticket.getCredito());
-        printer.printTextWrap(40+cont, 41, 15, 40, "CAMBIO: "+ticket.getCambio());
-        printer.printTextWrap(43+cont, 44, 18, 40, "CAJA");
-        printer.printTextWrap(45+cont, 46, 5, 40, "Caja 1");
-        printer.printTextWrap(47+cont, 48, 16, 40, "CLIENTE:");
-        printer.printTextWrap(49+cont, 50, 10, 40, ticket.getCliente());
-        printer.printTextWrap(51+cont, 52, 17, 40, "CAJERO");
-        printer.printTextWrap(53+cont, 54,10, 40, ticket.getVendedor());
+        printer.printTextWrap(34+cont, 33, 15, 40, "EFECTIVO: "+ticket.getEfectivo());
+        printer.printTextWrap(36+cont, 35, 15, 40, "TARJETA: "+ticket.getTarjeta());
+        printer.printTextWrap(38+cont, 37, 15, 40, "CREDITO: "+ticket.getCredito());
+        printer.printTextWrap(40+cont, 39, 15, 40, "CHEQUES: "+ticket.getCheques());
+        printer.printTextWrap(42+cont, 41, 15, 40, "VALES: "+ticket.getVales());
+        printer.printTextWrap(45+cont, 45, 15, 40, "PAGO: "+ticket.getPago());
+        printer.printTextWrap(47+cont, 47, 15, 40, "CAMBIO: "+ticket.getCambio());
+        printer.printTextWrap(50+cont, 51, 18, 40, "CAJA");
+        printer.printTextWrap(52+cont, 53, 5, 40, "Caja 1");
+        printer.printTextWrap(54+cont, 55, 16, 40, "CLIENTE:");
+        
+        printer.printTextWrap(56+cont, 57, 10, 40, ticket.getCliente());
+        printer.printTextWrap(58+cont, 59, 17, 40, "CAJERO");
+        
+        printer.printTextWrap(60+cont, 62,10, 40, ticket.getVendedor());
 
 
         /*
@@ -417,6 +552,7 @@ DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         FileInputStream inputStream = null;
         try {
             inputStream = new FileInputStream("impresion.txt");
+            
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();
         }
@@ -446,10 +582,27 @@ DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         //inputStream.close();
     }
 
-
+public static String removeEspecial(String input) {
+    // Cadena de caracteres original a sustituir.
+    String original = "·‡‰ÈËÎÌÏÔÛÚˆ˙˘uÒ¡¿ƒ…»ÀÕÃœ”“÷⁄Ÿ‹—Á«";
+    // Cadena de caracteres ASCII que reemplazar·n los originales.
+    String ascii = "aaaeeeiiiooouuunAAAEEEIIIOOOUUUNcC";
+    String output = input;
+    for (int i=0; i<original.length(); i++) {
+        // Reemplazamos los caracteres especiales.
+        output = output.replace(original.charAt(i), ascii.charAt(i));
+    }//for i
+    return output;
+}
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void txtPagoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPagoKeyTyped
+
+
+
+    }//GEN-LAST:event_txtPagoKeyTyped
 
     /**
      * @param args the command line arguments
@@ -459,17 +612,27 @@ DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnCanjear;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     public javax.swing.JLabel lblCliente;
     public javax.swing.JLabel lblDinero;
     public javax.swing.JLabel lblPagar;
     public javax.swing.JLabel lblVendedor;
+    private javax.swing.JTextField txtCheque;
+    private javax.swing.JTextField txtCredito;
     private javax.swing.JTextField txtPago;
+    private javax.swing.JTextField txtTarjeta;
+    private javax.swing.JTextField txtTerm;
+    private javax.swing.JTextField txtVale;
     // End of variables declaration//GEN-END:variables
 }

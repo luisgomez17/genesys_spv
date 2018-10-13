@@ -22,12 +22,12 @@ private Coordinador miCoordinador;
 
 DefaultTableModel modelo = new DefaultTableModel(){
  public boolean isCellEditable(int rowIndex,int columnIndex){return false;}};
-String[] columnas = {"Codigo","Artículo","Color","Talla","Local","Destino"};
+String[] columnas = {"Codigo","Art�culo","Color","Talla","Local","Destino"};
 
      public void setCoordinador(Coordinador miCoordinador) {
         this.miCoordinador = miCoordinador;     
         llenarDatosTabla();
-        asignarTamaño();
+        asignarTamano();
     }
     public Traspasos() {
         
@@ -46,7 +46,7 @@ String[] columnas = {"Codigo","Artículo","Color","Talla","Local","Destino"};
     }
     public void llenarDatosTabla(){
     modelo.setColumnIdentifiers(columnas);
-    asignarTamaño();
+    asignarTamano();
 ArrayList<ProductoVo> listado = miCoordinador.getTransfer();
 
 for(int i =0; i<listado.size();i++){
@@ -56,7 +56,7 @@ listado.get(i).getSize_name(),listado.get(i).getSrc2(),listado.get(i).getSrc3()}
 tbTraspaso.setModel(modelo);
     }
     
-     public void asignarTamaño(){
+     public void asignarTamano(){
     tbTraspaso.getColumnModel().getColumn(0).setPreferredWidth(80);
     tbTraspaso.getColumnModel().getColumn(1).setPreferredWidth(350);
     tbTraspaso.getColumnModel().getColumn(2).setPreferredWidth(140);

@@ -1105,7 +1105,7 @@ llenarComboTalla((txtCode1.getText()),color.get(comboColores.getSelectedIndex()-
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-int resp = JOptionPane.showConfirmDialog(null, "Â¿Esta seguro de cambiar por este producto?", "ConfirmaciÃ³n", JOptionPane.YES_NO_OPTION);
+int resp = JOptionPane.showConfirmDialog(null, "¿Esta seguro de cambiar por este producto?", "Confirmación", JOptionPane.YES_NO_OPTION);
 
 ProductoVo tallas1 = new ProductoVo();
      ProductoVo amount1 = new ProductoVo();
@@ -1164,7 +1164,7 @@ miCoordinador.UpdateProductSizes(tallas2);
 miCoordinador.updateBag(nuevo);
 miCoordinador.pagarDeuda(venta);
 
-JOptionPane.showMessageDialog(null, "TransacciÃ³n exitosa");
+JOptionPane.showMessageDialog(null, "Transacción exitosa");
 dispose();
 }
 else{
@@ -1183,7 +1183,7 @@ dispose();
    ArrayList<ColorVo> color = miCoordinador.getColorsArt((txtCode1.getText()));
         
         if(color.isEmpty()){
-            JOptionPane.showMessageDialog(null,"Ingrese un codigo vÃ¡lido","ERROR",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Ingrese un codigo válido","ERROR",JOptionPane.INFORMATION_MESSAGE);
         }
         else{
            

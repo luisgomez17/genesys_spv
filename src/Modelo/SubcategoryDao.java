@@ -8,6 +8,7 @@ import java.util.ArrayList;
 public class SubcategoryDao {
     public ArrayList<SubcategoryVo> getSubcategories(Integer id_category) {
         Conectarse conn = new Conectarse();
+        //ConecRemoto conn = new ConecRemoto();
         ArrayList<SubcategoryVo> subcategories = new ArrayList<>();
         try {
             PreparedStatement preparedStatement = conn.getConn().prepareStatement(

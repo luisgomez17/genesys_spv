@@ -47,7 +47,7 @@ public class Ventas extends javax.swing.JInternalFrame {
  public boolean isCellEditable(int rowIndex,int columnIndex){return false;}
  };
       String[] columnas = {"ID Venta","ID Cliente","Cliente","Subtotal","Total","Fecha"};
-  String[] columnas2 = {"Cod. ArtÃ­culo","ArtÃ­culo","Color","Talla","Precio","Cantidad"};
+  String[] columnas2 = {"Cod. Artículo","Artículo","Color","Talla","Precio","Cantidad"};
       private Coordinador miCoordinador;
 
     public void setCoordinador(Coordinador miCoordinador) {
@@ -201,7 +201,7 @@ tbProducts.setModel(modelo2);
         jPanel4.setBackground(new java.awt.Color(0, 65, 92));
 
         tbSale.setBackground(new java.awt.Color(237, 237, 237));
-        tbSale.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(1, 129, 176), 3, true));
+        tbSale.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(1, 129, 176), 1, true));
         tbSale.setFont(new java.awt.Font("Apple SD Gothic Neo", 0, 15)); // NOI18N
         tbSale.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -232,6 +232,9 @@ tbProducts.setModel(modelo2);
         tbSale.setSelectionBackground(new java.awt.Color(253, 175, 200));
         tbSale.setSelectionForeground(new java.awt.Color(0, 0, 0));
         tbSale.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                tbSaleMouseReleased(evt);
+            }
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tbSaleMouseClicked(evt);
             }
@@ -244,7 +247,7 @@ tbProducts.setModel(modelo2);
         btnOnline.setBackground(new java.awt.Color(0, 37, 145));
         btnOnline.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         btnOnline.setForeground(new java.awt.Color(255, 255, 255));
-        btnOnline.setText("En LÃ­nea");
+        btnOnline.setText("En Línea");
         btnOnline.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnOnline.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -254,7 +257,7 @@ tbProducts.setModel(modelo2);
 
         jLabel3.setFont(new java.awt.Font("Baghdad", 0, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(240, 240, 240));
-        jLabel3.setText("Mostrar las Ventas en lÃ­nea:");
+        jLabel3.setText("Mostrar las Ventas en línea:");
 
         txtSale.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -350,7 +353,7 @@ tbProducts.setModel(modelo2);
 
         jLabel4.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(240, 240, 240));
-        jLabel4.setText("Buscar ventas del dÃ­a");
+        jLabel4.setText("Buscar ventas del día");
 
         jLabel5.setFont(new java.awt.Font("Baghdad", 0, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(240, 240, 240));
@@ -400,7 +403,7 @@ tbProducts.setModel(modelo2);
         );
 
         tbProducts.setBackground(new java.awt.Color(237, 237, 237));
-        tbProducts.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(1, 129, 176), 3, true));
+        tbProducts.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(1, 129, 176), 1, true));
         tbProducts.setFont(new java.awt.Font("Apple SD Gothic Neo", 0, 15)); // NOI18N
         tbProducts.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -411,7 +414,7 @@ tbProducts.setModel(modelo2);
                 {null, null, null, null, null, null}
             },
             new String [] {
-                "Cod. ArtÃ­culo", "ArtÃ­culo", "Color", "Talla", "Precio", "Cantidad"
+                "Cod. Artículo", "Artículo", "Color", "Talla", "Precio", "Cantidad"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -563,8 +566,10 @@ tbProducts.setModel(modelo2);
         Date date = dcFecha.getDate();
         SimpleDateFormat sdf = new SimpleDateFormat(formato);
 
-        String   fecha = sdf.format(date);
+        String fecha = sdf.format(date);
+        
         llenarTablaVenta(fecha);
+        state=1;
 
     }//GEN-LAST:event_btnSaleActionPerformed
 
@@ -610,6 +615,14 @@ tbProducts.setModel(modelo2);
     }//GEN-LAST:event_btnOnlineActionPerformed
 
     private void tbSaleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbSaleMouseClicked
+
+    }//GEN-LAST:event_tbSaleMouseClicked
+
+    private void tbProductsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbProductsMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tbProductsMouseClicked
+
+    private void tbSaleMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbSaleMouseReleased
         int fila = tbSale.getSelectedRow();
 
         if ((fila > -1) && state==1){
@@ -621,11 +634,7 @@ tbProducts.setModel(modelo2);
             int aux = (int) modelo.getValueAt(fila, 0);
             llenarTablaProductoOnline(aux);
         }
-    }//GEN-LAST:event_tbSaleMouseClicked
-
-    private void tbProductsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbProductsMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tbProductsMouseClicked
+    }//GEN-LAST:event_tbSaleMouseReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -1,5 +1,6 @@
 package Controlador;
 //
+
 import Modelo.BagDao;
 import Modelo.BagVo;
 import Modelo.ProductoDao;
@@ -28,15 +29,19 @@ import Vista.Ventas;
 import java.util.ArrayList;
 import Modelo.VentaDao;
 import Modelo.VentaVo;
+import Vista.Abonos;
+import Vista.AgregarVendedor;
 import Vista.Login1;
+import Vista.Multipago;
 import Vista.NotasCredito;
 import Vista.Reportes;
 import Vista.Total;
+import Vista.Vendedores;
 import Vista.VentaCredito;
 import Vista.cambiarProducto;
 
 public class Coordinador {
-    
+
     private Login login;
     private Productos productos;
     private Colores color;
@@ -50,6 +55,44 @@ public class Coordinador {
     private NotasCredito notas;
     private cambiarProducto cambio;
     private Login1 login1;
+    private AgregarVendedor add;
+    private Vendedores vendedores;
+    private Multipago multi;
+    private Abonos abono;
+
+    public Abonos getAbono() {
+        return abono;
+    }
+
+    public void setAbono(Abonos abono) {
+        this.abono = abono;
+    }    
+    
+    public Multipago getMulti() {
+        return multi;
+    }
+
+    public void setMulti(Multipago multi) {
+        this.multi = multi;
+    }
+
+    
+    
+    public Vendedores getVendedores(){
+    return vendedores;
+    }
+    
+    public void setVendedores(Vendedores vendedores){
+    this.vendedores=vendedores;
+    }
+    
+    public AgregarVendedor getAdd() {
+        return add;
+    }
+
+    public void setAdd(AgregarVendedor add) {
+        this.add = add;
+    }
 
     public Login1 getLogin1() {
         return login1;
@@ -66,7 +109,6 @@ public class Coordinador {
     public void setCambio(cambiarProducto cambio) {
         this.cambio = cambio;
     }
-    
 
     public NotasCredito getNotas() {
         return notas;
@@ -107,8 +149,7 @@ public class Coordinador {
     public void setInicio(Inicio inicio) {
         this.inicio = inicio;
     }
-    
-    
+
     public Login getLogin() {
         return login;
     }
@@ -116,7 +157,7 @@ public class Coordinador {
     public void setLogin(Login login) {
         this.login = login;
     }
-    
+
     public Colores getColor() {
         return color;
     }
@@ -124,22 +165,22 @@ public class Coordinador {
     public void setColor(Colores color) {
         this.color = color;
     }
-    
+
     public UsuarioVo buscarUsuario(Integer id_user) {
         UsuarioDao usuario = new UsuarioDao();
         return usuario.getUsuario(id_user);
     }
-    
-    public ProductoVo getDetallesProducto(String art){
+
+    public ProductoVo getDetallesProducto(String art) {
         ProductoDao producto = new ProductoDao();
         return producto.getDetallesProducto(art);
     }
-    
- public ProductoVo getDetallesProductoColor(String art, String color){
+
+    public ProductoVo getDetallesProductoColor(String art, String color) {
         ProductoDao producto = new ProductoDao();
-        return producto.getDetallesProductoColor(art,color);
+        return producto.getDetallesProductoColor(art, color);
     }
- 
+
     public Productos getProductos() {
         return productos;
     }
@@ -147,36 +188,35 @@ public class Coordinador {
     public void setProductos(Productos productos) {
         this.productos = productos;
     }
-        
-    public ColorVo buscarColor(String color_art){
-    ColorDao dao = new ColorDao();
-    return dao.getColor(color_art);    
+
+    public ColorVo buscarColor(String color_art) {
+        ColorDao dao = new ColorDao();
+        return dao.getColor(color_art);
     }
-    
-    public ArrayList<ColorVo> buscarColores(){
-    ColorDao color = new ColorDao();
-    return color.getColores();
+
+    public ArrayList<ColorVo> buscarColores() {
+        ColorDao color = new ColorDao();
+        return color.getColores();
     }
-    
-    
-    public SystemVo buscarUser(String user,String password){
-    SystemDao system = new SystemDao();
-    return system.getUser(user, password);
-        
+
+    public SystemVo buscarUser(String user, String password) {
+        SystemDao system = new SystemDao();
+        return system.getUser(user, password);
+
     }
-    
-    public void mostrarColores(){
-    getColor().setVisible(true);
+
+    public void mostrarColores() {
+        getColor().setVisible(true);
     }
-    
-    public void mostrarPrincipal(){
-    getInicio().setVisible(true);
-    getLogin().dispose();
+
+    public void mostrarPrincipal() {
+        getInicio().setVisible(true);
+        getLogin().dispose();
     }
-    
-    public void agregarColor(ColorVo color){
-    ColorDao cool = new ColorDao();
-    cool.registrarColor(color);
+
+    public void agregarColor(ColorVo color) {
+        ColorDao cool = new ColorDao();
+        cool.registrarColor(color);
     }
 
     public Usuarios getUsuario() {
@@ -194,8 +234,8 @@ public class Coordinador {
     public void setVenta(Ventas venta) {
         this.venta = venta;
     }
-    
-    public ProductoVo getSrcProducto(String art, String color_art){
+
+    public ProductoVo getSrcProducto(String art, String color_art) {
         ProductoDao producto = new ProductoDao();
         return producto.getProducto(art, color_art);
     }
@@ -207,241 +247,362 @@ public class Coordinador {
     public void setDetalle(DetalleVenta detalle) {
         this.detalle = detalle;
     }
-    
-    public ArrayList<SubcategoryVo> getSubcategories(Integer id_category){
+
+    public ArrayList<SubcategoryVo> getSubcategories(Integer id_category) {
         SubcategoryDao subcategories = new SubcategoryDao();
         return subcategories.getSubcategories(id_category);
     }
-    
-    public ArrayList<TallaVo> getTallas(Integer id_category, Integer id_type_product){
+
+    public ArrayList<TallaVo> getTallas(Integer id_category, Integer id_type_product) {
         TallaDao tallas = new TallaDao();
         return tallas.getTallas(id_category, id_type_product);
     }
-    
-    public ProductoVo getAmountProducto(String art, String color_art, Integer id_size){
+
+    public ProductoVo getAmountProducto(String art, String color_art, Integer id_size) {
         ProductoDao producto = new ProductoDao();
         return producto.getAmountProducto(art, color_art, id_size);
     }
-    
-    public void InsertProductDetails(ProductoVo producto){
+
+    public void InsertProductDetails(ProductoVo producto) {
         ProductoDao dao = new ProductoDao();
         dao.InsertProductDetails(producto);
     }
-    
-    public void UpdateProductDetails(ProductoVo producto){
+
+    public void UpdateProductDetails(ProductoVo producto) {
         ProductoDao dao = new ProductoDao();
         dao.UpdateProductDetails(producto);
     }
-    
-    public void InsertProduct(ProductoVo producto){
+
+    public void InsertProduct(ProductoVo producto) {
         ProductoDao dao = new ProductoDao();
         dao.InsertProduct(producto);
     }
-    
-    public void UpdateProduct(ProductoVo producto){
+
+    public void UpdateProduct(ProductoVo producto) {
         ProductoDao dao = new ProductoDao();
         dao.UpdateProduct(producto);
     }
-    
-    public void InsertProductSizes(ProductoVo producto){
+
+    public void InsertProductSizes(ProductoVo producto) {
         ProductoDao dao = new ProductoDao();
         dao.InsertProductSizes(producto);
     }
-    
-    public void UpdateProductSizes(ProductoVo producto){
+
+    public void UpdateProductSizes(ProductoVo producto) {
         ProductoDao dao = new ProductoDao();
         dao.UpdateProductSizes(producto);
     }
-    
-      public ArrayList<UsuarioVo> buscarUsuarios(){
-    UsuarioDao usuarios = new UsuarioDao();
-    return usuarios.getUsuarios();
+
+    public ArrayList<UsuarioVo> buscarUsuarios() {
+        UsuarioDao usuarios = new UsuarioDao();
+        return usuarios.getUsuarios();
     }
-      
-      public ArrayList<TallaVo> obtenerTallasProducto (String talla){
-      TallaDao tall = new TallaDao();
-      return tall.obtener_tallas(talla);
-      
-      }
-      
-      public ArrayList<ColorVo> obtenerColorProducto (String art, int talla){
-ColorDao color = new ColorDao();
-return color.getColorArt(art, talla);
-      }
-      
-      public int obtenerSiguienteId(){
-      VentaDao venta = new VentaDao();
-      return venta.getLastId();
-      }
-      
-         public void InsertBag(BagVo bag){
+
+    public ArrayList<TallaVo> obtenerTallasProducto(String talla) {
+        TallaDao tall = new TallaDao();
+        return tall.obtener_tallas(talla);
+
+    }
+
+    public ArrayList<ColorVo> obtenerColorProducto(String art, int talla) {
+        ColorDao color = new ColorDao();
+        return color.getColorArt(art, talla);
+    }
+
+    public int obtenerSiguienteId() {
+        VentaDao venta = new VentaDao();
+        return venta.getLastId();
+    }
+
+    public void InsertBag(BagVo bag) {
         BagDao dao = new BagDao();
-        dao.InsertBag(bag); }
-         
-         public void InsertVenta(VentaVo venta){
-         VentaDao dao = new VentaDao();
-         dao.InsertCompra(venta);
-         }
-         
-         
-           public void UpdateProductSizesSales(ProductoVo producto){
+        dao.InsertBag(bag);
+    }
+
+    public void InsertVenta(VentaVo venta) {
+        VentaDao dao = new VentaDao();
+        dao.InsertCompra(venta);
+    }
+
+    public void UpdateProductSizesSales(ProductoVo producto) {
         ProductoDao dao = new ProductoDao();
         dao.UpdateProductSizesSale(producto);
     }
-           
-           
-                 public void ActualizarMonedero(UsuarioVo usuario){
+
+    public void ActualizarMonedero(UsuarioVo usuario) {
         UsuarioDao dao = new UsuarioDao();
         dao.UpdateMonedero(usuario);
     }
-         public ArrayList<VentaVo> selectYears(){
-                 VentaDao year = new VentaDao();
-                 return year.getYears();
-                     
-                 }
-         
-    public ArrayList<VentaVo> obtenerVentas (String fecha){
-VentaDao dao = new VentaDao();
-return dao.getSales(fecha);
-}
 
-    public ArrayList<BagVo> obtenerProductosVenta(int id){
-    BagDao dao = new BagDao();
-    return dao.getProductsSale(id);
-    }
-    
-    public void ingresarCredito(VentaVo credit){
-    VentaDao compra = new VentaDao();
-    compra.InsertCompraCredito(credit);
-    }
-    
-    public ArrayList<VentaVo> ventasSinCliente(String fecha){
-           VentaDao sincliente = new VentaDao();
-           return sincliente.getSalesNoClient(fecha);
-                     
-                 }
-    
-    
-    public ArrayList<VentaVo> ventasCredito(){
-           VentaDao credito = new VentaDao();
-    return credito.getSalesCredit();
-                     
-                 }
-    
-    public void pagarDeuda(VentaVo venta){
-    VentaDao cred = new VentaDao();
-    cred.UpdateDeuda(venta);
-    }
-    
-       public ArrayList<LocalVo> obtenerLocales (){
-LocalDao dao = new LocalDao();
-return dao.getLocales();
-}
-       
-       public ArrayList<ProductoVo> getProductoTienda(int local, String art){
-       ProductoDao pro = new ProductoDao();
-       return pro.getProductoTienda(local, art);
-       
-       }
-       
-       public ArrayList<ProductoVo> getProductoTiendaCategory(int local, int categoria, int subcategoria){
-       ProductoDao pro = new ProductoDao();
-       return pro.getProductoTiendaCategory(local, categoria, subcategoria);
-                     }
-       
-       public ArrayList<ColorVo> getColorsArt (String art){
-ColorDao dao = new ColorDao();
-return dao.getColorsArt(art);
-}
-       
-       public ArrayList<TallaVo> getTallasColor(String art, String color){
-       TallaDao talla = new TallaDao();
-       return talla.getTallasColor(art, color);
-       }
-       
-       public ArrayList<VentaVo> getSalesOnline(){
-       VentaDao vent = new VentaDao();
-       return vent.getSalesOnline();
-       }
-       
-       public ArrayList<BagVo> getProductsSaleOnline(int id){
-    BagDao dao = new BagDao();
-    return dao.getProductsSaleOnline(id);
-    }
-       
-       public VentaVo getSalesOnlineId(int id){
-       VentaDao vent = new VentaDao();
-       return vent.getSalesOnlineId(id);
-       }
-       
-       public ArrayList<UsuarioVo> getEstados(){
-       UsuarioDao user = new UsuarioDao();
-       return user.getEstados();
-       }
-       
-        public ArrayList<UsuarioVo> getLocalidadesPorEstado(int id){
-       UsuarioDao user = new UsuarioDao();
-       return user.getLocalidadesPorEstado(id);
-       
-       
-       }
-        
-         public void agregarUsuario(UsuarioVo usuario){
-    UsuarioDao usu = new UsuarioDao();
-    usu.agregarUsuario(usuario);
-    }
-         public ArrayList<UsuarioVo> getUsuariosBusqueda(String name){
-       UsuarioDao user = new UsuarioDao();
-       return user.getUsuariosBusqueda(name);
-         }
-         
-          public ArrayList<UsuarioVo> getUsuariosBusquedaCredito(String name){
-       UsuarioDao user = new UsuarioDao();
-       return user.getUsuariosBusqueda(name);
-         }
-         
-         public ArrayList<VentaVo> salesCreditId(int id){
-           VentaDao credi = new VentaDao();
-    return credi.getSalesCreditId(id);
-                     
-                 }
+    public ArrayList<VentaVo> selectYears() {
+        VentaDao year = new VentaDao();
+        return year.getYears();
 
-     public ArrayList<UsuarioVo> getUsuariosCredito(){
-       UsuarioDao user = new UsuarioDao();
-       return user.getUsuariosCredito();
-         }
+    }
+
+    public ArrayList<VentaVo> obtenerVentas(String fecha) {
+        VentaDao dao = new VentaDao();
+        return dao.getSales(fecha);
+    }
+
+    public ArrayList<BagVo> obtenerProductosVenta(int id) {
+        BagDao dao = new BagDao();
+        return dao.getProductsSale(id);
+    }
+    
+    public ArrayList<BagVo> getProductsCreditOnline(int id) {
+        BagDao dao = new BagDao();
+        return dao.getProductsSaleOnline(id);
+    }
+
+    public void ingresarCredito(VentaVo credit) {
+        VentaDao compra = new VentaDao();
+        compra.InsertCompraCredito(credit);
+    }
+
+    public ArrayList<VentaVo> ventasSinCliente(String fecha) {
+        VentaDao sincliente = new VentaDao();
+        return sincliente.getSalesNoClient(fecha);
+
+    }
+
+    public ArrayList<VentaVo> ventasCredito() {
+        VentaDao credito = new VentaDao();
+        return credito.getSalesCredit();
+
+    }
+
+    public void pagarDeuda(VentaVo venta) {
+        VentaDao cred = new VentaDao();
+        cred.UpdateDeuda(venta);
+    }
+
+    public ArrayList<LocalVo> obtenerLocales() {
+        LocalDao dao = new LocalDao();
+        return dao.getLocales();
+    }
+
+    public ArrayList<ProductoVo> getProductoTienda(int local, String art) {
+        ProductoDao pro = new ProductoDao();
+        return pro.getProductoTienda(local, art);
+
+    }
+
+    public ArrayList<ProductoVo> getProductoTiendaCategory(int local, int categoria, int subcategoria) {
+        ProductoDao pro = new ProductoDao();
+        return pro.getProductoTiendaCategory(local, categoria, subcategoria);
+    }
+
+    public ArrayList<ColorVo> getColorsArt(String art) {
+        ColorDao dao = new ColorDao();
+        return dao.getColorsArt(art);
+    }
+
+    public ArrayList<TallaVo> getTallasColor(String art, String color) {
+        TallaDao talla = new TallaDao();
+        return talla.getTallasColor(art, color);
+    }
+
+    public ArrayList<VentaVo> getSalesOnline() {
+        VentaDao vent = new VentaDao();
+        return vent.getSalesOnline();
+    }
+
+    public ArrayList<BagVo> getProductsSaleOnline(int id) {
+        BagDao dao = new BagDao();
+        return dao.getProductsSaleOnline(id);
+    }
+
+    public VentaVo getSalesOnlineId(int id) {
+        VentaDao vent = new VentaDao();
+        return vent.getSalesOnlineId(id);
+    }
+
+    public ArrayList<UsuarioVo> getEstados() {
+        UsuarioDao user = new UsuarioDao();
+        return user.getEstados();
+    }
+
+    public ArrayList<UsuarioVo> getLocalidadesPorEstado(int id) {
+        UsuarioDao user = new UsuarioDao();
+        return user.getLocalidadesPorEstado(id);
+
+    }
+
+    public void agregarUsuario(UsuarioVo usuario) {
+        UsuarioDao usu = new UsuarioDao();
+        usu.agregarUsuario(usuario);
+    }
+
+    public ArrayList<UsuarioVo> getUsuariosBusqueda(String name) {
+        UsuarioDao user = new UsuarioDao();
+        return user.getUsuariosBusqueda(name);
+    }
+
+    public ArrayList<UsuarioVo> getUsuariosBusquedaCredito(String name) {
+        UsuarioDao user = new UsuarioDao();
+        return user.getUsuariosBusqueda(name);
+    }
+
+    public ArrayList<VentaVo> salesCreditId(int id) {
+        VentaDao credi = new VentaDao();
+        return credi.getSalesCreditId(id);
+
+    }
+
+    public ArrayList<UsuarioVo> getUsuariosCredito() {
+        UsuarioDao user = new UsuarioDao();
+        return user.getUsuariosCredito();
+    }
+
+    public BagVo getBag(int id) {
+        BagDao bag = new BagDao();
+        return bag.getBag(id);
+    }
+
+    public ProductoVo getDetallesProductoColorTalla(String art, String color, int size) {
+        ProductoDao details = new ProductoDao();
+        return details.getDetallesProductoColorTalla(art, color, size);
+    }
+
+    public void updateBag(BagVo bag) {
+        BagDao bagg = new BagDao();
+        bagg.UpdateBag(bag);
+    }
+
+    public void borrarBag(int bag) {
+        BagDao bagg = new BagDao();
+        bagg.BorrarBag(bag);
+    }
+
+    public void InsertTraspaso(ProductoVo producto) {
+        ProductoDao pro = new ProductoDao();
+        pro.InsertTraspaso(producto);
+    }
+
+    public ArrayList<ProductoVo> getTransfer() {
+        ProductoDao ducto = new ProductoDao();
+        return ducto.getTransfer();
+    }
+
+    public void UpdateTransfer(ProductoVo pro) {
+        ProductoDao da = new ProductoDao();
+        da.UpdateTransfer(pro);
+    }
+    
+    public void registrarVendedor(SystemVo system){
+    SystemDao d = new SystemDao();
+    d.registrarVendedor(system);
+    }
+    
+    public ArrayList<SystemVo> getListVendedores(){
+    SystemDao sys = new SystemDao();
+    return sys.getListVendedores();
+    }
+    
+    public ArrayList<SystemVo> getVendedoresNombre(String nombre){
+    SystemDao sys = new SystemDao();
+    return sys.getVendedoresNombre(nombre);
+    }
+    
+    public ArrayList<VentaVo> getSalesVendedorDia(int id_vendedor, String fecha){
+    VentaDao ven = new VentaDao();
+    return ven.getSalesVendedorDia(id_vendedor, fecha);
+    }
+    
+    public ArrayList<VentaVo> getSalesVendedorMes(int id_vendedor, int mes, int year){
+    VentaDao ven = new VentaDao();
+    return ven.getSalesVendedorMes(id_vendedor, mes, year);
+    }
+    
+     public ArrayList<VentaVo> getSalesVendedorYear(int id_vendedor, int year){
+    VentaDao ven = new VentaDao();
+    return ven.getSalesVendedorYear(id_vendedor, year);
+    }
      
-      public BagVo getBag(int id){
-       BagDao bag = new BagDao();
-       return bag.getBag(id);
-       }
-      
-      public ProductoVo getDetallesProductoColorTalla(String art, String color, int size){
-       ProductoDao details = new ProductoDao();
-       return details.getDetallesProductoColorTalla(art, color, size);
-       }
-      
-        public void updateBag(BagVo bag){
-       BagDao bagg = new BagDao();
-       bagg.UpdateBag(bag);
-       }
-        
-        public void borrarBag(int bag){
-       BagDao bagg = new BagDao();
-       bagg.BorrarBag(bag);
-       }
-        
-    public void InsertTraspaso(ProductoVo producto){
-    ProductoDao pro = new ProductoDao();
-    pro.InsertTraspaso(producto);
+     public ArrayList<VentaVo> getSalesVendedorPeriodoVenta(int id_vendedor,String fecha1, String fecha2){
+    VentaDao ven = new VentaDao();
+    return ven.getSalesVendedorPeriodoVenta(id_vendedor, fecha1, fecha2);
+    }
+     
+     public ArrayList<VentaVo> getSalesVendedorPeriodoTotal(int id_vendedor, String fecha1, String fecha2) {
+        VentaDao ven = new VentaDao();
+        return ven.getSalesVendedorPeriodoTotal(id_vendedor, fecha1, fecha2);
+    }
+
+    public ArrayList<VentaVo> getSalesGeneralDia(String fecha) {
+        VentaDao ven = new VentaDao();
+        return ven.getSalesGeneralDia(fecha);
+    }
+
+    public ArrayList<VentaVo> getSalesGeneralMes(int mes, int year) {
+        VentaDao ven = new VentaDao();
+        return ven.getSalesGeneralMes(mes, year);
     }
     
-    public ArrayList<ProductoVo> getTransfer(){
-    ProductoDao ducto = new ProductoDao();
-    return ducto.getTransfer();
+    public ArrayList<VentaVo> getSalesGeneralYear(int year) {
+        VentaDao ven = new VentaDao();
+        return ven.getSalesGeneralYear(year);
     }
-    public void UpdateTransfer(ProductoVo pro){
-    ProductoDao da = new ProductoDao();
-    da.UpdateTransfer(pro);
+    
+    public ArrayList<VentaVo> getSalesGeneralPeriodo(String fecha1, String fecha2) {
+        VentaDao ven = new VentaDao();
+        return ven.getSalesGeneralPeriodo(fecha1, fecha2);
     }
+    
+    public ProductoVo getProductoCodigo(String codigo){
+    ProductoDao prt = new ProductoDao();
+    return prt.getProductoCodigo(codigo);
+    }
+    
+    public TallaVo getTalla(int id){
+    TallaDao tll = new TallaDao();
+    return tll.getTalla(id);
+    }
+    
+    public void updateSizes(ProductoVo pro){
+    ProductoDao pdao = new ProductoDao();
+    pdao.UpdateSizes(pro);
+    }
+    
+    public ProductoVo getCode(String code){
+    ProductoDao pdao = new ProductoDao();
+    return pdao.getCode(code);
+    }
+    
+    public int getSigId(){
+    ProductoDao pr = new ProductoDao();
+    return pr.getSigId();
+    }
+    
+    public void updateCodigo(ProductoVo pro){
+    ProductoDao pr = new ProductoDao();
+    pr.UpdateCodigo(pro);
+    }
+    
+    public void insertCode(ProductoVo pro){
+    ProductoDao pr = new ProductoDao();
+    pr.InsertCode(pro);
+    }
+    
+    public int getLastCompra(){
+    VentaDao vdao = new VentaDao();
+    return vdao.getLastCompra() + 1;
+    }
+    
+    public ArrayList<VentaVo> getSalesCreditIdOnline(int id){
+    VentaDao vd = new VentaDao();
+    return vd.getSalesCreditIdOnline(id);
+    }
+    
+    public void updateAbono (VentaVo abono){
+    VentaDao da = new VentaDao();
+    da.UpdateAbono(abono);
+    }
+    
+    public void insertAbono(VentaVo ven){
+    VentaDao vdao = new VentaDao();
+    vdao.InsertAbono(ven);
+    }
+    
 }

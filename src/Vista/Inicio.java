@@ -19,26 +19,23 @@ import javax.swing.ImageIcon;
 public class Inicio extends javax.swing.JFrame {
 
     ConecRemoto remoto = new ConecRemoto();
-    
+    public int venta;
 private Coordinador miCoordinador;
     private Dimension dim;
 File documento = new File("src/Modelo/Consulta.txt");
     
 public void setCoordinador(Coordinador miCoordinador) {
        this.miCoordinador = miCoordinador;
-
+       venta = miCoordinador.getLastCompra();
+       
     }
 
     public Inicio() {
         this.setResizable(false);
-        initComponents();
-       /* aqui toy
-        yo tambien
-        escritorio.setBorder(new ImagenFondo());
-        
-*/
+        initComponents();   
        this.setExtendedState(this.getExtendedState() | JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
+        
     }
 
     public boolean estacerrado(Object obj) {
@@ -81,6 +78,8 @@ public void setCoordinador(Coordinador miCoordinador) {
         menuUsers = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem7 = new javax.swing.JMenuItem();
+        jMenuItem8 = new javax.swing.JMenuItem();
         menuSale = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         itemSale = new javax.swing.JMenuItem();
@@ -176,7 +175,7 @@ public void setCoordinador(Coordinador miCoordinador) {
         menuProduct.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         addProduct.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/icon_add.png"))); // NOI18N
-        addProduct.setText("AÃ±adir nuevo");
+        addProduct.setText("Agregar nuevo");
         addProduct.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 addProductMouseClicked(evt);
@@ -247,13 +246,31 @@ public void setCoordinador(Coordinador miCoordinador) {
         menuUsers.add(jMenuItem1);
 
         jMenuItem3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/icon_agregar.png"))); // NOI18N
-        jMenuItem3.setText("Agregar Usuario");
+        jMenuItem3.setText("Agregar Cliente");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem3ActionPerformed(evt);
             }
         });
         menuUsers.add(jMenuItem3);
+
+        jMenuItem7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/icon_vendedor.png"))); // NOI18N
+        jMenuItem7.setText("Agregar Vendedor");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
+        menuUsers.add(jMenuItem7);
+
+        jMenuItem8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/icon_list_vendedor.png"))); // NOI18N
+        jMenuItem8.setText("Vendedores");
+        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem8ActionPerformed(evt);
+            }
+        });
+        menuUsers.add(jMenuItem8);
 
         jMenuBar1.add(menuUsers);
 
@@ -366,7 +383,8 @@ Productos pt;
             dv = new DetalleVenta();
             dv.setCoordinador(miCoordinador);
             dv.txtVendedor.setText(txtUsuario.getText());
-            dv.lbIdVendedor.setText(lbId.getText());           
+            dv.lbIdVendedor.setText(lbId.getText());   
+            dv.id_venta = venta;
             escritorio.add(dv).setLocation(25, 3);
             dv.show();
 
@@ -476,7 +494,7 @@ Inventario in;
     }//GEN-LAST:event_itemSaleActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        if (JOptionPane.showConfirmDialog(this, "Esta a punto de salir\nde la aplicaciÃ³n.\nÂ¿Desea continuar?", "Cerrar", JOptionPane.YES_NO_OPTION, 0,
+        if (JOptionPane.showConfirmDialog(this, "Esta a punto de salir\nde la aplicación.\n¿Desea continuar?", "Cerrar", JOptionPane.YES_NO_OPTION, 0,
                 new ImageIcon(getClass().getResource("/Imagenes/adver1.png"))) == JOptionPane.YES_OPTION) {
             System.exit(0);
         } else {
@@ -489,7 +507,7 @@ Inventario in;
     }//GEN-LAST:event_formWindowOpened
 Usuario usua;
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-  if (estacerrado(usua)) {
+   if (estacerrado(usua)) {
             usua = new Usuario();
             usua.setCoordinador(miCoordinador);
             usua.setSize(670, 400);
@@ -535,6 +553,31 @@ UsuariosCredito usu;
             }
         }
     }//GEN-LAST:event_jMenuItem6ActionPerformed
+AgregarVendedor add;
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+ 
+   if (estacerrado(add)) {
+            add = new AgregarVendedor();
+            add.setCoordinador(miCoordinador);
+            add.setSize(450, 390);
+            escritorio.add(add).setLocation(300, 0);
+            add.show();
+           
+        }
+ // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
+Vendedores v;
+    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+
+        if (estacerrado(v)) {
+            v = new Vendedores();
+            v.setCoordinador(miCoordinador);
+            v.setSize(880, 550);
+            escritorio.add(v).setLocation(250, 0);
+            v.show();
+           
+        }       
+    }//GEN-LAST:event_jMenuItem8ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -590,6 +633,8 @@ UsuariosCredito usu;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JPanel jPanel1;
     public javax.swing.JLabel lbId;
     private javax.swing.JMenu menuColors;

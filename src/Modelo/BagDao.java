@@ -54,6 +54,52 @@ String consulta =" insert into bag (id_user, art, art_name, color_art, color_nam
         }
     }
        public ArrayList<BagVo> getProductsSale(int id) {
+        Conectarse conn = new Conectarse();
+        ArrayList<BagVo> listado = new ArrayList<>();
+        
+        
+        try{
+            PreparedStatement preparedStatement = conn.getConn().prepareStatement(
+             "SELECT * FROM bag WHERE id_sale = ? ");
+
+        preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                //Objeto de tipo sucategory
+                BagVo product = new BagVo();
+                product.setId_bag(resultSet.getInt(1));
+                product.setId_user(resultSet.getInt(2));
+                product.setArt(resultSet.getString(3));
+                product.setArt_name(resultSet.getString(4));
+                product.setColor_art(resultSet.getString(5));
+                product.setColor_name(resultSet.getString(6));
+                product.setId_size(resultSet.getInt(7));
+                product.setSize_name(resultSet.getString(8));
+                product.setSrc(resultSet.getString(9));
+                product.setPrice(resultSet.getDouble(10));
+                product.setQuantity(resultSet.getInt(11));
+                product.setId_sale(resultSet.getInt(12));
+                
+               
+                listado.add(product);
+                
+
+            }
+
+           
+            conn.getConn().close();
+            resultSet.close();
+            preparedStatement.close();
+            
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            
+        }
+        return listado;
+        
+    }
+       
+       public ArrayList<BagVo> getProductsCreditOnline(int id) {
         ConecRemoto conn = new ConecRemoto();
         ArrayList<BagVo> listado = new ArrayList<>();
         

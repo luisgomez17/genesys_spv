@@ -33,11 +33,11 @@ public class Conectarse {
             conn = DriverManager.getConnection("jdbc:mysql://"+host+"/"+db,user,pass);
             // Check the state of connection
             if (conn!=null){
-            System.out.println("Conexi贸n exitosa");
+            System.out.println("Conexi髇 exitosa");
             }
           
         } catch (ClassNotFoundException | SQLException e) {
-            MySQLAcceso();
+            //MySQLAcceso();
             //JOptionPane.showMessageDialog(null,"Error en al conexi贸n"+" "+ e.getMessage(),"ERROR",JOptionPane.INFORMATION_MESSAGE);
             //System.out.println(e);  
         }}
@@ -50,11 +50,11 @@ public class Conectarse {
             conn = DriverManager.getConnection("jdbc:mysql://"+hostremoto+"/"+dbremoto,userremoto,passremoto);
             // Check the state of connection
             if (conn!=null){
-            System.out.println("Conexi贸n exitosa");
+            System.out.println("Conexi髇 exitosa");
             }
           
         } catch (ClassNotFoundException | SQLException e) {
-            JOptionPane.showMessageDialog(null,"Error en al conexi贸n"+" "+ e.getMessage(),"ERROR",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Error en al conexi髇"+" "+ e.getMessage(),"ERROR",JOptionPane.INFORMATION_MESSAGE);
             System.out.println(e);  
         }
 }

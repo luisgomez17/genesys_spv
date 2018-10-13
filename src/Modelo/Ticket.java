@@ -13,12 +13,49 @@ public class Ticket {
 
     private int nro_ticket;
     private double total;
-    private double tarjeta;
+    private double efectivo;
+    private double cheques;
+    private double vales;
+     private double tarjeta;
     private double credito;
     private double cambio;
     private String cliente;
     private String vendedor;
     private double pago;
+    private String terminacion;
+
+    public String getTerminacion() {
+        return terminacion;
+    }
+
+    public void setTerminacion(String terminacion) {
+        this.terminacion = terminacion;
+    }
+
+    public double getEfectivo() {
+        return efectivo;
+    }
+
+    public void setEfectivo(double efectivo) {
+        this.efectivo = efectivo;
+    }
+
+    public double getCheques() {
+        return cheques;
+    }
+
+    public void setCheques(double cheques) {
+        this.cheques = cheques;
+    }
+
+    public double getVales() {
+        return vales;
+    }
+
+    public void setVales(double vales) {
+        this.vales = vales;
+    }
+   
 
     public double getPago() {
         return pago;
