@@ -154,7 +154,93 @@ public class VentaDao {
         return sales;
 
     }
+    
+    public ArrayList<VentaVo> getSalesDate(String date, String date2) {
+        Conectarse conn = new Conectarse();
+        ArrayList<VentaVo> sales = new ArrayList<>();
 
+        try {
+            PreparedStatement preparedStatement = conn.getConn().prepareStatement(
+            "SELECT sales.id_sale,sales.id_user,sales.subtotal,sales.ship,sales.total,sales.register_date,sales.credito,u.firstname,u.lastname "
+                    + "FROM sales "
+                    + "INNER JOIN users_local as u on u.id_user = sales.id_user "
+                    + "where credito = 0 and sales.register_date BETWEEN ? and ? ");
+
+            preparedStatement.setString(1, date);
+            preparedStatement.setString(2, date2);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                //Objeto de tipo sucategory
+                VentaVo sale = new VentaVo();
+                sale.setId_sale(resultSet.getInt(1));
+                sale.setId_user(resultSet.getInt(2));
+                sale.setSubtotal(resultSet.getDouble(3));
+                sale.setShip(resultSet.getDouble(4));
+                sale.setTotal(resultSet.getDouble(5));
+                sale.setDate(resultSet.getString(6));
+                sale.setCredito(resultSet.getInt(7));
+                sale.setFirstname(resultSet.getString(8));
+                sale.setLastname(resultSet.getString(9));
+
+                sales.add(sale);
+
+            }
+
+            conn.getConn().close();
+            resultSet.close();
+            preparedStatement.close();
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+
+        }
+        return sales;
+
+    }
+
+    public ArrayList<VentaVo> getAllSales() {
+        Conectarse conn = new Conectarse();
+        ArrayList<VentaVo> sales = new ArrayList<>();
+
+        try {
+            PreparedStatement preparedStatement = conn.getConn().prepareStatement(
+            "SELECT sales.id_sale,sales.id_user,sales.subtotal,sales.ship,sales.total,sales.register_date,sales.credito,u.firstname,u.lastname "
+                    + "FROM sales "
+                    + "INNER JOIN users_local as u on u.id_user = sales.id_user "
+                    + "where credito = 0");
+
+            
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                //Objeto de tipo sucategory
+                VentaVo sale = new VentaVo();
+                sale.setId_sale(resultSet.getInt(1));
+                sale.setId_user(resultSet.getInt(2));
+                sale.setSubtotal(resultSet.getDouble(3));
+                sale.setShip(resultSet.getDouble(4));
+                sale.setTotal(resultSet.getDouble(5));
+                sale.setDate(resultSet.getString(6));
+                sale.setCredito(resultSet.getInt(7));
+                sale.setFirstname(resultSet.getString(8));
+                sale.setLastname(resultSet.getString(9));
+
+                sales.add(sale);
+
+            }
+
+            conn.getConn().close();
+            resultSet.close();
+            preparedStatement.close();
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+
+        }
+        return sales;
+
+    }
+
+    
     public ArrayList<VentaVo> getSalesNoClient(String date) {
         Conectarse conn = new Conectarse();
         ArrayList<VentaVo> sales = new ArrayList<>();

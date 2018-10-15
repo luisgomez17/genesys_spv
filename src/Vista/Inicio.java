@@ -309,6 +309,11 @@ public void setCoordinador(Coordinador miCoordinador) {
 
         jMenuItem9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/nota.png"))); // NOI18N
         jMenuItem9.setText("Notas Crédito");
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem9ActionPerformed(evt);
+            }
+        });
         menuSale.add(jMenuItem9);
 
         jMenuBar1.add(menuSale);
@@ -583,6 +588,16 @@ Vendedores v;
            
         }       
     }//GEN-LAST:event_jMenuItem8ActionPerformed
+NuevaNota nn;
+    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+   
+        if (estacerrado(nn)) {
+            nn = new NuevaNota();
+            nn.setCoordinador(miCoordinador);
+            escritorio.add(nn).setLocation(25, 3);
+            nn.show();
+   }
+    }//GEN-LAST:event_jMenuItem9ActionPerformed
 
     /**
      * @param args the command line arguments

@@ -225,6 +225,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Notas Cr&#xe9;dito"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem9ActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>

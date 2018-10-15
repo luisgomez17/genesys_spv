@@ -33,7 +33,9 @@ import Vista.Abonos;
 import Vista.AgregarVendedor;
 import Vista.Login1;
 import Vista.Multipago;
+import Vista.Notas;
 import Vista.NotasCredito;
+import Vista.NuevaNota;
 import Vista.Reportes;
 import Vista.Total;
 import Vista.Vendedores;
@@ -59,7 +61,26 @@ public class Coordinador {
     private Vendedores vendedores;
     private Multipago multi;
     private Abonos abono;
+    private Notas nc;
+    private NuevaNota nn;
 
+    public NuevaNota getNn() {
+        return nn;
+    }
+
+    public void setNn(NuevaNota nn) {
+        this.nn = nn;
+    }
+    
+
+    public Notas getNc() {
+        return nc;
+    }
+
+    public void setNc(Notas nc) {
+        this.nc = nc;
+    }
+    
     public Abonos getAbono() {
         return abono;
     }
@@ -605,4 +626,13 @@ public class Coordinador {
     vdao.InsertAbono(ven);
     }
     
+    public ArrayList<VentaVo> getAllSales(){
+    VentaDao vent = new VentaDao();
+    return vent.getAllSales();
+    }
+    
+    public ArrayList<VentaVo> getSalesDate(String f1, String f2){
+    VentaDao vent = new VentaDao();
+    return vent.getSalesDate(f1, f2);
+    }
 }
