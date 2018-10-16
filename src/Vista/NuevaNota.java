@@ -100,7 +100,6 @@ public class NuevaNota extends javax.swing.JInternalFrame {
     public static ArrayList<BagVo> productos;
 
     public void agregarProducto(int idsale) {
-        
 
         productos = miCoordinador.obtenerProductosVenta(idsale);
 
@@ -494,7 +493,7 @@ public class NuevaNota extends javax.swing.JInternalFrame {
         int selec = tbVenta.getSelectedRow();
         if (selec > -1) {
             productos.remove(selec);
-            limpiarTabla(tbVenta);            
+            limpiarTabla(tbVenta);
             actualizarProducto();
             calcularTotal();
         } else {
@@ -517,23 +516,58 @@ public class NuevaNota extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void btnPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPagarActionPerformed
-       NotaVo nota = new NotaVo() ;
-       ProductoVo product = new ProductoVo();
+        NotaVo nota = new NotaVo();
+        ProductoVo product = new ProductoVo();
         if (productos.size() > 0 && cbVend.getSelectedIndex() > -1 && seleccion.getId_user() > 1) {
-            
-            String[] options = {"Mantener nota", "Devolver dinero","Cancelar"};
+
+            String[] options = {"Mantener nota", "Devolver dinero", "Cancelar"};
             int opcion = JOptionPane.showOptionDialog(miCoordinador.getNn(), "Selecciona al menos una opción", "Nota de Crédito", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
-            
-            switch(opcion){
+
+            switch (opcion) {
                 case 0:
-                    double total = seleccion.getTotal() - Double.parseDouble(lblTotal.getText()) ;                    
+                    double total = seleccion.getTotal() - Double.parseDouble(lblTotal.getText());
                     seleccion.setTotal(total);
+
+                    nota.setId_cliente(seleccion.getId_user());
+                    nota.setId_venta(seleccion.getId_sale());
+                    nota.setId_vendedor(vendedores.get(cbVend.getSelectedIndex()).getId_user());
+                    nota.setSaldo(Double.parseDouble(lblTotal.getText()));
+                    nota.setTipo(1);
+
+                    miCoordinador.InsertNota(nota);
+                    miCoordinador.updateTotalNota(seleccion);
+
+                    for (int i = 0; i < productos.size(); i++) {
+
+                        product.setArt(productos.get(i).getArt());
+                        product.setColor_art(productos.get(i).getColor_art());
+                        product.setId_size(productos.get(i).getId_size());
+                        product.setId_local(local);
+
+                        miCoordinador.UpdateSizesNota(product);
+                        miCoordinador.borrarBag(productos.get(i).getId_bag());
+                    }
+                    /*
+                    
+                     */
+                    limpiarTabla(tbVenta);
+                    productos.clear();
+                    JOptionPane.showMessageDialog(null, "Transacción exitosa");
+                    break;
+                case 1:
+                    String[] metodos = {
+                        "Efectivo"};
+
+                    String resp = (String) JOptionPane.showInputDialog(miCoordinador.getNn(), "Seleccione un método de pago", "Devolución", JOptionPane.DEFAULT_OPTION, null, metodos, metodos[0]);
+                
+                    double total2 = seleccion.getTotal() - Double.parseDouble(lblTotal.getText()) ;                    
+                    seleccion.setTotal(total2);
                     
                     nota.setId_cliente(seleccion.getId_user());
                     nota.setId_venta(seleccion.getId_sale());
-                    nota.setId_vendedor(seleccion.getId_vendedor());
+                    nota.setId_vendedor(vendedores.get(cbVend.getSelectedIndex()-1).getId_user());                    
                     nota.setSaldo(Double.parseDouble(lblTotal.getText()));
-                    nota.setTipo(1);
+                    nota.setTipo(2);
                     
                     miCoordinador.InsertNota(nota);
                     miCoordinador.updateTotalNota(seleccion);
@@ -553,14 +587,12 @@ public class NuevaNota extends javax.swing.JInternalFrame {
 */  
                     limpiarTabla(tbVenta);
                     productos.clear();
-                    JOptionPane.showMessageDialog(null, "Transacción exitosa");
+                    JOptionPane.showMessageDialog(null, "Transacción exitosa");    
                     break;
-                case 1:
-                    break;
-                case 2:                    
+                case 2:
                     break;
             }
-            
+
         } else {
             JOptionPane.showMessageDialog(null, "Complete todos los campos necesarios", "Nota Crédito", JOptionPane.WARNING_MESSAGE);
         }
