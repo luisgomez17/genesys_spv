@@ -12,6 +12,8 @@ import Modelo.CreditoDao;
 import Modelo.CreditoVo;
 import Modelo.LocalDao;
 import Modelo.LocalVo;
+import Modelo.NotaDao;
+import Modelo.NotaVo;
 import Modelo.SubcategoryDao;
 import Modelo.SubcategoryVo;
 import Modelo.SystemDao;
@@ -349,7 +351,12 @@ public class Coordinador {
         ProductoDao dao = new ProductoDao();
         dao.UpdateProductSizesSale(producto);
     }
-
+     
+    public void UpdateSizesNota(ProductoVo producto) {
+        ProductoDao dao = new ProductoDao();
+        dao.UpdateSizesNota(producto);
+    }
+    
     public void ActualizarMonedero(UsuarioVo usuario) {
         UsuarioDao dao = new UsuarioDao();
         dao.UpdateMonedero(usuario);
@@ -396,6 +403,11 @@ public class Coordinador {
     public void pagarDeuda(VentaVo venta) {
         VentaDao cred = new VentaDao();
         cred.UpdateDeuda(venta);
+    }
+    
+    public void updateTotalNota(VentaVo venta) {
+        VentaDao cred = new VentaDao();
+        cred.UpdateTotalNota(venta);
     }
 
     public ArrayList<LocalVo> obtenerLocales() {
@@ -634,5 +646,10 @@ public class Coordinador {
     public ArrayList<VentaVo> getSalesDate(String f1, String f2){
     VentaDao vent = new VentaDao();
     return vent.getSalesDate(f1, f2);
+    }
+    
+    public void InsertNota(NotaVo nota){
+    NotaDao note = new NotaDao();
+    note.InsertNota(nota);
     }
 }

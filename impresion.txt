@@ -11,11 +11,11 @@
                                         
          genesys.mi@hotmail.com         
 ----------------------------------------
- No. TICKET:1329                        
+ No. TICKET:1332                        
                                         
- Fecha:10/10/2018                       
+ Fecha:15/10/2018                       
                                         
- Hora:14:01:08                          
+ Hora:18:55:22                          
 ----------------------------------------
                                         
  CANT  PCIO U. %DESC  IMPORTE           
@@ -23,18 +23,19 @@
 ----------------------------------------
 Camisa manga larga de niño 24 Meses 539.
 0 1 539.0                               
-                                        
+Set de dos baberos con bordados y apliqu
+es para bebé Talla única 449.0 1 449.0  
 ----------------------------------------
                                         
                                         
                                         
-               TOTAL: 539.0             
+               TOTAL: 988.0             
                                         
                                         
 <<<<<<<<<<<<<FORMAS DE PAGO>>>>>>>>>>>>>
                                         
                                         
-               EFECTIVO: 600.0          
+               EFECTIVO: 1000.0         
                                         
                TARJETA: 0.0             
                                         
@@ -45,9 +46,9 @@ Camisa manga larga de niño 24 Meses 539.
                VALES: 0.0               
                                         
                                         
-               PAGO: 600.0              
+               PAGO: 1000.0             
                                         
-               CAMBIO: 61.0             
+               CAMBIO: 12.0             
                                         
                                         
                   CAJA                  
@@ -56,10 +57,9 @@ Camisa manga larga de niño 24 Meses 539.
                                         
                 CLIENTE:                
                                         
-          Jonathan Oswaldo Bautista Vale
-          ncia                          
+          Luis Martin Gomez Ríos        
+                                        
                  CAJERO                 
                                         
           Luis Gomez                    
-                                        
                                         

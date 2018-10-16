@@ -16,6 +16,16 @@ public class SystemVo {
     private String nombre;
     private String apellidos;
     private int id_perfil;
+    private int id_local;
+
+    public int getId_local() {
+        return id_local;
+    }
+
+    public void setId_local(int id_local) {
+        this.id_local = id_local;
+    }
+    
 
     public int getId_perfil() {
         return id_perfil;

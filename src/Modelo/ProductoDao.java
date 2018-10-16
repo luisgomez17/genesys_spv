@@ -791,4 +791,30 @@ String consulta = "INSERT INTO product_code (codigo, nombre) VALUES ('"+producto
         }
     }
       
+      public void UpdateSizesNota(ProductoVo producto){
+        Conectarse conn = new Conectarse();
+        
+        try {
+            PreparedStatement preparedStatement = conn.getConn().prepareStatement(
+                    "UPDATE product_sizes SET amount = amount+1 "
+                    + "WHERE art = ? AND color_art = ? AND id_size = ? AND id_local = ? ");
+                        
+            preparedStatement.setString(1, producto.getArt());
+            preparedStatement.setString(2, producto.getColor_art());
+            preparedStatement.setInt(3, producto.getId_size());
+            preparedStatement.setInt(4, producto.getId_local());
+           
+            
+String consulta ="UPDATE product_sizes SET amount = amount+1 WHERE art = '"+producto.getArt()+"' AND color_art = '"+producto.getColor_art()+"' AND id_size = '"+producto.getId_size()+"' AND id_local = '"+producto.getId_local()+"' ; ";
+            aux.escribir(consulta);
+            preparedStatement.executeUpdate();
+            
+            //Cierra todo
+            conn.getConn().close();
+            //resultSet.close();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+}
 }

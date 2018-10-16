@@ -20,6 +20,7 @@ public class Inicio extends javax.swing.JFrame {
 
     ConecRemoto remoto = new ConecRemoto();
     public int venta;
+    public int local;
 private Coordinador miCoordinador;
     private Dimension dim;
 File documento = new File("src/Modelo/Consulta.txt");
@@ -593,8 +594,11 @@ NuevaNota nn;
    
         if (estacerrado(nn)) {
             nn = new NuevaNota();
+            nn.local = local;
             nn.setCoordinador(miCoordinador);
-            escritorio.add(nn).setLocation(25, 3);
+            nn.setSize(1350, 550);
+            
+            escritorio.add(nn).setLocation(10, 3);
             nn.show();
    }
     }//GEN-LAST:event_jMenuItem9ActionPerformed

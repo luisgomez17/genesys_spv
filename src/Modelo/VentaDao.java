@@ -164,7 +164,7 @@ public class VentaDao {
             "SELECT sales.id_sale,sales.id_user,sales.subtotal,sales.ship,sales.total,sales.register_date,sales.credito,u.firstname,u.lastname "
                     + "FROM sales "
                     + "INNER JOIN users_local as u on u.id_user = sales.id_user "
-                    + "where credito = 0 and sales.register_date BETWEEN ? and ? ");
+                    + "where credito = 0 and CAST(sales.register_date as Date) BETWEEN ? and ? ");
 
             preparedStatement.setString(1, date);
             preparedStatement.setString(2, date2);
@@ -983,5 +983,28 @@ public class VentaDao {
             System.out.println(e.getMessage());
         }
 }
+        
+        public void UpdateTotalNota(VentaVo venta) {
+        Conectarse conn = new Conectarse();
 
+        try {
+            PreparedStatement preparedStatement = conn.getConn().prepareStatement(
+                    "UPDATE sales SET total=?, register_date=? "
+                    + "WHERE id_user = ? AND  id_sale = ?");
+
+            preparedStatement.setDouble(1, venta.getTotal());
+            preparedStatement.setString(2, venta.getDate());
+            preparedStatement.setInt(3, venta.getId_user());
+            preparedStatement.setInt(4, venta.getId_sale());
+            
+            preparedStatement.executeUpdate();
+
+            //Cierra todo
+            conn.getConn().close();
+            //resultSet.close();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 }

@@ -228,6 +228,7 @@ public class Login1 extends javax.swing.JFrame {
             ini.setCoordinador(miCoordinador);
             ini.txtUsuario.setText(miPersona.getNombre() + " " + miPersona.getApellidos());
             ini.lbId.setText(miPersona.getId_user().toString());
+            ini.local = miPersona.getId_local();
             ini.show();
             dispose();
         }

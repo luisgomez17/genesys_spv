@@ -10,6 +10,8 @@ import Modelo.BagVo;
 import Modelo.Conectarse;
 import Modelo.VentaVo;
 import java.awt.Color;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.beans.PropertyVetoException;
 import java.sql.Connection;
 import java.text.SimpleDateFormat;
@@ -24,8 +26,10 @@ import java.util.logging.Logger;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.RowFilter;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -38,39 +42,44 @@ import net.sf.jasperreports.view.JasperViewer;
  * @author luism
  */
 public class Notas extends javax.swing.JInternalFrame {
-    
- int state = 1;   
- DefaultTableModel modelo = new DefaultTableModel(){
- public boolean isCellEditable(int rowIndex,int columnIndex){return false;}
- };
- DefaultTableModel modelo2 = new DefaultTableModel(){
- public boolean isCellEditable(int rowIndex,int columnIndex){return false;}
- };
-      String[] columnas = {"Fecha","Num. Venta","Cliente","Total"};
-  String[] columnas2 = {"Cod. Artículo","Artículo","Color","Talla","Precio","Cantidad"};
-      private Coordinador miCoordinador;
+
+    int state = 1;
+    DefaultTableModel modelo = new DefaultTableModel() {
+        public boolean isCellEditable(int rowIndex, int columnIndex) {
+            return false;
+        }
+    };
+    DefaultTableModel modelo2 = new DefaultTableModel() {
+        public boolean isCellEditable(int rowIndex, int columnIndex) {
+            return false;
+        }
+    };
+    String[] columnas = {"Fecha", "Num. Venta", "Cliente", "Total"};
+    String[] columnas2 = {"Cod. Artículo", "Artículo", "Color", "Talla", "Precio", "Cantidad"};
+    private Coordinador miCoordinador;
+    ArrayList<VentaVo> venta = new ArrayList<>();
 
     public void setCoordinador(Coordinador miCoordinador) {
         this.miCoordinador = miCoordinador;
         llenarTablaVenta();
 //        llenarTablaVenta();               
     }
-    public void limpiarTabla(JTable tabla){
+
+    public void limpiarTabla(JTable tabla) {
         try {
-            DefaultTableModel modelo=(DefaultTableModel) tabla.getModel();
-            int filas=tabla.getRowCount();
-            for (int i = 0;filas>i; i++) {
+            DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+            int filas = tabla.getRowCount();
+            for (int i = 0; filas > i; i++) {
                 modelo.removeRow(0);
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al limpiar la tabla.");
         }
     }
-    
+
     public Notas() {
-      
         initComponents();
-       // setLocationRelativeTo(null);        // Centering on screen...
+        // setLocationRelativeTo(null);        // Centering on screen...
         //setSize(1280, 800); 
         modelo.setColumnIdentifiers(columnas);
         tbSale.setModel(modelo);
@@ -78,52 +87,53 @@ public class Notas extends javax.swing.JInternalFrame {
         tbProducts.setModel(modelo2);
         dcFecha.setDate(new Date());
     }
-public void llenarTablaVenta(){
-    
-     ArrayList<VentaVo> venta = miCoordinador.getAllSales();
-      if(venta.size()>0){
-          modelo.setColumnIdentifiers(columnas);
-     for(int i = 0; i<venta.size();i++){
-modelo.addRow(new Object[] {venta.get(i).getId_sale(),venta.get(i).getId_user(),venta.get(i).getFirstname()+" "+
-        venta.get(i).getLastname(),venta.get(i).getSubtotal(),venta.get(i).getTotal(),
-venta.get(i).getDate()});
-}
-      //Asignamos los datos del Modelo a la tabla
-      tbSale.setModel(modelo);
-}else{
+
+    public void llenarTablaVenta() {
+        venta.clear();
+        venta = miCoordinador.getAllSales();
+        if (venta.size() > 0) {
+            modelo.setColumnIdentifiers(columnas);
+            for (int i = 0; i < venta.size(); i++) {
+                modelo.addRow(new Object[]{venta.get(i).getDate(),venta.get(i).getId_sale(),  venta.get(i).getFirstname() + " "
+                    + venta.get(i).getLastname(),  venta.get(i).getTotal()});
+            }
+            //Asignamos los datos del Modelo a la tabla
+            tbSale.setModel(modelo);
+        } else {
             JOptionPane.showMessageDialog(null, "No se encontraron ventas");
-      }}
+        }
+    }
 
-public void llenarTablaVentaFechas(String f1, String f2){
-    
-     ArrayList<VentaVo> venta = miCoordinador.getSalesDate(f1, f2);
-      if(venta.size()>0){
-          modelo.setColumnIdentifiers(columnas);
-     for(int i = 0; i<venta.size();i++){
-modelo.addRow(new Object[] {venta.get(i).getDate(),venta.get(i).getId_sale(),venta.get(i).getFirstname()+" "+
-        venta.get(i).getLastname(),venta.get(i).getTotal()});
-}
-      //Asignamos los datos del Modelo a la tabla
-      tbSale.setModel(modelo);
-}else{
-      JOptionPane.showMessageDialog(null, "No se encontraron ventas");
-      }}
+    public void llenarTablaVentaFechas(String f1, String f2) {
+        venta.clear();
+        venta = miCoordinador.getSalesDate(f1, f2);
 
+        if (venta.size() > 0) {
+            modelo.setColumnIdentifiers(columnas);
+            for (int i = 0; i < venta.size(); i++) {
+                modelo.addRow(new Object[]{venta.get(i).getDate(), venta.get(i).getId_sale(), venta.get(i).getFirstname() + " "
+                    + venta.get(i).getLastname(), venta.get(i).getTotal()});
+            }
+            //Asignamos los datos del Modelo a la tabla
+            tbSale.setModel(modelo);
+        } else {
+            JOptionPane.showMessageDialog(null, "No se encontraron ventas");
+        }
+    }
 
-    
-public void llenarTablaProducto(int sale){
-modelo2.setColumnIdentifiers(columnas2);
-limpiarTabla(tbProducts);
-ArrayList<BagVo> listado = miCoordinador.obtenerProductosVenta(sale);
+    public void llenarTablaProducto(int sale) {
+        modelo2.setColumnIdentifiers(columnas2);
+        limpiarTabla(tbProducts);
+        ArrayList<BagVo> listado = miCoordinador.obtenerProductosVenta(sale);
 
-for(int i =0; i<listado.size();i++){
-modelo2.addRow(new Object[] {listado.get(i).getArt(),listado.get(i).getArt_name(),listado.get(i).getColor_name(),
-listado.get(i).getSize_name(),listado.get(i).getPrice(),listado.get(i).getQuantity()});
-}
-tbProducts.setModel(modelo2);
-}
+        for (int i = 0; i < listado.size(); i++) {
+            modelo2.addRow(new Object[]{listado.get(i).getArt(), listado.get(i).getArt_name(), listado.get(i).getColor_name(),
+                listado.get(i).getSize_name(), listado.get(i).getPrice(), listado.get(i).getQuantity()});
+        }
+        tbProducts.setModel(modelo2);
+    }
 
-@SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -136,7 +146,7 @@ tbProducts.setModel(modelo2);
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtFind = new javax.swing.JTextField();
         dcFecha1 = new com.toedter.calendar.JDateChooser();
         jScrollPane3 = new javax.swing.JScrollPane();
         tbProducts = new javax.swing.JTable();
@@ -190,6 +200,11 @@ tbProducts.setModel(modelo2);
                 tbSaleMouseReleased(evt);
             }
         });
+        tbSale.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tbSaleKeyPressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(tbSale);
         if (tbSale.getColumnModel().getColumnCount() > 0) {
             tbSale.getColumnModel().getColumn(0).setResizable(false);
@@ -227,6 +242,12 @@ tbProducts.setModel(modelo2);
         jLabel9.setForeground(new java.awt.Color(240, 240, 240));
         jLabel9.setText("Buscar cliente:");
 
+        txtFind.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtFindKeyTyped(evt);
+            }
+        });
+
         dcFecha1.setDateFormatString("yyyy-MM-dd");
 
         javax.swing.GroupLayout panelFechaLayout = new javax.swing.GroupLayout(panelFecha);
@@ -241,7 +262,7 @@ tbProducts.setModel(modelo2);
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(panelFechaLayout.createSequentialGroup()
                         .addGroup(panelFechaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jTextField1)
+                            .addComponent(txtFind)
                             .addGroup(panelFechaLayout.createSequentialGroup()
                                 .addGroup(panelFechaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel4)
@@ -273,7 +294,7 @@ tbProducts.setModel(modelo2);
                 .addGap(18, 18, 18)
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtFind, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
@@ -349,7 +370,7 @@ tbProducts.setModel(modelo2);
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -379,30 +400,61 @@ tbProducts.setModel(modelo2);
 
         String fecha = sdf.format(date);
         String fecha2 = sdf.format(date2);
-        if(fecha.isEmpty() || fecha2.isEmpty()){
-        JOptionPane.showMessageDialog(null, "Ingrese una fecha correcta");
-        }
-        else{
-        limpiarTabla(tbSale);
-        llenarTablaVentaFechas(fecha,fecha2);
+        if (fecha.isEmpty() || fecha2.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Ingrese una fecha correcta");
+        } else {
+            limpiarTabla(tbSale);
+            llenarTablaVentaFechas(fecha, fecha2);
         }
     }//GEN-LAST:event_btnSaleActionPerformed
 
     private void tbSaleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbSaleMouseClicked
-int fila = tbSale.getSelectedRow();
+        int fila = tbSale.getSelectedRow();
 
-int valor = (int) tbSale.getValueAt(fila, 1);
+        int valor = (int) tbSale.getValueAt(fila, 1);
 
-llenarTablaProducto(valor);
+        llenarTablaProducto(valor);
+
+
     }//GEN-LAST:event_tbSaleMouseClicked
 
     private void tbProductsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbProductsMouseClicked
-        
+
     }//GEN-LAST:event_tbProductsMouseClicked
 
     private void tbSaleMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbSaleMouseReleased
-    
+
     }//GEN-LAST:event_tbSaleMouseReleased
+    TableRowSorter trs;
+    private void txtFindKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFindKeyTyped
+        txtFind.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent ke) {
+                trs.setRowFilter(RowFilter.regexFilter("(?i)" + txtFind.getText(), 2));
+            }
+        });
+        trs = new TableRowSorter(modelo);
+        tbSale.setRowSorter(trs);
+
+    }//GEN-LAST:event_txtFindKeyTyped
+
+    private void tbSaleKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tbSaleKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            int fila = tbSale.getSelectedRow();
+
+            if ((fila > -1)) {
+                VentaVo select = new VentaVo();
+                select = venta.get(fila);
+
+                miCoordinador.getNn().lblTotal.setText(Double.toString(select.getTotal()));
+                miCoordinador.getNn().lbCliente.setText(select.getFirstname() + " " + select.getLastname());
+                miCoordinador.getNn().seleccion = select;
+                miCoordinador.getNn().agregarProducto(select.getId_sale());
+                miCoordinador.getNn().productos = miCoordinador.obtenerProductosVenta(select.getId_sale()); ;
+                dispose();
+            }
+        }
+    }//GEN-LAST:event_tbSaleKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -417,9 +469,9 @@ llenarTablaProducto(valor);
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JPanel panelFecha;
     private javax.swing.JTable tbProducts;
     private javax.swing.JTable tbSale;
+    private javax.swing.JTextField txtFind;
     // End of variables declaration//GEN-END:variables
 }
