@@ -16,81 +16,71 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import Vista.DetalleVenta;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import javax.swing.RowFilter;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
  * @author luism
  */
 public class Usuarios extends javax.swing.JInternalFrame {
-  private Coordinador miCoordinador;
-  DefaultTableModel modelo = new DefaultTableModel(){
-  public boolean isCellEditable(int rowIndex,int columnIndex){return false;}
-  };
-      String[] columnas = {"ID","Nombre(s)","Apellidos","Email","Estado","Localidad","Codigo Postal","Direccion","Telefono","RFC","Registro","Dinero"};
-     
+    TableRowSorter trs;
+    private Coordinador miCoordinador;
+    DefaultTableModel modelo = new DefaultTableModel() {
+        public boolean isCellEditable(int rowIndex, int columnIndex) {
+            return false;
+        }
+    };
+    String[] columnas = {"ID", "Nombre(s)", "Apellidos", "Email", "Direccion", "RFC", "Registro", "Dinero"};
+
     public void setCoordinador(Coordinador miCoordinador) {
         this.miCoordinador = miCoordinador;
-asignarTamano();
+        asignarTamano();
         imprimirUsuarios();
-
-        
     }
-    /**
-     * Create new form Usuarios
-     */
+   
     public Usuarios() {
         initComponents();
-       // setLocationRelativeTo(null);        // Centering on screen...
-       // setSize(1300, 800); 
-          modelo.setColumnIdentifiers(columnas);
+        // setLocationRelativeTo(null);        // Centering on screen...
+        // setSize(1300, 800); 
+        modelo.setColumnIdentifiers(columnas);
         tbUsers.setModel(modelo);
-        
     }
 
-    public void imprimirUsuarios(){
-      modelo.setColumnIdentifiers(columnas);
-      asignarTamano(); 
-      ArrayList<UsuarioVo> user = miCoordinador.buscarUsuarios();
-      
+    public void imprimirUsuarios() {
+        modelo.setColumnIdentifiers(columnas);
+        asignarTamano();
+        ArrayList<UsuarioVo> user = miCoordinador.buscarUsuarios();
 
-      
-      
-      for (int i =0; i<user.size();i++){
-       modelo.addRow(new Object[] {user.get(i).getId_user(),user.get(i).getFirstname(),user.get(i).getLastname(),user.get(i).getEmail(),
-       user.get(i).getEstado(),user.get(i).getLocalidad(),user.get(i).getCp(),user.get(i).getDirection(),
-       user.get(i).getPhone(),user.get(i).getRfc(),user.get(i).getRegister_date(),user.get(i).getMoney()});
-      }
-      //Asignamos los datos del Modelo a la tabla
-      tbUsers.setModel(modelo);
+        for (int i = 0; i < user.size(); i++) {
+            modelo.addRow(new Object[]{user.get(i).getId_user(), user.get(i).getFirstname(), user.get(i).getLastname(), user.get(i).getEmail(),
+                user.get(i).getDirection(), user.get(i).getRfc(), user.get(i).getRegister_date(), user.get(i).getMoney()});
+
+        }
+        //Asignamos los datos del Modelo a la tabla
+        tbUsers.setModel(modelo);
     }
-    
-      public void asignarTamano(){
-    tbUsers.getColumnModel().getColumn(0).setPreferredWidth(50);
-    tbUsers.getColumnModel().getColumn(1).setPreferredWidth(150);
-    tbUsers.getColumnModel().getColumn(2).setPreferredWidth(150);
-    tbUsers.getColumnModel().getColumn(3).setPreferredWidth(200);
-    tbUsers.getColumnModel().getColumn(4).setPreferredWidth(120);
-    tbUsers.getColumnModel().getColumn(5).setPreferredWidth(120);
-    tbUsers.getColumnModel().getColumn(6).setPreferredWidth(60);
-    tbUsers.getColumnModel().getColumn(7).setPreferredWidth(200);
-    tbUsers.getColumnModel().getColumn(8).setPreferredWidth(100);
-    tbUsers.getColumnModel().getColumn(9).setPreferredWidth(130);
-    tbUsers.getColumnModel().getColumn(10).setPreferredWidth(150);
-    tbUsers.getColumnModel().getColumn(11).setPreferredWidth(80);
-    
-    
-    
-   
-    
+
+    public void asignarTamano() {
+        tbUsers.getColumnModel().getColumn(0).setPreferredWidth(50);
+        tbUsers.getColumnModel().getColumn(1).setPreferredWidth(150);
+        tbUsers.getColumnModel().getColumn(2).setPreferredWidth(150);
+        tbUsers.getColumnModel().getColumn(3).setPreferredWidth(250);
+        tbUsers.getColumnModel().getColumn(4).setPreferredWidth(400);
+        tbUsers.getColumnModel().getColumn(5).setPreferredWidth(180);
+        tbUsers.getColumnModel().getColumn(6).setPreferredWidth(200);
+        tbUsers.getColumnModel().getColumn(7).setPreferredWidth(100);
+
     }
-    
-         private void limpiarTable(){
-while(modelo.getRowCount()>0){
-modelo.removeRow(0);
-}
-}
-    
+
+    private void limpiarTable() {
+        while (modelo.getRowCount() > 0) {
+            modelo.removeRow(0);
+        }
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -102,11 +92,9 @@ modelo.removeRow(0);
         jLabel1 = new javax.swing.JLabel();
         txtSearch = new javax.swing.JTextField();
         btnGenerate = new javax.swing.JButton();
-        btnSearch = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         txtSearch1 = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        btnSearch1 = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -187,16 +175,6 @@ modelo.removeRow(0);
             }
         });
 
-        btnSearch.setBackground(new java.awt.Color(0, 37, 145));
-        btnSearch.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
-        btnSearch.setForeground(new java.awt.Color(255, 255, 255));
-        btnSearch.setText("Buscar");
-        btnSearch.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSearchActionPerformed(evt);
-            }
-        });
-
         jLabel2.setFont(new java.awt.Font("Baghdad", 1, 22)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Usuarios registrados");
@@ -220,16 +198,6 @@ modelo.removeRow(0);
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Buscar por nombre:");
 
-        btnSearch1.setBackground(new java.awt.Color(0, 37, 145));
-        btnSearch1.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
-        btnSearch1.setForeground(new java.awt.Color(255, 255, 255));
-        btnSearch1.setText("Buscar");
-        btnSearch1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSearch1ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -245,17 +213,13 @@ modelo.removeRow(0);
                                 .addComponent(jLabel1)
                                 .addGap(18, 18, 18)
                                 .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(29, 29, 29)
-                                .addComponent(btnSearch1, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(44, 44, 44)
+                                .addGap(18, 18, 18)
                                 .addComponent(jLabel3)
                                 .addGap(18, 18, 18)
                                 .addComponent(txtSearch1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(55, 55, 55)
                                 .addComponent(btnGenerate, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 63, Short.MAX_VALUE)))
+                        .addGap(0, 383, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -267,10 +231,8 @@ modelo.removeRow(0);
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSearch1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3)
                     .addComponent(txtSearch1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnGenerate, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(27, 27, 27)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 462, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -312,41 +274,29 @@ modelo.removeRow(0);
         // TODO add your handling code here:
     }//GEN-LAST:event_txtSearchActionPerformed
 
-    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
-limpiarTable();
-//        int aux = Integer.parseInt(txtSearch.getText());
-        String name = txtSearch1.getText().trim();
-        
-        modelo.setColumnIdentifiers(columnas);
-        
-        if(!name.isEmpty()){
-            ArrayList<UsuarioVo> users = miCoordinador.getUsuariosBusqueda(name);
-        for(int i=0;i<users.size();i++){
-        modelo.addRow(new Object[]{users.get(i).getId_user(),users.get(i).getFirstname(),users.get(i).getLastname(),users.get(i).getEmail(),
-          users.get(i).getEstado(),users.get(i).getLocalidad(),users.get(i).getCp(),users.get(i).getDirection(),users.get(i).getPhone(),users.get(i).getRfc(),users.get(i).getRegister_date(),users.get(i).getMoney()});
-        }
-        asignarTamano();
-      tbUsers.setModel(modelo);
-        }
-        else{
-        JOptionPane.showMessageDialog(null, "No se encontrÃ³ ningÃºn resultado");
-        }
-    }//GEN-LAST:event_btnSearchActionPerformed
-
     private void btnGenerateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerateActionPerformed
-limpiarTable();        
-imprimirUsuarios();
+        limpiarTable();
+        imprimirUsuarios();
     }//GEN-LAST:event_btnGenerateActionPerformed
 
     private void txtSearchKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyTyped
-  char c=evt.getKeyChar();
-   int ascii = (int)c;
-        if(ascii<48 || ascii>57) {
+        char c = evt.getKeyChar();
+        int ascii = (int) c;
+        if (ascii < 48 || ascii > 57) {
             getToolkit().beep();
 
             evt.consume();
 
-        }        // TODO add your handling code here:
+        }
+        txtSearch.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent ke) {
+                trs.setRowFilter(RowFilter.regexFilter("(?i)" + txtSearch.getText(), 0));
+            }
+        });
+        trs = new TableRowSorter(modelo);
+        tbUsers.setRowSorter(trs);
+
     }//GEN-LAST:event_txtSearchKeyTyped
 
     private void txtSearch1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearch1ActionPerformed
@@ -354,61 +304,42 @@ imprimirUsuarios();
     }//GEN-LAST:event_txtSearch1ActionPerformed
 
     private void txtSearch1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearch1KeyTyped
-        // TODO add your handling code here:
+txtSearch1.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent ke) {
+                trs.setRowFilter(RowFilter.regexFilter("(?i)" + txtSearch1.getText(), 1));
+            }
+        });
+        trs = new TableRowSorter(modelo);
+        tbUsers.setRowSorter(trs);
+
     }//GEN-LAST:event_txtSearch1KeyTyped
 
-    private void btnSearch1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearch1ActionPerformed
-limpiarTable();
-        int aux = Integer.parseInt(txtSearch.getText());
-        //String name = txtSearch1.getText().trim();
-        
-        modelo.setColumnIdentifiers(columnas);
-        
-        
-        if(aux > 0){
-                    UsuarioVo user = miCoordinador.buscarUsuario(aux);
-
-            modelo.addRow(new Object[] {user.getId_user(),user.getFirstname(),user.getLastname(),user.getEmail(),
-          user.getEstado(),user.getLocalidad(),user.getCp(),user.getDirection(),user.getPhone(),user.getRfc(),user.getRegister_date(),user.getMoney()});
-      asignarTamano();
-      tbUsers.setModel(modelo);
-        }
-        
-        else{
-            JOptionPane.showMessageDialog(null, "No se encontró ningún resultado");
-            
-        }
-      
-         // TODO add your handling code here:
-    }//GEN-LAST:event_btnSearch1ActionPerformed
-
     private void tbUsersKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tbUsersKeyPressed
- if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             int fila = tbUsers.getSelectedRow();
-      //DetalleVenta venta = new DetalleVenta(); 
+            //DetalleVenta venta = new DetalleVenta(); 
 
-               if ((fila > -1)){
-          int id = (int) tbUsers.getValueAt(fila, 0);
-                   String cliente = (String) modelo.getValueAt(fila, 1) + " " + (String)(String) modelo.getValueAt(fila, 2) ;
-          String direccion = (String)modelo.getValueAt(fila, 7);
-          double electronico = (double)modelo.getValueAt(fila, 11);
-             miCoordinador.getDetalle().id_usuario = id;
-             
-             miCoordinador.getDetalle().txtCliente.setText(cliente);
-             miCoordinador.getDetalle().txtDireccion.setText(direccion);
-             miCoordinador.getDetalle().txtMonedero.setText(Double.toString(electronico));
-             miCoordinador.getDetalle().btnCredit.setEnabled(true);
-             
-             
-            dispose();
-}}        // TODO add your handling code here:
+            if ((fila > -1)) {
+                int id = (int) tbUsers.getValueAt(fila, 0);
+                String cliente = (String) modelo.getValueAt(fila, 1) + " " + (String) (String) modelo.getValueAt(fila, 2);
+                String direccion = (String) modelo.getValueAt(fila, 4);
+                double electronico = (double) modelo.getValueAt(fila, 7);
+                miCoordinador.getDetalle().id_usuario = id;
+
+                miCoordinador.getDetalle().txtCliente.setText(cliente);
+                miCoordinador.getDetalle().txtDireccion.setText(direccion);
+                miCoordinador.getDetalle().txtMonedero.setText(Double.toString(electronico));
+                miCoordinador.getDetalle().btnCredit.setEnabled(true);
+
+                dispose();
+            }
+        }        // TODO add your handling code here:
     }//GEN-LAST:event_tbUsersKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGenerate;
-    private javax.swing.JButton btnSearch;
-    private javax.swing.JButton btnSearch1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

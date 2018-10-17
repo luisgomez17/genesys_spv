@@ -940,8 +940,8 @@ dispose();
                 && !producto.getDescription().equals("") && producto.getId_category() != null
                 && producto.getId_size() != null && producto.getId_subcategory() != null
                 && producto.getId_type_product() != null && producto.getPrice() != null
-                 && producto.getSrc1() != null ) {
-
+                 ) {
+// && producto.getSrc1() != null
           
 
             if (isArt) {

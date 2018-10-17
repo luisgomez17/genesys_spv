@@ -1,4 +1,3 @@
-
 package Vista;
 
 import Controlador.Coordinador;
@@ -25,103 +24,110 @@ import javax.swing.SpinnerNumberModel;
  * @author luism
  */
 public class Inventario extends javax.swing.JInternalFrame {
-  private Coordinador miCoordinador;
-  private ArrayList<LocalVo> locales;
-  private ArrayList<SubcategoryVo> subcategories;
-  int estado = 0;
-  DefaultTableModel modelo = new DefaultTableModel(){
-  public boolean isCellEditable(int rowIndex,int columnIndex){return false;}
-  };
-      String[] columnas = {"Cod. Artículo","Artículo","Color","Talla","Cantidad"};
-     
-      ArrayList<ProductoVo> producto = new ArrayList<>();
-      
-      String cod_art;
-      String cod_color;
-      int cod_size, cod_local;
-      
-      SpinnerModel sm = new SpinnerNumberModel(0, 0, 20, 1);
-      
+
+    private Coordinador miCoordinador;
+    private ArrayList<LocalVo> locales;
+    private ArrayList<SubcategoryVo> subcategories;
+    int estado = 0;
+    DefaultTableModel modelo = new DefaultTableModel() {
+        public boolean isCellEditable(int rowIndex, int columnIndex) {
+            return false;
+        }
+    };
+    String[] columnas = {"Cod. Artículo", "Artículo", "Color", "Talla", "Cantidad"};
+
+    ArrayList<ProductoVo> producto = new ArrayList<>();
+
+    String cod_art;
+    String cod_color;
+    int cod_size, cod_local;
+
+    SpinnerModel sm = new SpinnerNumberModel(0, 0, 20, 1);
+
     public void setCoordinador(Coordinador miCoordinador) {
         this.miCoordinador = miCoordinador;
         setLocales();
 //asignarTamaÃ±o();                
     }
+
     /**
      * Create new form Usuarios
      */
     public Inventario() {
         initComponents();
-       // setLocationRelativeTo(null);        // Centering on screen...
-       // setSize(1300, 800); 
-          modelo.setColumnIdentifiers(columnas);
+        // setLocationRelativeTo(null);        // Centering on screen...
+        // setSize(1300, 800); 
+        modelo.setColumnIdentifiers(columnas);
         tbInvent.setModel(modelo);
         spinner.setModel(sm);
     }
 
-    public void mostrarArt(int local, String art){
-    modelo.setColumnIdentifiers(columnas);
-    
-    
-    producto = miCoordinador.getProductoTienda(local, art);
-    
-    if(!producto.isEmpty()){
-     for (int i =0; i<producto.size();i++){
-modelo.addRow(new Object[] {producto.get(i).getArt(),producto.get(i).getArt_name(),producto.get(i).getColor_name(),
-producto.get(i).getSize_name(),producto.get(i).getAmount()});
-      }
-      //Asignamos los datos del Modelo a la tabla
-      tbInvent.setModel(modelo);
+    public void mostrarArt(int local, String art, int online) {
+        modelo.setColumnIdentifiers(columnas);
+
+        if (online == 0) {
+            producto = miCoordinador.getProductoTienda(local, art);
+        } else if (online == 1) {
+            producto = miCoordinador.getProductoTiendaOnline(local, art);
+        }
+
+        if (!producto.isEmpty()) {
+            for (int i = 0; i < producto.size(); i++) {
+                modelo.addRow(new Object[]{producto.get(i).getArt(), producto.get(i).getArt_name(), producto.get(i).getColor_name(),
+                    producto.get(i).getSize_name(), producto.get(i).getAmount()});
+            }
+            //Asignamos los datos del Modelo a la tabla
+            tbInvent.setModel(modelo);
+        } else {
+            JOptionPane.showMessageDialog(null, "No existen productos registrados");
+        }
+        estado = 1;
     }
-    else{
-    JOptionPane.showMessageDialog(null,"No existen productos registrados");
+
+    public void mostrarArtCategory(int local, int cat, int sub, int online) {
+        modelo.setColumnIdentifiers(columnas);
+        ArrayList<ProductoVo> productocat = new ArrayList<>();
+
+        if(online == 0){
+        producto = miCoordinador.getProductoTiendaCategory(local, cat, sub);
+        }
+        else if(online == 1){
+        producto = miCoordinador.getProductoTiendaCategoryOnline(local, cat, sub);
+        }
+        if (producto.size() > 0) {
+            for (int i = 0; i < producto.size(); i++) {
+                modelo.addRow(new Object[]{producto.get(i).getArt(), producto.get(i).getArt_name(), producto.get(i).getColor_name(),
+                    producto.get(i).getSize_name(), producto.get(i).getAmount()});
+            }
+            //Asignamos los datos del Modelo a la tabla
+            tbInvent.setModel(modelo);
+        } else {
+            JOptionPane.showMessageDialog(null, "No existen productos registrados");
+        }
+
+        estado = 2;
     }
-    estado = 1;
-    }
-    
-    
-     public void mostrarArtCategory(int local, int cat, int sub){
-    modelo.setColumnIdentifiers(columnas);
-    ArrayList<ProductoVo> productocat = new ArrayList<>();
-    
-    producto = miCoordinador.getProductoTiendaCategory(local, cat, sub);
-    
-    if(producto.size()>0){
-     for (int i =0; i<producto.size();i++){
-modelo.addRow(new Object[] {producto.get(i).getArt(),producto.get(i).getArt_name(),producto.get(i).getColor_name(),
-producto.get(i).getSize_name(),producto.get(i).getAmount()});
-      }
-      //Asignamos los datos del Modelo a la tabla
-      tbInvent.setModel(modelo);
-    }
-    else{
-    JOptionPane.showMessageDialog(null,"No existen productos registrados");
-    }
-    
-    estado=2;
-     }
-    
-     public void setLocales() {
-        
+
+    public void setLocales() {
+
         DefaultComboBoxModel modeloLocal = new DefaultComboBoxModel();
         modeloLocal.addElement("Seleccionar...");
 
         locales = miCoordinador.obtenerLocales();
-    
 
-            for (int i = 0; i < locales.size(); i++) {
-                modeloLocal.addElement(locales.get(i).getId_local()+"-"+locales.get(i).getNombre());
-            }
-            comboLocal.setModel(modeloLocal);
-            comboLocal1.setModel(modeloLocal);
+        for (int i = 0; i < locales.size(); i++) {
+            modeloLocal.addElement(locales.get(i).getId_local() + "-" + locales.get(i).getNombre());
         }
-    
-         private void limpiarTable(){
-while(modelo.getRowCount()>0){
-modelo.removeRow(0);
-}
-}
-    
+        comboLocal.setModel(modeloLocal);
+        comboLocal1.setModel(modeloLocal);
+    }
+
+    private void limpiarTable() {
+        while (modelo.getRowCount() > 0) {
+            modelo.removeRow(0);
+        }
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -136,6 +142,7 @@ modelo.removeRow(0);
         jLabel4 = new javax.swing.JLabel();
         comboLocal = new javax.swing.JComboBox<>();
         btnSearch = new javax.swing.JButton();
+        chk1 = new javax.swing.JCheckBox();
         jPanel4 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -144,6 +151,7 @@ modelo.removeRow(0);
         comboSub = new javax.swing.JComboBox<>();
         comboLocal1 = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
+        chk2 = new javax.swing.JCheckBox();
         jPanel5 = new javax.swing.JPanel();
         btnTraspaso = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
@@ -254,12 +262,18 @@ modelo.removeRow(0);
             }
         });
 
+        chk1.setBackground(new java.awt.Color(1, 129, 176));
+        chk1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        chk1.setText("Online");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(chk1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addGroup(jPanel3Layout.createSequentialGroup()
@@ -285,7 +299,9 @@ modelo.removeRow(0);
                     .addComponent(jLabel4)
                     .addComponent(comboLocal, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(chk1))
                 .addContainerGap())
         );
 
@@ -330,6 +346,10 @@ modelo.removeRow(0);
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Local:");
 
+        chk2.setBackground(new java.awt.Color(1, 129, 176));
+        chk2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        chk2.setText("Online");
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -352,6 +372,8 @@ modelo.removeRow(0);
                 .addGap(50, 50, 50))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(chk2)
+                .addGap(18, 18, 18)
                 .addComponent(btnBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -370,7 +392,9 @@ modelo.removeRow(0);
                     .addComponent(jLabel6)
                     .addComponent(comboLocal1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(chk2))
                 .addContainerGap())
         );
 
@@ -580,13 +604,15 @@ modelo.removeRow(0);
 
         modelo.setColumnIdentifiers(columnas);
 
-        if(aux != null && index > 0){
-            mostrarArt(index,aux);
+        if (aux != null && index > 0 && chk1.isSelected()) {
+            mostrarArt(index, aux, 0);
+        } else if (aux != null && index > 0 && !chk1.isSelected()) {
+            mostrarArt(index, aux, 1);
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Llene los campos correspondientes");
         }
-        else{
-            JOptionPane.showMessageDialog(null,"Llene los campos correspondientes");
-        }
-btnSearch.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnSearch.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed
@@ -594,7 +620,7 @@ btnSearch.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
     }//GEN-LAST:event_txtSearchActionPerformed
 
     private void tbInventMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbInventMouseClicked
-       
+
     }//GEN-LAST:event_tbInventMouseClicked
 
     private void btnBusquedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBusquedaActionPerformed
@@ -603,18 +629,19 @@ btnSearch.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnBusqueda.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
         int index_cat = comboCategory.getSelectedIndex();
         subcategories = miCoordinador.getSubcategories(index_cat);
-        int index_sub = subcategories.get(comboSub.getSelectedIndex()-1).getId_subcategory();
+        int index_sub = subcategories.get(comboSub.getSelectedIndex() - 1).getId_subcategory();
         int index = comboLocal.getSelectedIndex();
-        System.out.println("Cat:"+index_cat+" "+"Sub."+index_sub);
-        
+        System.out.println("Cat:" + index_cat + " " + "Sub." + index_sub);
+
         modelo.setColumnIdentifiers(columnas);
 
-        if(index_cat > 0 && index_sub > 0 && index > 0){
-            mostrarArtCategory(index,index_cat,index_sub);
+        if (index_cat > 0 && index_sub > 0 && index > 0 && chk2.isSelected()) {
+            mostrarArtCategory(index, index_cat, index_sub,0);
+        } else if (index_cat > 0 && index_sub > 0 && index > 0 && !chk2.isSelected()) {
+            mostrarArtCategory(index, index_cat, index_sub,1);
+        } else {
+            JOptionPane.showMessageDialog(null, "Llene los campos correspondientes");
         }
-        else{
-            JOptionPane.showMessageDialog(null,"Llene los campos correspondientes");
-        }      
         btnBusqueda.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));// TODO add your handling code here:
     }//GEN-LAST:event_btnBusquedaActionPerformed
 
@@ -623,32 +650,30 @@ btnSearch.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
     }//GEN-LAST:event_comboSubActionPerformed
 
     private void comboCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboCategoryActionPerformed
-Integer cat_index = comboCategory.getSelectedIndex();
+        Integer cat_index = comboCategory.getSelectedIndex();
 
-      DefaultComboBoxModel  modeloSubcategory = new DefaultComboBoxModel();
+        DefaultComboBoxModel modeloSubcategory = new DefaultComboBoxModel();
         modeloSubcategory.addElement("Seleccionar...");
 
         Integer sub_index = -1;
 
         if (cat_index > 0) {
-                        
-             subcategories = miCoordinador.getSubcategories(cat_index);
+
+            subcategories = miCoordinador.getSubcategories(cat_index);
 
             for (int i = 0; i < subcategories.size(); i++) {
-                
-             
+
                 modeloSubcategory.addElement(subcategories.get(i).getSucategory_name());
-                
-                
-            } 
+
+            }
             comboSub.setModel(modeloSubcategory);
         }        // TODO add your handling code here:
     }//GEN-LAST:event_comboCategoryActionPerformed
 
     private void txtSearchKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyTyped
-  char c=evt.getKeyChar();
-   int ascii = (int)c;
-        if(ascii<48 || ascii>57) {
+        char c = evt.getKeyChar();
+        int ascii = (int) c;
+        if (ascii < 48 || ascii > 57) {
             getToolkit().beep();
 
             evt.consume();
@@ -661,110 +686,105 @@ Integer cat_index = comboCategory.getSelectedIndex();
     }//GEN-LAST:event_txtSearchKeyReleased
 
     private void btnTraspasoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTraspasoActionPerformed
-int fila = tbInvent.getSelectedRow();
-ArrayList<ProductoVo> producto1 = null;
-ProductoVo transferir = null;
+        int fila = tbInvent.getSelectedRow();
+        ArrayList<ProductoVo> producto1 = null;
+        ProductoVo transferir = null;
 //Producto buscado por codigo
-if((fila>-1) && (estado == 1)){
-     String aux = txtSearch.getText();
-        int index = comboLocal.getSelectedIndex();
-producto1 = miCoordinador.getProductoTienda(index, aux);
+        if ((fila > -1) && (estado == 1)) {
+            String aux = txtSearch.getText();
+            int index = comboLocal.getSelectedIndex();
+            producto1 = miCoordinador.getProductoTienda(index, aux);
 
-}
-//Producto buscado por subcategorias
-else if(fila>-1 && estado==2){
-int index_cat = comboCategory.getSelectedIndex();
-int index_sub = subcategories.get(comboSub.getSelectedIndex()-1).getId_subcategory();
-int index = comboLocal.getSelectedIndex();
-producto1 = miCoordinador.getProductoTiendaCategory(index, index_cat, index_sub);    
+        } //Producto buscado por subcategorias
+        else if (fila > -1 && estado == 2) {
+            int index_cat = comboCategory.getSelectedIndex();
+            int index_sub = subcategories.get(comboSub.getSelectedIndex() - 1).getId_subcategory();
+            int index = comboLocal.getSelectedIndex();
+            producto1 = miCoordinador.getProductoTiendaCategory(index, index_cat, index_sub);
 
-}
-else{
-JOptionPane.showMessageDialog(null,"Seleccione un producto a traspasar");
-}
+        } else {
+            JOptionPane.showMessageDialog(null, "Seleccione un producto a traspasar");
+        }
 //Locales disponibles
-locales = miCoordinador.obtenerLocales();
-Integer[] options = new Integer[locales.size()];
+        locales = miCoordinador.obtenerLocales();
+        Integer[] options = new Integer[locales.size()];
 
-
-for(int i=0;i<locales.size();i++){
-options[i] = locales.get(i).getId_local();
-}
+        for (int i = 0; i < locales.size(); i++) {
+            options[i] = locales.get(i).getId_local();
+        }
 //Local de destino
-int n = (Integer)JOptionPane.showInputDialog(null, "Selecciona el local al que se traspasará", 
-"Traspaso", JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+        int n = (Integer) JOptionPane.showInputDialog(null, "Selecciona el local al que se traspasará",
+                "Traspaso", JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 
 //Producto seleccionado
-
-producto1.get(tbInvent.getSelectedRow()).setAmount(producto1.get(tbInvent.getSelectedRow()).getAmount()-1);
-producto1.get(tbInvent.getSelectedRow()).setId_local_destino(n);
+        producto1.get(tbInvent.getSelectedRow()).setAmount(producto1.get(tbInvent.getSelectedRow()).getAmount() - 1);
+        producto1.get(tbInvent.getSelectedRow()).setId_local_destino(n);
 
 //Transferir y reducir inventario
-miCoordinador.InsertTraspaso(producto1.get(tbInvent.getSelectedRow()));
-miCoordinador.UpdateProductSizes(producto1.get(tbInvent.getSelectedRow()));
+        miCoordinador.InsertTraspaso(producto1.get(tbInvent.getSelectedRow()));
+        miCoordinador.UpdateProductSizes(producto1.get(tbInvent.getSelectedRow()));
 
 
     }//GEN-LAST:event_btnTraspasoActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-dispose();        // TODO add your handling code here:
+        dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void tbInventMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbInventMouseReleased
-int fila = tbInvent.getSelectedRow();
-lbNombre.setText(producto.get(fila).getArt_name());
-lbColor.setText(producto.get(fila).getColor_name());
-lbTalla.setText(producto.get(fila).getSize_name());
-spinner.setValue(producto.get(fila).getAmount());
+        int fila = tbInvent.getSelectedRow();
+        lbNombre.setText(producto.get(fila).getArt_name());
+        lbColor.setText(producto.get(fila).getColor_name());
+        lbTalla.setText(producto.get(fila).getSize_name());
+        spinner.setValue(producto.get(fila).getAmount());
 
 
     }//GEN-LAST:event_tbInventMouseReleased
-    
+
     private void ActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarActionPerformed
         ProductoVo update = new ProductoVo();
         int fila = tbInvent.getSelectedRow();
 
-cod_art = (producto.get(fila).getArt());
-cod_color = (producto.get(fila).getColor_art());
-cod_size = (producto.get(fila).getId_size());
-cod_local = (producto.get(fila).getId_local());
-int cantidad = (int) spinner.getValue();
-               
-update.setAmount(cantidad);
-update.setArt(cod_art);
-update.setColor_art(cod_color);
-update.setId_size(cod_size);
-update.setId_local(cod_local);
+        cod_art = (producto.get(fila).getArt());
+        cod_color = (producto.get(fila).getColor_art());
+        cod_size = (producto.get(fila).getId_size());
+        cod_local = (producto.get(fila).getId_local());
+        int cantidad = (int) spinner.getValue();
 
-            miCoordinador.updateSizes(update);
-            
-            if(estado == 1){
-                limpiarTable();
-                String aux = txtSearch.getText();
-        int index = comboLocal.getSelectedIndex();
-            mostrarArt(index,aux);
-            }
-            else if(estado == 2){
-                limpiarTable();
-                int index_cat = comboCategory.getSelectedIndex();
-        subcategories = miCoordinador.getSubcategories(index_cat);
-        int index_sub = subcategories.get(comboSub.getSelectedIndex()-1).getId_subcategory();
-        int index = comboLocal.getSelectedIndex();
-            mostrarArtCategory(index,index_cat,index_sub);
-            }
-            
-            
+        update.setAmount(cantidad);
+        update.setArt(cod_art);
+        update.setColor_art(cod_color);
+        update.setId_size(cod_size);
+        update.setId_local(cod_local);
+
+        miCoordinador.updateSizes(update);
+
+        if (estado == 1) {
+            limpiarTable();
+            String aux = txtSearch.getText();
+            int index = comboLocal.getSelectedIndex();
+            mostrarArt(index, aux, 0);
+        } else if (estado == 2) {
+            limpiarTable();
+            int index_cat = comboCategory.getSelectedIndex();
+            subcategories = miCoordinador.getSubcategories(index_cat);
+            int index_sub = subcategories.get(comboSub.getSelectedIndex() - 1).getId_subcategory();
+            int index = comboLocal.getSelectedIndex();
+            mostrarArtCategory(index, index_cat, index_sub,0);
+        }
+
+
     }//GEN-LAST:event_ActualizarActionPerformed
 
     private void tbInventKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tbInventKeyReleased
-int fila = tbInvent.getSelectedRow();
-lbNombre.setText(producto.get(fila).getArt_name());
-lbColor.setText(producto.get(fila).getColor_name());
-lbTalla.setText(producto.get(fila).getSize_name());
-spinner.setValue(producto.get(fila).getAmount());
+        int fila = tbInvent.getSelectedRow();
+        lbNombre.setText(producto.get(fila).getArt_name());
+        lbColor.setText(producto.get(fila).getColor_name());
+        lbTalla.setText(producto.get(fila).getSize_name());
+        spinner.setValue(producto.get(fila).getAmount());
 
     }//GEN-LAST:event_tbInventKeyReleased
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Actualizar;
@@ -772,6 +792,8 @@ spinner.setValue(producto.get(fila).getAmount());
     private javax.swing.JButton btnSalir;
     private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnTraspaso;
+    private javax.swing.JCheckBox chk1;
+    private javax.swing.JCheckBox chk2;
     private javax.swing.JComboBox<String> comboCategory;
     private javax.swing.JComboBox<String> comboLocal;
     private javax.swing.JComboBox<String> comboLocal1;

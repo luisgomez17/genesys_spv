@@ -62,8 +62,8 @@ public class SystemDao {
 		Conectarse conex= new Conectarse();
 		
 			   try {
-                                String query = " insert into users_system (user, password, Nombre, Apellidos, id_perfil)"
-        + " values (?, ?, ?, ?, ?)";
+        String query = " insert into users_system (user, password, Nombre, Apellidos, id_perfil, id_local)"
+        + " values (?, ?, ?, ?, ?, ?)";
                                 
             PreparedStatement preparedStatement = conex.getConn().prepareStatement(query);
             preparedStatement.setString(1, vendedor.getUser());
@@ -71,9 +71,10 @@ public class SystemDao {
             preparedStatement.setString(3, vendedor.getNombre());
             preparedStatement.setString(4, vendedor.getApellidos());
             preparedStatement.setInt(5, vendedor.getId_perfil());
+            preparedStatement.setInt(6, vendedor.getId_local());
           
         
-String consulta = "insert into users_system (user, password, Nombre, Apellidos, id_perfil)"+ " values ('"+vendedor.getUser()+"', '"+vendedor.getPassword()+"', '"+vendedor.getNombre()+"', '"+vendedor.getApellidos()+"', '"+vendedor.getId_perfil()+"');";
+String consulta = "insert into users_system (user, password, Nombre, Apellidos, id_perfil, id_local)"+ " values ('"+vendedor.getUser()+"', '"+vendedor.getPassword()+"', '"+vendedor.getNombre()+"', '"+vendedor.getApellidos()+"', '"+vendedor.getId_perfil()+"', '"+vendedor.getId_local()+"');";
             escrib.escribir(consulta);
             preparedStatement.execute();
           

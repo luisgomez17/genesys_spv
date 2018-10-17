@@ -570,7 +570,7 @@ AgregarVendedor add;
    if (estacerrado(add)) {
             add = new AgregarVendedor();
             add.setCoordinador(miCoordinador);
-            add.setSize(450, 390);
+            add.setSize(480, 430);
             escritorio.add(add).setLocation(300, 0);
             add.show();
            

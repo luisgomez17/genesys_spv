@@ -400,10 +400,58 @@ String consulta = "UPDATE product_sizes SET amount=amount-'"+producto.getAmount(
         
         return producto;
     }  
-   
-   public ArrayList<ProductoVo> getProductoTienda(int local,String art) {
-        ConecRemoto conn = new ConecRemoto();
+   public ArrayList<ProductoVo> getProductoTienda(int local,String art ) {
+        
+       
+       Conectarse conn = new Conectarse();
+       
+        //Objeto de tipo Producto 
+        ArrayList<ProductoVo> productos = new ArrayList<ProductoVo>();
+        try {
+            PreparedStatement preparedStatement = conn.getConn().prepareStatement(
+"SELECT pz.art,pd.name, color.color_name, sz.name, pz.amount, pz.color_art , pz.id_size, pz.id_local "
+        + "FROM `product_sizes` as pz "
+        + "INNER JOIN colors as color on color.color_art = pz.color_art "
+        + "INNER JOIN sizes as sz on sz.id_size = pz.id_size "
+        + "INNER JOIN product_details as pd on pd.art = pz.art "
+        + "WHERE id_local = ? and pz.art = ? ");
 
+            preparedStatement.setInt(1, local);
+            preparedStatement.setString(2, art);
+            
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            //Muestra resultados de la consulta SQL
+            while (resultSet.next()) {
+                ProductoVo product = new ProductoVo();
+                
+                product.setArt(resultSet.getString(1));
+                product.setArt_name(resultSet.getString(2));
+                product.setColor_name(resultSet.getString(3));
+                product.setSize_name(resultSet.getString(4));
+                product.setAmount(resultSet.getInt(5));
+                product.setColor_art(resultSet.getString(6));
+                product.setId_size(resultSet.getInt(7));
+                product.setId_local(resultSet.getInt(8));
+                
+                
+                productos.add(product);
+            }
+            //Cierra todo
+            conn.getConn().close();
+            resultSet.close();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+ 
+        //Retorna el arreglo
+        return productos;
+    }
+   
+   public ArrayList<ProductoVo> getProductoTiendaOnline(int local,String art) {               
+       ConecRemoto conn = new ConecRemoto();
+       
         //Objeto de tipo Producto 
         ArrayList<ProductoVo> productos = new ArrayList<ProductoVo>();
         try {
@@ -449,6 +497,54 @@ String consulta = "UPDATE product_sizes SET amount=amount-'"+producto.getAmount(
     }
    
    public ArrayList<ProductoVo> getProductoTiendaCategory(int local,int id_categoria, int id_subcategoria) {
+        Conectarse conn = new Conectarse();
+
+        //Objeto de tipo Producto 
+        ArrayList<ProductoVo> productos = new ArrayList<ProductoVo>();
+        try {
+            PreparedStatement preparedStatement = conn.getConn().prepareStatement(
+"SELECT pz.art,pd.name, color.color_name, sz.name, pz.amount , pz.color_art, pz.id_size, pz.id_local "
+        + "FROM `product_sizes` as pz "
+        + "INNER JOIN colors as color on color.color_art = pz.color_art "
+        + "INNER JOIN sizes as sz on sz.id_size = pz.id_size "
+        + "INNER JOIN product_details as pd on pd.art = pz.art "
+        + "WHERE id_local = ? and pd.id_category = ? AND pd.id_subcategory=?");
+
+            preparedStatement.setInt(1, local);
+            preparedStatement.setInt(2, id_categoria);
+            preparedStatement.setInt(3, id_subcategoria);
+            
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            //Muestra resultados de la consulta SQL
+            while (resultSet.next()) {
+                ProductoVo product = new ProductoVo();
+                
+                product.setArt(resultSet.getString(1));
+                product.setArt_name(resultSet.getString(2));
+                product.setColor_name(resultSet.getString(3));
+                product.setSize_name(resultSet.getString(4));
+                product.setAmount(resultSet.getInt(5));
+                product.setColor_art(resultSet.getString(6));
+                product.setId_size(resultSet.getInt(7));
+                product.setId_local(resultSet.getInt(8));
+                
+                
+                productos.add(product);
+            }
+            //Cierra todo
+            conn.getConn().close();
+            resultSet.close();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+ 
+        //Retorna el arreglo
+        return productos;
+    }
+   
+   public ArrayList<ProductoVo> getProductoTiendaCategoryOnline(int local,int id_categoria, int id_subcategoria) {
         ConecRemoto conn = new ConecRemoto();
 
         //Objeto de tipo Producto 

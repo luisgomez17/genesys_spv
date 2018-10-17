@@ -63,10 +63,8 @@ Texto aux = new Texto();
             PreparedStatement preparedStatement = conn.getConn().prepareStatement(
                     "SELECT id_user, firstname, lastname, email, "
                     + "id_country, id_state, id_location, cp, "
-                    + "direction, phone, rfc, register_date, money, sta.state, loc.location "
-                    + "FROM users_local as u "
-                    + "INNER JOIN states as sta on sta.id = u.id_state "
-                    +"INNER JOIN locations as loc on loc.id = u.id_location");
+                    + "direction, phone, rfc, register_date, money "
+                    + "FROM users_local as u ");
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -88,8 +86,7 @@ Texto aux = new Texto();
                 usuario.setRfc(resultSet.getString(11));
                 usuario.setRegister_date(resultSet.getString(12));
                 usuario.setMoney(resultSet.getDouble(13));
-                usuario.setEstado(resultSet.getString(14));
-                usuario.setLocalidad(resultSet.getString(15));
+
                 
                 //Agregado del usuario al arreglo
                 usuarios.add(usuario);

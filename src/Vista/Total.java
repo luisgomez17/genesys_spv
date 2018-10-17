@@ -10,6 +10,7 @@ import Modelo.ProductoVo;
 import Modelo.UsuarioVo;
 import Modelo.VentaVo;
 import Modelo.BagVo;
+import Modelo.NotaVo;
 import Modelo.Ticket;
 import br.com.adilson.util.Extenso;
 import br.com.adilson.util.PrinterMatrix;
@@ -44,6 +45,7 @@ public class Total extends javax.swing.JInternalFrame {
     public double dineroelectronico;
     ProductoVo registro = new ProductoVo();
     public Ticket ticket = new Ticket();
+    public NotaVo notados = new NotaVo();
     public void setCoordinador(Coordinador miCoordinador) {
         this.miCoordinador = miCoordinador;
 
@@ -72,20 +74,14 @@ public class Total extends javax.swing.JInternalFrame {
         jLabel5 = new javax.swing.JLabel();
         lblDinero = new javax.swing.JLabel();
         btnCanjear = new javax.swing.JButton();
-        jLabel6 = new javax.swing.JLabel();
-        txtPago = new javax.swing.JTextField();
         btnAceptar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        txtTarjeta = new javax.swing.JTextField();
-        txtCredito = new javax.swing.JTextField();
-        txtCheque = new javax.swing.JTextField();
-        txtVale = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         txtTerm = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
+        cmForma = new javax.swing.JComboBox<>();
+        txtDinero = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(0, 65, 92));
         setClosable(true);
@@ -174,24 +170,6 @@ public class Total extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel6.setBackground(new java.awt.Color(204, 204, 204));
-        jLabel6.setFont(new java.awt.Font("Apple SD Gothic Neo", 0, 14)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("Efectivo:");
-
-        txtPago.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        txtPago.setText("0");
-        txtPago.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtPagoActionPerformed(evt);
-            }
-        });
-        txtPago.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtPagoKeyTyped(evt);
-            }
-        });
-
         btnAceptar.setText("Aceptar");
         btnAceptar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -206,38 +184,6 @@ public class Total extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel7.setBackground(new java.awt.Color(204, 204, 204));
-        jLabel7.setFont(new java.awt.Font("Apple SD Gothic Neo", 0, 14)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setText("Tarjeta:");
-
-        jLabel8.setBackground(new java.awt.Color(204, 204, 204));
-        jLabel8.setFont(new java.awt.Font("Apple SD Gothic Neo", 0, 14)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel8.setText("Crédito:");
-
-        jLabel9.setBackground(new java.awt.Color(204, 204, 204));
-        jLabel9.setFont(new java.awt.Font("Apple SD Gothic Neo", 0, 14)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel9.setText("Cheques:");
-
-        jLabel10.setBackground(new java.awt.Color(204, 204, 204));
-        jLabel10.setFont(new java.awt.Font("Apple SD Gothic Neo", 0, 14)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel10.setText("Vales:");
-
-        txtTarjeta.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        txtTarjeta.setText("0");
-
-        txtCredito.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        txtCredito.setText("0");
-
-        txtCheque.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        txtCheque.setText("0");
-
-        txtVale.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        txtVale.setText("0");
-
         jLabel11.setBackground(new java.awt.Color(204, 204, 204));
         jLabel11.setFont(new java.awt.Font("Apple SD Gothic Neo", 0, 14)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
@@ -245,61 +191,62 @@ public class Total extends javax.swing.JInternalFrame {
 
         txtTerm.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
 
+        jLabel12.setBackground(new java.awt.Color(204, 204, 204));
+        jLabel12.setFont(new java.awt.Font("Apple SD Gothic Neo", 0, 14)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel12.setText("Forma de pago:");
+
+        cmForma.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", "Efectivo", "Credito", "Debito", "Vales", "Cheques" }));
+        cmForma.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmFormaActionPerformed(evt);
+            }
+        });
+
+        txtDinero.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        txtDinero.setText("0");
+        txtDinero.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtDineroKeyTyped(evt);
+            }
+        });
+
+        jLabel6.setBackground(new java.awt.Color(204, 204, 204));
+        jLabel6.setFont(new java.awt.Font("Apple SD Gothic Neo", 0, 14)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText("Pago:");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                                        .addComponent(jLabel9)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(txtCheque, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel6)
-                                            .addComponent(jLabel10))
-                                        .addGap(18, 18, 18)
-                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(txtVale, javax.swing.GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)
-                                            .addComponent(txtPago))))
-                                .addGap(29, 29, 29)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel8)
-                                    .addComponent(jLabel11)
-                                    .addComponent(jLabel7))
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(btnAceptar)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnCancelar)))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtTarjeta)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtCredito, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtTerm, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 0, Short.MAX_VALUE))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                         .addGap(82, 82, 82)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel5)
-                            .addComponent(jLabel4))
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel12)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel11))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(lblDinero, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(27, 27, 27)
                                 .addComponent(btnCanjear, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(lblPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(11, 11, 11))
+                            .addComponent(lblPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cmForma, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtDinero, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtTerm, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap(156, Short.MAX_VALUE)
+                        .addComponent(btnAceptar)
+                        .addGap(65, 65, 65)
+                        .addComponent(btnCancelar)
+                        .addGap(0, 123, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -314,25 +261,19 @@ public class Total extends javax.swing.JInternalFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(lblPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(29, 29, 29)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(txtPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7)
-                    .addComponent(txtTarjeta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(cmForma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel12))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(txtCheque, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8)
-                    .addComponent(txtCredito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(11, 11, 11)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtDinero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel10)
-                    .addComponent(txtVale, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel11)
-                    .addComponent(txtTerm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(21, 21, 21)
+                    .addComponent(txtTerm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel11))
+                .addGap(24, 24, 24)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAceptar)
                     .addComponent(btnCancelar))
@@ -362,10 +303,6 @@ public class Total extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void txtPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPagoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtPagoActionPerformed
 
     private void btnCanjearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCanjearActionPerformed
 
@@ -407,45 +344,63 @@ public class Total extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_btnCanjearActionPerformed
 
+  public void formaPago(int metodo , double pago) {               
+        switch(metodo){
+            case 1:
+                venta.setEfectivo(pago);
+                ticket.setEfectivo(pago);
+                break;
+            case 2:
+                venta.setCredit(pago);
+                ticket.setCredito(pago);
+                break;
+            case 3:
+                venta.setTarjeta(pago);
+                ticket.setTarjeta(pago);
+                break;
+            case 4:
+                venta.setVales(pago);
+                ticket.setVales(pago);
+                break;
+            case 5:
+                venta.setCheques(pago);
+                ticket.setCheques(pago);
+                break;
+                
+        }
+        venta.setTotal(pago);
+        ticket.setTotal(pago);
+        
+    }
+    
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-double efectivo = Double.parseDouble(txtPago.getText());
-double tarjeta = Double.parseDouble(txtTarjeta.getText());
-double credito = Double.parseDouble(txtCredito.getText());
-double cheques = Double.parseDouble(txtCheque.getText());
-double vales = Double.parseDouble(txtVale.getText());
-String term = txtTerm.getText().trim();
-double totalpagos = efectivo + tarjeta + credito + cheques + vales;
 
-System.out.println(cheques);
+String term = txtTerm.getText().trim();
+
+
 
         ticket.setCredito(0.00);
         ticket.setTarjeta(0.00);
         venta.setTotal(Double.parseDouble(lblPagar.getText()));
-        String captura = Double.toString(totalpagos);
+        String captura = txtDinero.getText();
         captura = captura.replaceAll(" ", "");
 
         if(ticket.getCliente()== ""){
         ticket.setCliente("Publico general");
         }
         
-        if (captura.length() == 0 || Double.parseDouble(captura) < Double.parseDouble(lblPagar.getText())) {
+        if (captura.length() == 0 || Double.parseDouble(captura) < Double.parseDouble(lblPagar.getText()) || metodo == 0) {
             JOptionPane.showMessageDialog(null, "Ingresa un pago válido", "Pago total", JOptionPane.WARNING_MESSAGE);
         } else {
-            venta.setEfectivo(efectivo);
-            venta.setCredit(credito);
-            venta.setCheques(cheques);
-            venta.setTarjeta(tarjeta);
-            venta.setVales(vales);
-            venta.setTerminacion(term);
+            double pago = Double.parseDouble(txtDinero.getText());
+            double to = Double.parseDouble(lblPagar.getText());
+            double cambio = pago - to;
             
-            ticket.setEfectivo(efectivo);
-            ticket.setCredito(credito);
-            ticket.setCheques(cheques);
-            ticket.setTarjeta(tarjeta);
-            ticket.setVales(vales);
+            formaPago(metodo,to);
+            venta.setTerminacion(term);            
             ticket.setTerminacion(term);
             
-            double cambio = totalpagos - Double.parseDouble(lblPagar.getText());
+            
             JOptionPane.showMessageDialog(null, "Gracias por su compra, su cambio es de" + " " + Double.toString(cambio) + "");
             miCoordinador.InsertVenta(venta);
             ticket.setCambio(cambio);
@@ -460,13 +415,14 @@ System.out.println(cheques);
             for (int b = 0; b < bolsa.size(); b++) {
                 miCoordinador.InsertBag(bolsa.get(b));
             }
-    
-    
+            if(notados.getSaldo()>0){
+            miCoordinador.updateNota(notados);
+            }
         imprimirFactura(ticket);
             
             miCoordinador.getDetalle().bag.clear();
             dispose();
-            txtPago.setText("");
+            txtDinero.setText("0.0");
 
     
         }
@@ -597,12 +553,37 @@ public static String removeEspecial(String input) {
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
+int metodo;
+    private void cmFormaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmFormaActionPerformed
+        int seleccionado = cmForma.getSelectedIndex();
 
-    private void txtPagoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPagoKeyTyped
+        switch (seleccionado) {
+            case 1:            
+            txtTerm.setEditable(false);
+            metodo = 1;
+            break;
+            case 2:
+            txtTerm.setEditable(true);
+            metodo = 2;
+            break;
+            case 3:
+            txtTerm.setEditable(true);
+            metodo = 3;
+            break;
+            case 4:
+            txtTerm.setEditable(false);
+            metodo = 4;
+            break;
+            case 5:
+            txtTerm.setEditable(false);
+            metodo = 5;
+            break;
+        }
+    }//GEN-LAST:event_cmFormaActionPerformed
 
-
-
-    }//GEN-LAST:event_txtPagoKeyTyped
+    private void txtDineroKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDineroKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtDineroKeyTyped
 
     /**
      * @param args the command line arguments
@@ -612,27 +593,21 @@ public static String removeEspecial(String input) {
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnCanjear;
-    private javax.swing.JLabel jLabel10;
+    private javax.swing.JComboBox<String> cmForma;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     public javax.swing.JLabel lblCliente;
     public javax.swing.JLabel lblDinero;
     public javax.swing.JLabel lblPagar;
     public javax.swing.JLabel lblVendedor;
-    private javax.swing.JTextField txtCheque;
-    private javax.swing.JTextField txtCredito;
-    private javax.swing.JTextField txtPago;
-    private javax.swing.JTextField txtTarjeta;
+    private javax.swing.JTextField txtDinero;
     private javax.swing.JTextField txtTerm;
-    private javax.swing.JTextField txtVale;
     // End of variables declaration//GEN-END:variables
 }

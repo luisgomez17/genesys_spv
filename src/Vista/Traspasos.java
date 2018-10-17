@@ -77,6 +77,7 @@ tbTraspaso.setModel(modelo);
         tbTraspaso = new javax.swing.JTable();
 
         setBackground(new java.awt.Color(0, 65, 92));
+        setClosable(true);
         setTitle("Traspasos");
 
         jPanel1.setBackground(new java.awt.Color(1, 129, 176));

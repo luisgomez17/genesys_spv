@@ -391,11 +391,44 @@ DefaultComboBoxModel modeloLocalidades;
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
 UsuarioVo usuario = new UsuarioVo();
-ArrayList <UsuarioVo> estados = miCoordinador.getEstados();
-ArrayList <UsuarioVo> localidades = miCoordinador.getLocalidadesPorEstado(estados.get(comboState.getSelectedIndex()-1).getId_state());
-        if(txtNombre.getText().trim().length()>0 && txtApellidos.getText().trim().length()>0 && txtEmail.getText().trim().length()>0 
+
+        if(txtNombre.getText().trim().length()>0 || txtApellidos.getText().trim().length()>0 || comboState.getSelectedIndex()==0 || comboMunicipio.getSelectedIndex()==0 ){
+/*
+             && txtEmail.getText().trim().length()>0 
         && txtTel.getText().trim().length()>0 && comboState.getSelectedIndex()!=0 && comboMunicipio.getSelectedIndex()!=0 &&
-        txtPostal.getText().trim().length()>0 && txtDireccion.getText().trim().length()>0 ){
+        txtPostal.getText().trim().length()>0 && txtDireccion.getText().trim().length()>0
+            */
+            
+            usuario.setFirstname(txtNombre.getText().trim());
+            usuario.setLastname(txtApellidos.getText().trim());
+            usuario.setEmail(txtEmail.getText().trim());
+            usuario.setId_country(1);
+            usuario.setId_state(0);
+            usuario.setId_location(0);
+            usuario.setCp(0);
+            usuario.setDirection(txtDireccion.getText().trim());
+            usuario.setPhone(txtTel.getText().trim());
+            usuario.setRfc(txtRFC.getText().trim());
+            miCoordinador.agregarUsuario(usuario);
+            
+            JOptionPane.showMessageDialog(null, "Usuario registrado");
+            
+            txtNombre.setText(" ");
+            txtApellidos.setText(" ");
+            txtEmail.setText(" ");
+            comboState.setSelectedIndex(0);
+            txtPostal.setText(" ");
+            txtDireccion.setText(" ");
+            txtTel.setText(" ");
+            txtRFC.setText("");
+
+}
+        else if(txtNombre.getText().trim().length()>0 || txtApellidos.getText().trim().length()>0 || comboState.getSelectedIndex()==0 || comboMunicipio.getSelectedIndex()==0
+        || txtEmail.getText().trim().length()>0 && txtTel.getText().trim().length()>0 && comboState.getSelectedIndex()!=0 && comboMunicipio.getSelectedIndex()!=0 &&
+        txtPostal.getText().trim().length()>0 && txtDireccion.getText().trim().length()>0){
+        
+            ArrayList <UsuarioVo> estados = miCoordinador.getEstados();
+ArrayList <UsuarioVo> localidades = miCoordinador.getLocalidadesPorEstado(estados.get(comboState.getSelectedIndex()-1).getId_state());
 
             usuario.setFirstname(txtNombre.getText().trim());
             usuario.setLastname(txtApellidos.getText().trim());
@@ -408,7 +441,9 @@ ArrayList <UsuarioVo> localidades = miCoordinador.getLocalidadesPorEstado(estado
             usuario.setPhone(txtTel.getText().trim());
             usuario.setRfc(txtRFC.getText().trim());
             miCoordinador.agregarUsuario(usuario);
+            
             JOptionPane.showMessageDialog(null, "Usuario registrado");
+            
             txtNombre.setText(" ");
             txtApellidos.setText(" ");
             txtEmail.setText(" ");
@@ -417,8 +452,8 @@ ArrayList <UsuarioVo> localidades = miCoordinador.getLocalidadesPorEstado(estado
             txtDireccion.setText(" ");
             txtTel.setText(" ");
             txtRFC.setText("");
-
-}
+        }
+        
         else{
         JOptionPane.showMessageDialog(null, "Complete todos los campos");
         }

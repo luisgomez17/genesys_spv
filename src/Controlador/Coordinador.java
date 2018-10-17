@@ -1,6 +1,8 @@
 package Controlador;
 //
 
+import Modelo.ApartadoDao;
+import Modelo.ApartadoVo;
 import Modelo.BagDao;
 import Modelo.BagVo;
 import Modelo.ProductoDao;
@@ -418,12 +420,22 @@ public class Coordinador {
     public ArrayList<ProductoVo> getProductoTienda(int local, String art) {
         ProductoDao pro = new ProductoDao();
         return pro.getProductoTienda(local, art);
+    }
+    
+    public ArrayList<ProductoVo> getProductoTiendaOnline(int local, String art) {
+        ProductoDao pro = new ProductoDao();
+        return pro.getProductoTiendaOnline(local, art);
 
     }
 
     public ArrayList<ProductoVo> getProductoTiendaCategory(int local, int categoria, int subcategoria) {
         ProductoDao pro = new ProductoDao();
         return pro.getProductoTiendaCategory(local, categoria, subcategoria);
+    }
+    
+    public ArrayList<ProductoVo> getProductoTiendaCategoryOnline(int local, int categoria, int subcategoria) {
+        ProductoDao pro = new ProductoDao();
+        return pro.getProductoTiendaCategoryOnline(local, categoria, subcategoria);
     }
 
     public ArrayList<ColorVo> getColorsArt(String art) {
@@ -652,4 +664,25 @@ public class Coordinador {
     NotaDao note = new NotaDao();
     note.InsertNota(nota);
     }
+    
+    public ArrayList<NotaVo> getNotas(int usuario){
+    NotaDao ndao = new NotaDao();
+    return ndao.getNotas(usuario);
+    }
+    
+    public ArrayList<NotaVo> getNotasFecha(int usuario, String f1, String f2){
+    NotaDao ndao = new NotaDao();
+    return ndao.getNotasFecha(usuario, f1, f2);
+    }
+    
+    public void updateNota(NotaVo producto){
+    NotaDao nt = new NotaDao();
+    nt.updateNota(producto);
+    }
+    
+    public void insertApartado(ApartadoVo apart){
+    ApartadoDao apr = new ApartadoDao();
+    apr.InsertAparatdo(apart);
+    }
+    
 }

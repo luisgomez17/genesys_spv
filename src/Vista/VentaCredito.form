@@ -221,13 +221,10 @@
                           <Group type="102" attributes="0">
                               <Component id="jScrollPane1" min="-2" pref="1115" max="-2" attributes="0"/>
                               <EmptySpace type="separate" pref="40" max="32767" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="btnNotas" min="-2" pref="95" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="btnDeuda" alignment="1" max="32767" attributes="0"/>
-                                      <Component id="btnMulti" alignment="1" max="32767" attributes="0"/>
-                                      <Component id="btnGenerate" max="32767" attributes="0"/>
-                                  </Group>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="btnDeuda" alignment="1" max="32767" attributes="0"/>
+                                  <Component id="btnMulti" alignment="1" max="32767" attributes="0"/>
+                                  <Component id="btnGenerate" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <Group type="102" attributes="0">
@@ -245,7 +242,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jScrollPane1" min="-2" pref="188" max="-2" attributes="0"/>
                           <Group type="102" attributes="0">
                               <Component id="btnGenerate" min="-2" pref="35" max="-2" attributes="0"/>
@@ -253,8 +250,6 @@
                               <Component id="btnDeuda" min="-2" pref="35" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="btnMulti" min="-2" pref="35" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="btnNotas" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace pref="26" max="32767" attributes="0"/>
@@ -352,23 +347,6 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDeudaActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JButton" name="btnNotas">
-              <Properties>
-                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="91" green="25" red="0" type="rgb"/>
-                </Property>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Lucida Grande" size="13" style="1"/>
-                </Property>
-                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Notas "/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNotasActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnMulti">

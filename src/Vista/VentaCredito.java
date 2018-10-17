@@ -130,7 +130,6 @@ public class VentaCredito extends javax.swing.JInternalFrame {
         tbSale = new javax.swing.JTable();
         btnGenerate = new javax.swing.JButton();
         btnDeuda = new javax.swing.JButton();
-        btnNotas = new javax.swing.JButton();
         btnMulti = new javax.swing.JButton();
 
         setClosable(true);
@@ -275,16 +274,6 @@ public class VentaCredito extends javax.swing.JInternalFrame {
             }
         });
 
-        btnNotas.setBackground(new java.awt.Color(0, 37, 145));
-        btnNotas.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
-        btnNotas.setForeground(new java.awt.Color(255, 255, 255));
-        btnNotas.setText("Notas ");
-        btnNotas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNotasActionPerformed(evt);
-            }
-        });
-
         btnMulti.setBackground(new java.awt.Color(0, 37, 145));
         btnMulti.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         btnMulti.setForeground(new java.awt.Color(255, 255, 255));
@@ -305,12 +294,10 @@ public class VentaCredito extends javax.swing.JInternalFrame {
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1115, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 40, Short.MAX_VALUE)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnNotas, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(btnDeuda, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnMulti, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnGenerate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnDeuda, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnMulti, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnGenerate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -322,16 +309,14 @@ public class VentaCredito extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(btnGenerate, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnDeuda, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnMulti, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnNotas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(btnMulti, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(26, Short.MAX_VALUE))
         );
 
@@ -441,27 +426,7 @@ Abonos a;
         actualizarCreditos(id_usuario);
         llenarTablaVenta();
     }//GEN-LAST:event_btnGenerateActionPerformed
-    NotasCredito nc;
-    private void btnNotasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNotasActionPerformed
-        int fila = tbSale.getSelectedRow();
-
-        if (fila > -1) {
-            int venta = (int) tbSale.getValueAt(fila, 0);
-            nc = new NotasCredito();
-            nc.id_venta = venta;
-            nc.lbCliente.setText("" + tbSale.getValueAt(fila, 2));
-            nc.lbCompra.setText("" + tbSale.getValueAt(fila, 0));
-            nc.lbTotal.setText("" + tbSale.getValueAt(fila, 3));
-            nc.lbFecha.setText("" + tbSale.getValueAt(fila, 4));
-            nc.id_user = id_usuario;
-            nc.setCoordinador(miCoordinador);
-            escritorio.add(nc).setLocation(300, 200);
-            nc.show();
-
-        }
-
-    }//GEN-LAST:event_btnNotasActionPerformed
-    Multipago mp;
+    NotasCredito nc;    Multipago mp;
     private void btnMultiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMultiActionPerformed
         
         mp = new Multipago();
@@ -479,7 +444,6 @@ Abonos a;
     private javax.swing.JButton btnDeuda;
     private javax.swing.JButton btnGenerate;
     private javax.swing.JButton btnMulti;
-    private javax.swing.JButton btnNotas;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel2;
