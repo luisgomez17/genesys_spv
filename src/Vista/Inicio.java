@@ -73,6 +73,7 @@ public void setCoordinador(Coordinador miCoordinador) {
         menuProduct = new javax.swing.JMenu();
         addProduct = new javax.swing.JMenuItem();
         updateProduct = new javax.swing.JMenuItem();
+        jMenuItem10 = new javax.swing.JMenuItem();
         menuColors = new javax.swing.JMenu();
         itemViewColor = new javax.swing.JMenuItem();
         itemAddColor = new javax.swing.JMenuItem();
@@ -203,6 +204,15 @@ public void setCoordinador(Coordinador miCoordinador) {
             }
         });
         menuProduct.add(updateProduct);
+
+        jMenuItem10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/apart.png"))); // NOI18N
+        jMenuItem10.setText("Apartado");
+        jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem10ActionPerformed(evt);
+            }
+        });
+        menuProduct.add(jMenuItem10);
 
         jMenuBar1.add(menuProduct);
         menuProduct.getAccessibleContext().setAccessibleDescription("");
@@ -602,6 +612,19 @@ NuevaNota nn;
             nn.show();
    }
     }//GEN-LAST:event_jMenuItem9ActionPerformed
+Apartado apart;
+    private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
+if (estacerrado(apart)) {
+
+            apart = new Apartado();
+            apart.setCoordinador(miCoordinador);
+
+            escritorio.add(apart).setLocation(100, 0);
+            apart.show();
+
+           
+        }
+    }//GEN-LAST:event_jMenuItem10ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -652,6 +675,7 @@ NuevaNota nn;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;

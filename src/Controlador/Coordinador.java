@@ -35,6 +35,7 @@ import Modelo.VentaDao;
 import Modelo.VentaVo;
 import Vista.Abonos;
 import Vista.AgregarVendedor;
+import Vista.Apartado;
 import Vista.Login1;
 import Vista.Multipago;
 import Vista.Notas;
@@ -67,6 +68,17 @@ public class Coordinador {
     private Abonos abono;
     private Notas nc;
     private NuevaNota nn;
+    private Apartado apartado;
+
+    public Apartado getApartado() {
+        return apartado;
+    }
+
+    public void setApartado(Apartado apartado) {
+        this.apartado = apartado;
+    }
+    
+    
 
     public NuevaNota getNn() {
         return nn;
@@ -684,5 +696,10 @@ public class Coordinador {
     ApartadoDao apr = new ApartadoDao();
     apr.InsertAparatdo(apart);
     }
+    
+    public ArrayList<ApartadoVo> getProductsApartado(){
+    ApartadoDao apr = new ApartadoDao();
+    return apr.getProductsApartado();
+    } 
     
 }

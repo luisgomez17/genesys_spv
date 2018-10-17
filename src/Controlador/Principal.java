@@ -42,6 +42,7 @@ public class Principal {
         Multipago multi = new Multipago();
         Notas notas2 = new Notas();
         NuevaNota nn = new NuevaNota();
+        Apartado apartado = new Apartado();
         /**Se establecen las relaciones entre clases*/
         
         login.setCoordinador(miCoordinador);
@@ -65,6 +66,7 @@ public class Principal {
         multi.setCoordinador(miCoordinador);
         notas2.setCoordinador(miCoordinador);
         nn.setCoordinador(miCoordinador);
+        apartado.setCoordinador(miCoordinador);
         /*Se establecen relaciones con la clase coordinador*/
         
         miCoordinador.setLogin(login);
@@ -84,6 +86,7 @@ public class Principal {
         miCoordinador.setMulti(multi);
         miCoordinador.setNc(notas2);
         miCoordinador.setNn(nn);
+        miCoordinador.setApartado(apartado); 
         lo.setVisible(true);
         
      

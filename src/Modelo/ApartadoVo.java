@@ -12,6 +12,52 @@ private int amount;
 private String registro;
 private String plazo;
 private String estado;
+private String articulo;
+private String color;
+private String talla;
+private String nombre;
+private String apellidos;
+
+    public String getArticulo() {
+        return articulo;
+    }
+
+    public void setArticulo(String articulo) {
+        this.articulo = articulo;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getTalla() {
+        return talla;
+    }
+
+    public void setTalla(String talla) {
+        this.talla = talla;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getApellidos() {
+        return apellidos;
+    }
+
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
+    }
+
 
     public int getId_apatado() {
         return id_apatado;

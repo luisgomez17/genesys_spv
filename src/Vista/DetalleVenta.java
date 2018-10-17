@@ -6,6 +6,7 @@
 package Vista;
 
 import Controlador.Coordinador;
+import Modelo.ApartadoVo;
 import Modelo.BagDao;
 import Modelo.BagVo;
 import Modelo.ColorVo;
@@ -23,6 +24,7 @@ import java.beans.PropertyVetoException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 import java.util.logging.Level;
@@ -61,8 +63,8 @@ public class DetalleVenta extends javax.swing.JInternalFrame {
     private Coordinador miCoordinador;
 
     public static ArrayList<BagVo> bag = new ArrayList<BagVo>();
-    
-    public static NotaVo nota = new NotaVo() ;
+
+    public static NotaVo nota = new NotaVo();
 
     public static int id_usuario = 1;
 
@@ -172,9 +174,9 @@ public class DetalleVenta extends javax.swing.JInternalFrame {
         Double obtenido = 0.0;
         Double total = Double.parseDouble(total1);
         Double porcen = Double.parseDouble(porcen1);
-       
-            obtenido = (total * porcen) / 100;
-     
+
+        obtenido = (total * porcen) / 100;
+
         obtenido = Math.round(100d * obtenido) / 100d;
         System.out.print(obtenido);
         return obtenido;
@@ -905,17 +907,16 @@ public class DetalleVenta extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_tbVentaMouseClicked
 
-    public void aplicarDesc(double desc){
-    double total = Double.parseDouble(lblTotal.getText());
-    double resp = total-desc;
-    if(resp<0){
-    lblTotal3.setText("0.00");
+    public void aplicarDesc(double desc) {
+        double total = Double.parseDouble(lblTotal.getText());
+        double resp = total - desc;
+        if (resp < 0) {
+            lblTotal3.setText("0.00");
+        } else if (resp > 0) {
+            lblTotal3.setText(Double.toString(resp));
+        }
     }
-    else if(resp>0){
-    lblTotal3.setText(Double.toString(resp));
-    }
-    }
-    
+
     private void btnCreditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreditActionPerformed
         VentaVo credito = new VentaVo();
 
@@ -1041,12 +1042,12 @@ public class DetalleVenta extends javax.swing.JInternalFrame {
                 aplicarDesc(Double.parseDouble(lblDesc.getText()));
                 //calcularImporte();
             }
-            
+
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void btnPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPagarActionPerformed
-       aplicarDesc(Double.parseDouble(lblDesc.getText()));
+        aplicarDesc(Double.parseDouble(lblDesc.getText()));
         if (bag.size() > 0 && Double.parseDouble(lblTotal.getText()) > 0) {
             BagVo aux = new BagVo();
             for (int t = 0; t < bag.size(); t++) {
@@ -1080,10 +1081,8 @@ public class DetalleVenta extends javax.swing.JInternalFrame {
             Vista.Total total = new Total();
             total.setCoordinador(miCoordinador);
 
-            
-            total.dineroelectronico = dineroElectronicoVenta(lblTotal3.getText(),txtPorcen.getText());
+            total.dineroelectronico = dineroElectronicoVenta(lblTotal3.getText(), txtPorcen.getText());
 
-            
             total.bolsa = (ArrayList) bag.clone();
             total.product = (ArrayList) registro.clone();
             total.lblCliente.setText(txtCliente.getText());
@@ -1115,7 +1114,7 @@ public class DetalleVenta extends javax.swing.JInternalFrame {
             lblTotal3.setText("0.00");
             txtPorcen.setText("0");
             btnCredit.setEnabled(false);
-            
+
         } else {
             JOptionPane.showMessageDialog(null, "Ingrese articulos a la venta", "Venta", JOptionPane.WARNING_MESSAGE);
         }
@@ -1287,31 +1286,72 @@ ProductoVo product = miCoordinador.getDetallesProducto(codigoArtCadena(txtCode.g
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCodeActionPerformed
 
+    public Date sumarDiasAFecha(Date fecha, int dias) {
+        if (dias == 0) {
+            return fecha;
+        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(fecha);
+        calendar.add(Calendar.DAY_OF_YEAR, dias);
+        return calendar.getTime();
+    }
+    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     private void btnApartadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApartadoActionPerformed
-if(nota.getSaldo()>0 && bag.size()<=0 && id_usuario==1){
-JOptionPane.showMessageDialog(null, "Seleccione las opciones adecuadas para apartar productos", "Sistema de Apartado", JOptionPane.INFORMATION_MESSAGE);
-} 
-else{
- int resp=JOptionPane.showConfirmDialog(null,"¿Estas seguro de apartar estos productos?");
-                
-                if (JOptionPane.OK_OPTION == resp) {
+        Date fechahora = new Date();
+        Date da = sumarDiasAFecha(fechahora, 30);        
+        String plazo = dateFormat.format(da);
+        
+        if (nota.getSaldo() > 0 && bag.size() <= 0 && id_usuario == 1) {
+            JOptionPane.showMessageDialog(null, "Seleccione las opciones adecuadas para apartar productos", "Sistema de Apartado", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            int resp = JOptionPane.showConfirmDialog(null, "¿Estas seguro de apartar estos productos?");
+
+            if (JOptionPane.OK_OPTION == resp) {
+
+                ArrayList<ProductoVo> registro = new ArrayList<>();
+
+                for (int c = 0; c < bag.size(); c++) {
+                    ProductoVo aux1 = new ProductoVo();
+                    ApartadoVo pedido = new ApartadoVo();
+
+                    aux1.setAmount(bag.get(c).getQuantity());
+                    aux1.setArt(bag.get(c).getArt());
+                    aux1.setColor_art(bag.get(c).getColor_art());
+                    aux1.setId_size(bag.get(c).getId_size());
                     
+                    pedido.setId_cliente(id_usuario);
+                    pedido.setArt(bag.get(c).getArt());
+                    pedido.setColor_art(bag.get(c).getColor_art());
+                    pedido.setId_size(bag.get(c).getId_size());
+                    pedido.setAmount(bag.get(c).getQuantity());
+                    pedido.setPlazo(plazo);
+                    pedido.setEstado("P");
                     
-                } 
-}
+                    miCoordinador.UpdateProductSizesSales(aux1);
+                    miCoordinador.insertApartado(pedido);
+                    
+                    JOptionPane.showMessageDialog(null, "Operación realizada correctamente");
+                    bag.clear();
+                    limpiarTable();
+            limpiarCamposVenta();
+            lblTotal3.setText("0.00");
+            txtPorcen.setText("0");
+            btnCredit.setEnabled(false);
+                }
+            }
+        }
     }//GEN-LAST:event_btnApartadoActionPerformed
 
     private void btnNotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNotaActionPerformed
-if(id_usuario > 1){
-Vista.NotasCredito us = new NotasCredito();
-us.id_user = id_usuario;
-        us.setCoordinador(miCoordinador);
-        Inicio.escritorio.add(us).setLocation(25, 3);
-        us.show();
-}
-else{
-JOptionPane.showMessageDialog(null, "Seleccione un usuario válido", "ERROR", JOptionPane.INFORMATION_MESSAGE);
-}
+        if (id_usuario > 1) {
+            Vista.NotasCredito us = new NotasCredito();
+            us.id_user = id_usuario;
+            us.setCoordinador(miCoordinador);
+            Inicio.escritorio.add(us).setLocation(25, 3);
+            us.show();
+        } else {
+            JOptionPane.showMessageDialog(null, "Seleccione un usuario válido", "ERROR", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_btnNotaActionPerformed
 
     public void agregarBolsa() {

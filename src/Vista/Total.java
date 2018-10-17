@@ -378,7 +378,6 @@ public class Total extends javax.swing.JInternalFrame {
 String term = txtTerm.getText().trim();
 
 
-
         ticket.setCredito(0.00);
         ticket.setTarjeta(0.00);
         venta.setTotal(Double.parseDouble(lblPagar.getText()));
